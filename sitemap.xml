@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://liuhsir.top/categories/index.html</loc>
+    
+    <lastmod>2023-12-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liuhsir.top/tags/index.html</loc>
+    
+    <lastmod>2023-12-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://liuhsir.top/tmp/categories/index.html</loc>
     
     <lastmod>2023-12-14</lastmod>
