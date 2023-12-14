@@ -74,7 +74,14 @@
 
   
   <url>
-    <loc>https://liuhsir.top/tags/%E5%85%A5%E9%97%A8/</loc>
+    <loc>https://liuhsir.top/tags/Hexo/</loc>
+    <lastmod>2023-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://liuhsir.top/tags/Github/</loc>
     <lastmod>2023-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -84,6 +91,20 @@
   
   <url>
     <loc>https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/</loc>
+    <lastmod>2023-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2023-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/java/</loc>
     <lastmod>2023-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

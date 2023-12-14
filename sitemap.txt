@@ -6,5 +6,8 @@ https://liuhsir.top/tmp/categories/index.html
 https://liuhsir.top/tmp/tags/index.html
 https://liuhsir.top/tmp/about/index.html
 https://liuhsir.top/
-https://liuhsir.top/tags/%E5%85%A5%E9%97%A8/
+https://liuhsir.top/tags/Hexo/
+https://liuhsir.top/tags/Github/
 https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/
+https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/
+https://liuhsir.top/categories/%E5%86%99%E4%BD%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/java/
