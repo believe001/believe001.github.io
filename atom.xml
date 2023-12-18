@@ -6,7 +6,7 @@
   <link href="https://liuhsir.top/atom.xml" rel="self"/>
   
   <link href="https://liuhsir.top/"/>
-  <updated>2023-12-17T14:30:44.794Z</updated>
+  <updated>2023-12-18T08:25:59.041Z</updated>
   <id>https://liuhsir.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第三章 第三节NIO零拷贝</title>
+    <link href="https://liuhsir.top/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/"/>
+    <id>https://liuhsir.top/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/</id>
+    <published>2022-12-18T08:43:25.000Z</published>
+    <updated>2023-12-18T08:25:59.041Z</updated>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="1-NIO与零拷贝"><a href="#1-NIO与零拷贝" class="headerlink" title="1. NIO与零拷贝"></a>1. NIO与零拷贝</h1><h2 id="1-1-零拷贝基本介绍"><a href="#1-1-零拷贝基本介绍" class="headerlink" title="1.1 零拷贝基本介绍"></a>1.1 零拷贝基本介绍</h2><ol><li>零拷贝是网络编程的关键，很多性能优化都离不开</li><li>Java程序中，常用的零拷贝有mmap(内存映射)和sendFile。</li></ol><h3 id="传统的IO数据读写"><a href="#传统的IO数据读写" class="headerlink" title="传统的IO数据读写"></a>传统的IO数据读写</h3><p> 需要三次用户态和内核态切换<br> 4次内存的拷贝<br><img src="https://img-blog.csdnimg.cn/direct/3aca32ecdbea4b52bcd88e2ef8908cec.png" alt="在这里插入图片描述"></p><h3 id="mmap优化"><a href="#mmap优化" class="headerlink" title="mmap优化"></a>mmap优化</h3><ol><li>mmap经过内存映射（userbuffer 和 kernelbuffer 共享），将文件映射到内核缓冲区，同时，用户空间可以共享内核空间的数据（直接从内核空间buffer拷贝到内核空间socketbuffer）。这样，进行网络传输时，可以减少内核空间到用户空间的拷贝次数。<br>  <img src="https://img-blog.csdnimg.cn/direct/dc402123c3a64d2d84cbbf52aceb9ee1.png" alt="在这里插入图片描述"></li></ol><h3 id="sendFile优化（DMA-copy）"><a href="#sendFile优化（DMA-copy）" class="headerlink" title="sendFile优化（DMA copy）"></a>sendFile优化（DMA copy）</h3><ol><li>linux2.1 ：数据不经过用户态，直接从内核缓冲区 &#x3D;&gt; socketBuffer &#x3D;&gt; protocal engin.，由于和用户态完全无关，就减少了一次上下文切换.<br><img src="https://img-blog.csdnimg.cn/direct/395bc55550aa4ef1a44de30c275b02c8.png" alt="在这里插入图片描述"></li><li>linux2.4: 直接从内核缓冲区 &#x3D;&gt; 协议栈（拷贝到socketBuffer信息很少，忽略不计）<br>  <img src="https://img-blog.csdnimg.cn/direct/b283190e735f4eefa6e45bf4304437c5.png" alt="在这里插入图片描述"></li></ol><h3 id="零拷贝再次理解"><a href="#零拷贝再次理解" class="headerlink" title="零拷贝再次理解"></a>零拷贝再次理解</h3><ol><li>零拷贝:指的是没有CPU拷贝。通过DMA拷贝。(所谓DMA拷贝就是通过其他硬件负责数据的转移，不需要CPU参与，解放了CPU。<a href="https://blog.csdn.net/Erica_1230/article/details/106130799">DMA copy 和 CPU copy</a>)</li><li>零拷贝优势：更少的数据复制，减少上下文切换（内核态和用户态的切换）。</li></ol><h3 id="mmap-和-sendFile-的区别"><a href="#mmap-和-sendFile-的区别" class="headerlink" title="mmap 和 sendFile 的区别"></a>mmap 和 sendFile 的区别</h3><ol><li>mmap适合小数据量读写，sendFile适合大文件传输</li><li>sendFile可以利用DMA，减少cpu拷贝。mmap不能，它是用户buffer和内核buffer共享的。</li></ol><h2 id="1-2-案例"><a href="#1-2-案例" class="headerlink" title="1. 2 案例"></a>1. 2 案例</h2><p>使用NIO零拷贝方式传递（channel.transeferTo）一个大文件。速度快得多。</p><h1 id="2-Java-AIO-基本介绍"><a href="#2-Java-AIO-基本介绍" class="headerlink" title="2. Java AIO 基本介绍"></a>2. Java AIO 基本介绍</h1><ol><li>JDK1.7引入了AIO,采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时长较长的应用。</li><li>目前AIO还没有广泛使用。netty是基于NIO的而不是AIO.</li></ol><h1 id="3-BIO-NIO-AIO-对比"><a href="#3-BIO-NIO-AIO-对比" class="headerlink" title="3. BIO NIO AIO 对比"></a>3. BIO NIO AIO 对比</h1><p><img src="https://img-blog.csdnimg.cn/direct/dfad9627ec7b470cbe56c62369dcf760.png" alt="在这里插入图片描述"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
+
+&lt;h1 id=&quot;1-NIO与零拷贝&quot;&gt;&lt;a href=&quot;#1-NIO与零拷贝&quot; class=&quot;headerlink&quot; title=&quot;1. NIO与零拷贝&quot;&gt;&lt;/a&gt;1. NIO与零拷贝</summary>
+      
+    
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/categories/Netty/"/>
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
+    
+    <category term="NIO" scheme="https://liuhsir.top/tags/NIO/"/>
+    
+  </entry>
   
   <entry>
     <title>第三章 第二节NIO网络编程应用实例-群聊系统</title>
