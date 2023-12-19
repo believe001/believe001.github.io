@@ -6,7 +6,7 @@
   <link href="https://liuhsir.top/atom.xml" rel="self"/>
   
   <link href="https://liuhsir.top/"/>
-  <updated>2023-12-18T08:25:59.041Z</updated>
+  <updated>2023-12-19T14:22:58.800Z</updated>
   <id>https://liuhsir.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第4章Netty第一节概述</title>
+    <link href="https://liuhsir.top/2022/12/19/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20Netty%20%E7%AC%AC%E4%B8%80%E8%8A%82%E6%A6%82%E8%BF%B0/"/>
+    <id>https://liuhsir.top/2022/12/19/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20Netty%20%E7%AC%AC%E4%B8%80%E8%8A%82%E6%A6%82%E8%BF%B0/</id>
+    <published>2022-12-19T14:22:25.000Z</published>
+    <updated>2023-12-19T14:22:58.800Z</updated>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="1-原生NIO存在的问题"><a href="#1-原生NIO存在的问题" class="headerlink" title="1. 原生NIO存在的问题"></a>1. 原生NIO存在的问题</h1><ol><li>NIO的类库和API繁杂，使用麻烦。需要熟练掌握Selector, ServerSocketChannel, SocketChannel, ByteBuffer等。</li><li>开发工作量和难度都非常大：例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常流的处理等等。</li></ol><h1 id="2-Netty官方说明"><a href="#2-Netty官方说明" class="headerlink" title="2. Netty官方说明"></a>2. Netty官方说明</h1><p><img src="https://img-blog.csdnimg.cn/direct/237e97df88124b25b1418dbca5c1761b.png" alt="在这里插入图片描述"></p><ol><li>Netty 是由JBOSS提供的一个Java开源框架，Netty提供异步的，基于事件驱动的网络应用程序框架，用以快速开发高性能，高可靠的网络IO程序。</li><li>Netty 可以帮助你快速、简单的开发出一个网络应用，相当于简化和流程化了 NIO 的开发过程。</li><li>Netty 是目前最流行的 NIO 框架，Netty 在互联网领域、大数据分布式计算领域、游戏行业、通信行业等获得了广泛的应用，知名的 Elasticsearch 、Dubbo 框架内部都采用了 Netty。</li></ol><h1 id="3-Netty的优点"><a href="#3-Netty的优点" class="headerlink" title="3. Netty的优点"></a>3. Netty的优点</h1><ol><li>设计优雅：适用于各种传输类型的统一 API 阻塞和非阻塞 Socket；基于灵活且可扩展的事件模型，可以清晰地分离关注点；高度可定制的线程模型 - 单线程，一个或多个线程池.</li><li>高性能、吞吐量更高：延迟更低；减少资源消耗；最小化不必要的内存复制。</li></ol><h1 id="4-线程模型基本介绍"><a href="#4-线程模型基本介绍" class="headerlink" title="4. 线程模型基本介绍"></a>4. 线程模型基本介绍</h1><ol><li>目前存在的线程模型：</li></ol><ul><li>传统阻塞IO服务模型</li><li>Reactor模式</li></ul><h1 id="5-Reactor模式"><a href="#5-Reactor模式" class="headerlink" title="5. Reactor模式"></a>5. Reactor模式</h1><h2 id="5-1-单Reactor单线程"><a href="#5-1-单Reactor单线程" class="headerlink" title="5.1 单Reactor单线程"></a>5.1 单Reactor单线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/6310bfd5bea34cb7aa2c35d76ca2899c.png" alt="在这里插入图片描述"><br>前面的群聊实例就是这种方式：服务器端用一个线程通过多路复用搞定所有的 IO 操作（包括连接，读、写等），编码简单，清晰明了，但是如果客户端连接数量较多，将无法支撑，前面的 NIO 案例就属于这种模型。<br>方案优缺点分析：</p><ol><li>优点：模型简单，没有多线程，进程通信，资源竞争问题。全部在一个线程中完成。</li><li>缺点：性能问题，只有一个线程，无法完全发挥多核CPU的性能</li><li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li></ol><h2 id="5-2-单Reactor多线程"><a href="#5-2-单Reactor多线程" class="headerlink" title="5.2 单Reactor多线程"></a>5.2 单Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/d0df38f203dd478088f3eb30053b8502.png" alt="在这里插入图片描述"></p><p>说明：</p><ol><li>Reactor对象通过select 监控客户端请求时间，收到事件后，通过dispatch进行分发。</li><li>如果建立连接请求，则acceptor荣国accept处理请求，然后创建handler对象处理完成连接后的各种事件</li><li>如果不是连接请求，则由reactor分发调用连接对应的handler处理。</li><li>handler只负责响应事件，不做具体的业务处理，通过read读取数据后，分发给后面的worker线程池的某个线程处理任务。</li><li>worker线程池会分配独立线程完成真正的业务，并将结果返回给handler.</li><li>handler收到响应后，通过send将结果返回client<br>  方案优缺点分析：</li><li>优点：可以充分利用多核cpu的处理能力</li><li>缺点：多线程数据共享和访问比较复杂，reactor处理所有的事件的监听和响应，在单线程运行，在高并发场景容易出现性能瓶颈。</li><li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li></ol><h2 id="5-3-主从Reactor多线程"><a href="#5-3-主从Reactor多线程" class="headerlink" title="5.3 主从Reactor多线程"></a>5.3 主从Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/2bd1fe809ea04276b7c7a869731b6ba6.png" alt="在这里插入图片描述"></p><p>说明：</p><ol><li>Reactor主线程MainReactor对象通过select监听连接事件，收到事件后，通过acceptor处理连接事件。</li><li>当acceptor处理连接事件后，MainReactor将连接分配给SubReactor.</li><li>subreactor将连接加入连接队列进行监听，并创建handler进行各种事件处理</li><li>当有新事件发生时，subreactor调用对应的handler进行处理</li><li>handler通过reade读取数据，分发给后面的worker线程池处理</li><li>worker线程池分配独立的线程进行业务处理，并返回结果</li><li>handler收到响应的结果后，再通过send将结果返回给client</li><li>reactor主线程可以对应多个reactor子线程，即MainReactor可以关联多个subreactor<br>  方案优缺点分析：</li><li>优点：父线程和子线程的数据交互简单职责明确，父线程只需要接受新连接，子线程完成后续的业务处理。</li><li>缺点：编程难度高。</li><li>使用场景：这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持</li></ol><h1 id="6-Reactor模式小结"><a href="#6-Reactor模式小结" class="headerlink" title="6. Reactor模式小结"></a>6. Reactor模式小结</h1><ol><li>单Reactor单线程，前台接待员和服务员是同一个人</li><li>单Reactor多线程，1个前台接待员，多个服务员。</li><li>主从Reactor多线程，多个前台接待员，多个服务员。<br>  Reactor模式优点：</li><li>响应快，不必为单个同步时间所阻塞，虽然 Reactor 本身依然是同步的</li><li>可以最大程度的避免复杂的多线程及同步问题，并且避免了多线程&#x2F;进程的切换开销</li><li>扩展性好，可以方便的通过增加 Reactor 实例个数来充分利用 CPU 资源</li><li>复用性好，Reactor 模型本身与具体事件处理逻辑无关，具有很高的复用性</li></ol><h1 id="7-Netty模型"><a href="#7-Netty模型" class="headerlink" title="7. Netty模型"></a>7. Netty模型</h1><h2 id="7-1-Netty简单版"><a href="#7-1-Netty简单版" class="headerlink" title="7.1 Netty简单版"></a>7.1 Netty简单版</h2><p>Netty主要基于主从reactors多线程模型做了一定的改进，其中主从reactor多线程模型有多个reactor<br><img src="https://img-blog.csdnimg.cn/direct/62285359d91842e09074647489686b82.png" alt="在这里插入图片描述"><br>说明：</p><ol><li>BossGroup线程维护selector，他只关注accept</li><li>当接收到accept事件后，获取到对应的socketchannel,封装成NIOsocketChannel并注册到worker线程（事件循环），并进行维护</li><li>当worker线程监听到selector中通道发生自己感兴趣的事件后，就进行处理（hanlder）.注意handler已经加入到通道中。</li></ol><h2 id="7-2-Netty进阶版"><a href="#7-2-Netty进阶版" class="headerlink" title="7.2 Netty进阶版"></a>7.2 Netty进阶版</h2><p><img src="https://img-blog.csdnimg.cn/direct/8ed26c042902425693eabeed5abcb778.png" alt="在这里插入图片描述"></p><h2 id="7-2-Netty详细版"><a href="#7-2-Netty详细版" class="headerlink" title="7.2 Netty详细版"></a>7.2 Netty详细版</h2><p><img src="https://img-blog.csdnimg.cn/direct/b7675f3b0ae749b2b3cfcbcbb890aa47.png" alt="在这里插入图片描述"></p><p>说明：</p><ol><li>Netty抽象出两组线程池BossGroup专门负责接受客户端的连接，workerGroup专门负责网络的读写</li><li>BossGroup和workerGroup类型都是NIOEventLoopGroup</li><li>NIOEventLoopGroup 相当于是一个事件循环组，这个组中包含多个事件循环，每一个事件循环都是NIOEventLoop.</li><li>NIOEventLoop表示一个不断循环的执行处理任务的线程，每个NIOEventLoop都有一个selector，用户监听绑定在其上的socket网络通讯。</li><li>NIOEventLoopGroup可以有多个线程，即可以含有多个NIOEventLoop</li><li>每个bossNIOEventLoop循环执行的步骤有三步</li></ol><ul><li>轮询accept事件</li><li>处理accept事件，与client建立连接，生成NIOsocketChannel并将其注册到某个wokerNIOEventLoop上的selector。</li><li>处理任务队列的任务，即runAllTasks</li></ul><ol start="7"><li>每个workerNIOEventLOOP循环执行的步骤</li></ol><ul><li>轮询read，write事件</li><li>处理IO事件，即read,write事件，在对应NIOSocketChannel处理</li><li>处理任务队列的任务，即runAllTasks</li></ul><ol start="8"><li>每个workerNIOEventLoop处理业务时，会使用pipeline（管道）pipeline中包含了channel，即通过pipeline可以获取到对应的管道，管道中维护了很多的处理器。</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
+
+&lt;h1 id=&quot;1-原生NIO存在的问题&quot;&gt;&lt;a href=&quot;#1-原生NIO存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. 原生NIO存在的问题&quot;&gt;&lt;/a&gt;1</summary>
+      
+    
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/categories/Netty/"/>
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
+    
+    <category term="NIO" scheme="https://liuhsir.top/tags/NIO/"/>
+    
+  </entry>
   
   <entry>
     <title>第三章 第三节NIO零拷贝</title>
