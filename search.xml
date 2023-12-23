@@ -124,6 +124,133 @@
       </tags>
   </entry>
   <entry>
+    <title>C++字符串和数字相互转换(刷题必备)</title>
+    <url>/2021/12/23/C++%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2-%E5%88%B7%E9%A2%98%E5%BF%85%E5%A4%87/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="C-数字和字符串相互转换"><a href="#C-数字和字符串相互转换" class="headerlink" title="C++数字和字符串相互转换"></a>C++数字和字符串相互转换</h1><p>C++数字和字符串相互转换，此文详细介绍了两者互相转换的方法。通过内置函数和字符串流（对象）来实现转换。</p>
+<h2 id="数字转字符串"><a href="#数字转字符串" class="headerlink" title="数字转字符串"></a>数字转字符串</h2><h3 id="方法1：to-string-函数"><a href="#方法1：to-string-函数" class="headerlink" title="方法1：to_string()函数"></a>方法1：to_string()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	string num_s = <span class="built_in">to_string</span>(num);<span class="comment">//转换</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法2：ostringstream对象-str-函数"><a href="#方法2：ostringstream对象-str-函数" class="headerlink" title="方法2：ostringstream对象+str()函数"></a>方法2：ostringstream对象+str()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	ostringstream oss;<span class="comment">//字符输出流对象</span></span><br><span class="line">	oss &lt;&lt; num;<span class="comment">//将数字放入输出流对象中</span></span><br><span class="line">	string num_s = oss.<span class="built_in">str</span>();<span class="comment">//将其转换成string</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="字符串转数字"><a href="#字符串转数字" class="headerlink" title="字符串转数字"></a>字符串转数字</h2><h3 id="方法1：atoi-函数"><a href="#方法1：atoi-函数" class="headerlink" title="方法1：atoi()函数"></a>方法1：atoi()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int=<span class="built_in">stoi</span>(str.<span class="built_in">c_str</span>());<span class="comment">//字符转换成int</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="方法2：istringstream对象"><a href="#方法2：istringstream对象" class="headerlink" title="方法2：istringstream对象"></a>方法2：istringstream对象</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str= <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int;</span><br><span class="line">	<span class="function">istringstream  <span class="title">iss</span><span class="params">(str)</span></span>;<span class="comment">//字符串输入流对象</span></span><br><span class="line">	iss &gt;&gt; str_int;        <span class="comment">//字符串转换成int，通过输入流，将输入流中字符串的输入到int型就可以转换。</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p> <a href="http://c.biancheng.net/view/1527.html">http://c.biancheng.net/view/1527.html</a><br> <a href="https://www.bilibili.com/read/cv8350834">https://www.bilibili.com/read/cv8350834</a></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello Hexo</title>
+    <url>/2019/07/21/hello-Hexo/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>Clean and generate and deploy</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d --g</span><br></pre></td></tr></table></figure>
+
+<p>Don’t send referrer info to load image</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初学Netty SeverBootstrap和Bootstrap踩坑</title>
+    <url>/2022/12/23/Netty%20SeverBootstrap%E5%92%8CBootstrap%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="错误描述no-further-information-127-0-0-1-8090"><a href="#错误描述no-further-information-127-0-0-1-8090" class="headerlink" title="错误描述no further information: &#x2F;127.0.0.1:8090"></a>错误描述no further information: &#x2F;127.0.0.1:8090</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:8090</span><br></pre></td></tr></table></figure>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>看到问题很明显，连接失败？刚开始以为是ip+端口号写错了，检查发现没有错误。<br>后来才发现server端ServerBootstrap写错成了客户端的BootStrap<br>将</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br></pre></td></tr></table></figure>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>SeverBootstrap和Bootstrap都是Netty的启动类，他们的主要作用就是配置相关参数（IP,端口等）并启动整个Netty服务。<br>ServerBootstrap:<strong>用于服务端的启动</strong><br>Boostrap：<strong>用于客户端的启动</strong></p>
+]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指Offer52.两个链表的第一个公共节点</title>
+    <url>/2022/12/15/%E5%89%91%E6%8C%87%20Offer%2052.%20%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%EF%BC%88%E6%B5%AA%E6%BC%AB%E7%9B%B8%E9%81%87%E6%B3%95+%E5%A4%9A%E8%A7%A3)/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h2 id="一、题目"><a href="#一、题目" class="headerlink" title="一、题目"></a>一、题目</h2><h2 id="剑指-Offer-52-两个链表的第一个公共节点"><a href="#剑指-Offer-52-两个链表的第一个公共节点" class="headerlink" title="剑指 Offer 52. 两个链表的第一个公共节点"></a><a href="https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/">剑指 Offer 52. 两个链表的第一个公共节点</a></h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>输入两个链表，找出它们的第一个公共节点。</p>
+<p>示例1：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:  A=[4,1,8,4,5]  B=[5,0,1,8,4,5]</span><br><span class="line">输出: 8</span><br></pre></td></tr></table></figure>
+
+<p>示例2：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:  A=[4,1,8]  B=[5,0,1]</span><br><span class="line">输出: NULL</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><h3 id="1-方法1-消除差距法"><a href="#1-方法1-消除差距法" class="headerlink" title="1.方法1:消除差距法"></a>1.方法1:消除差距法</h3><ol>
+<li>两个链表相交之后，后面都是一样的，需要找第一个公共节点。</li>
+<li>但是他们的第一个公共节点在哪儿呢。我们通过两个链表的长度之差，定位到长链表的遍历起始地方。</li>
+<li>此举消除了起始位置差，保证了两个链表同时遍历后一定能同时到达第一个公共节点。</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/2656906465b54f578e743fe5a5f11b38.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="2-方法2：浪漫相遇法"><a href="#2-方法2：浪漫相遇法" class="headerlink" title="2.方法2：浪漫相遇法"></a>2.方法2：浪漫相遇法</h3><ol>
+<li>该方法实质上也是一种消除差距的方法。方法1消除差距是利用长链表遍历的时候先走几步（先出发），直到达到长，短链表遍历能够同步。</li>
+<li>浪漫相遇法两个指针遍历同时出发，都走长短链表之和的路程。虽然前面的路程不同，但是因为有公共节点。后面一截路程一定相同，也就一定会相遇。</li>
+<li>如下图第一个相遇的节点就是所求结果</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/acd09f299751424bb204aa52a4b4dbe0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><h3 id="1-消除差距法"><a href="#1-消除差距法" class="headerlink" title="1.消除差距法"></a>1.消除差距法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：消除差距法：</span></span><br><span class="line"><span class="string">    两个链表相交之后，后面都是一样的，需要找第一个公共节点。</span></span><br><span class="line"><span class="string">    但是他们的第一个公共节点在哪儿呢。我们通过两个链表的长度之差，定位到长链表的遍历起始地方。</span></span><br><span class="line"><span class="string">    此举保证了两个链表遍历后一定能同时到达第一个公共节点。</span></span><br><span class="line"><span class="string">    消除差距是利用长链表遍历的时候先走几步（先出发），直到达到长，短链表遍历能够同步。</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：求长度O(m+n) 遍历找公共节点：O(m+n)</span></span><br><span class="line"><span class="string">            空间O(1)： i，pA,PB</span></span><br><span class="line"><span class="string">坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNode</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> headA <span class="keyword">or</span> <span class="keyword">not</span> headB: <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    lenA = lenB = <span class="number">0</span>  <span class="comment"># 两个链表长度</span></span><br><span class="line">    <span class="comment"># 求链表长度</span></span><br><span class="line">    <span class="keyword">while</span> pA:</span><br><span class="line">        lenA += <span class="number">1</span></span><br><span class="line">        pA = pA.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">while</span> pB:</span><br><span class="line">        lenB += <span class="number">1</span></span><br><span class="line">        pB = pB.<span class="built_in">next</span></span><br><span class="line">    <span class="comment"># 消除差距长链表遍历的时候先走几步（先出发）</span></span><br><span class="line">    <span class="keyword">if</span> lenB &gt;= lenA:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(lenB - lenA):  <span class="comment"># 通过先出发将差距弥补</span></span><br><span class="line">            headB = headB.<span class="built_in">next</span>  <span class="comment"># 当前节点</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(lenA - lenB):</span><br><span class="line">            headA = headA.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> headA <span class="keyword">and</span> headB:</span><br><span class="line">        <span class="keyword">if</span> headA <span class="keyword">is</span> headB:  <span class="comment"># 同步出发，相等就是相遇的第一个节点</span></span><br><span class="line">            <span class="keyword">return</span> headA</span><br><span class="line">        headA, headB = headA.<span class="built_in">next</span>, headB.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 没有相遇</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-浪漫相遇法"><a href="#2-浪漫相遇法" class="headerlink" title="2.浪漫相遇法"></a>2.浪漫相遇法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">    描述：</span></span><br><span class="line"><span class="string">    方法：浪漫相遇法，为了消除两个的长度差，遍历的时候对两个链路总和进行遍历。只是起点不同，他们总会在第一个节点相遇</span></span><br><span class="line"><span class="string">    复杂度分析：时间O(m+n)：</span></span><br><span class="line"><span class="string">                空间O(1)： i，pA,PB</span></span><br><span class="line"><span class="string">    坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getIntersectionNodeA</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> headA <span class="keyword">or</span> <span class="keyword">not</span> headB: <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        flagA = flagB = <span class="literal">False</span></span><br><span class="line">        pA, pB = headA, headB</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> pA != pB:</span><br><span class="line">            <span class="keyword">if</span> (flagA <span class="keyword">and</span> <span class="keyword">not</span> pA.<span class="built_in">next</span>) <span class="keyword">or</span> (flagB <span class="keyword">and</span> <span class="keyword">not</span> pB.<span class="built_in">next</span>): <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">            <span class="keyword">if</span> pA.<span class="built_in">next</span> <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                pA = headB</span><br><span class="line">                flagA = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pA = pA.<span class="built_in">next</span></span><br><span class="line">            <span class="keyword">if</span> pB.<span class="built_in">next</span> <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                pB = headA</span><br><span class="line">                flagB = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pB = pB.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> pA</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-浪漫相遇法优化"><a href="#3-浪漫相遇法优化" class="headerlink" title="3.浪漫相遇法优化"></a>3.浪漫相遇法优化</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：题解，上面方法的优化。在遍历的时候要遍历最后一个节点之后的空节点。这样会使两个链表即使</span></span><br><span class="line"><span class="string">    没有公共节点，也会在在该节点相遇。就不用单独考虑特殊情况啦</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：</span></span><br><span class="line"><span class="string">            空间O(1)： pA,PB</span></span><br><span class="line"><span class="string">坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNodeAA</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    <span class="keyword">while</span> pA != pB:</span><br><span class="line">        pA = pA.<span class="built_in">next</span> <span class="keyword">if</span> pA <span class="keyword">else</span> headB</span><br><span class="line">        pB = pB.<span class="built_in">next</span> <span class="keyword">if</span> pB <span class="keyword">else</span> headA</span><br><span class="line">    <span class="keyword">return</span> pA</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-set集合存储节点，判断重复（补充）"><a href="#4-set集合存储节点，判断重复（补充）" class="headerlink" title="4.set集合存储节点，判断重复（补充）"></a>4.set集合存储节点，判断重复（补充）</h3><p><strong>python</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：利用set存储一条链表，然后遍历另一条链表，如果发现set中有重复的，那么就是第一个交点</span></span><br><span class="line"><span class="string">        没有重复的返回None</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：遍历两个链表</span></span><br><span class="line"><span class="string">            空间O(m)： 辅助空间set集合</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNodeB</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    container = <span class="built_in">set</span>()</span><br><span class="line">    <span class="keyword">while</span> pA:</span><br><span class="line">        container.add(pA)</span><br><span class="line">        pA = pA.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">while</span> pB:</span><br><span class="line">        <span class="keyword">if</span> container.__contains__(pB): <span class="keyword">return</span> pB</span><br><span class="line">        pB = pB.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>C++</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="comment">* 描述：输入两个链表，找出它们的第一个公共节点。</span></span><br><span class="line"><span class="comment">* 实现:</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">getIntersectionNode</span><span class="params">(ListNode* headA, ListNode* headB)</span> </span>&#123;</span><br><span class="line">	ListNode* p1 = headA;</span><br><span class="line">	ListNode* p2 = headB;</span><br><span class="line">	set&lt;ListNode*&gt; myset;</span><br><span class="line">	<span class="keyword">while</span> (p1) &#123;</span><br><span class="line">		myset.<span class="built_in">emplace</span>(p1);</span><br><span class="line">		p1 = p1-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (p2) &#123;</span><br><span class="line">		<span class="keyword">if</span> (myset.<span class="built_in">count</span>(p2)) <span class="keyword">return</span> p2;</span><br><span class="line">		p2 = p2-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>此题是双指针的典型题。链表问题要想到用双指针。</p>
+]]></content>
+      <categories>
+        <category>数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>什么是回调函数callback？</title>
     <url>/2022/12/11/%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0callback/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -174,113 +301,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello Hexo</title>
-    <url>/2019/07/21/hello-Hexo/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<p>Clean and generate and deploy</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d --g</span><br></pre></td></tr></table></figure>
-
-<p>Don’t send referrer info to load image</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++字符串和数字相互转换(刷题必备)</title>
-    <url>/2021/12/23/C++%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2-%E5%88%B7%E9%A2%98%E5%BF%85%E5%A4%87/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="C-数字和字符串相互转换"><a href="#C-数字和字符串相互转换" class="headerlink" title="C++数字和字符串相互转换"></a>C++数字和字符串相互转换</h1><p>C++数字和字符串相互转换，此文详细介绍了两者互相转换的方法。通过内置函数和字符串流（对象）来实现转换。</p>
-<h2 id="数字转字符串"><a href="#数字转字符串" class="headerlink" title="数字转字符串"></a>数字转字符串</h2><h3 id="方法1：to-string-函数"><a href="#方法1：to-string-函数" class="headerlink" title="方法1：to_string()函数"></a>方法1：to_string()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	string num_s = <span class="built_in">to_string</span>(num);<span class="comment">//转换</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="方法2：ostringstream对象-str-函数"><a href="#方法2：ostringstream对象-str-函数" class="headerlink" title="方法2：ostringstream对象+str()函数"></a>方法2：ostringstream对象+str()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	ostringstream oss;<span class="comment">//字符输出流对象</span></span><br><span class="line">	oss &lt;&lt; num;<span class="comment">//将数字放入输出流对象中</span></span><br><span class="line">	string num_s = oss.<span class="built_in">str</span>();<span class="comment">//将其转换成string</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="字符串转数字"><a href="#字符串转数字" class="headerlink" title="字符串转数字"></a>字符串转数字</h2><h3 id="方法1：atoi-函数"><a href="#方法1：atoi-函数" class="headerlink" title="方法1：atoi()函数"></a>方法1：atoi()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int=<span class="built_in">stoi</span>(str.<span class="built_in">c_str</span>());<span class="comment">//字符转换成int</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="方法2：istringstream对象"><a href="#方法2：istringstream对象" class="headerlink" title="方法2：istringstream对象"></a>方法2：istringstream对象</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str= <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int;</span><br><span class="line">	<span class="function">istringstream  <span class="title">iss</span><span class="params">(str)</span></span>;<span class="comment">//字符串输入流对象</span></span><br><span class="line">	iss &gt;&gt; str_int;        <span class="comment">//字符串转换成int，通过输入流，将输入流中字符串的输入到int型就可以转换。</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p> <a href="http://c.biancheng.net/view/1527.html">http://c.biancheng.net/view/1527.html</a><br> <a href="https://www.bilibili.com/read/cv8350834">https://www.bilibili.com/read/cv8350834</a></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指Offer52.两个链表的第一个公共节点</title>
-    <url>/2022/12/15/%E5%89%91%E6%8C%87%20Offer%2052.%20%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9%EF%BC%88%E6%B5%AA%E6%BC%AB%E7%9B%B8%E9%81%87%E6%B3%95+%E5%A4%9A%E8%A7%A3)/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h2 id="一、题目"><a href="#一、题目" class="headerlink" title="一、题目"></a>一、题目</h2><h2 id="剑指-Offer-52-两个链表的第一个公共节点"><a href="#剑指-Offer-52-两个链表的第一个公共节点" class="headerlink" title="剑指 Offer 52. 两个链表的第一个公共节点"></a><a href="https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/">剑指 Offer 52. 两个链表的第一个公共节点</a></h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>输入两个链表，找出它们的第一个公共节点。</p>
-<p>示例1：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:  A=[4,1,8,4,5]  B=[5,0,1,8,4,5]</span><br><span class="line">输出: 8</span><br></pre></td></tr></table></figure>
-
-<p>示例2：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入:  A=[4,1,8]  B=[5,0,1]</span><br><span class="line">输出: NULL</span><br></pre></td></tr></table></figure>
-
-<h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><h3 id="1-方法1-消除差距法"><a href="#1-方法1-消除差距法" class="headerlink" title="1.方法1:消除差距法"></a>1.方法1:消除差距法</h3><ol>
-<li>两个链表相交之后，后面都是一样的，需要找第一个公共节点。</li>
-<li>但是他们的第一个公共节点在哪儿呢。我们通过两个链表的长度之差，定位到长链表的遍历起始地方。</li>
-<li>此举消除了起始位置差，保证了两个链表同时遍历后一定能同时到达第一个公共节点。</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/2656906465b54f578e743fe5a5f11b38.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-<h3 id="2-方法2：浪漫相遇法"><a href="#2-方法2：浪漫相遇法" class="headerlink" title="2.方法2：浪漫相遇法"></a>2.方法2：浪漫相遇法</h3><ol>
-<li>该方法实质上也是一种消除差距的方法。方法1消除差距是利用长链表遍历的时候先走几步（先出发），直到达到长，短链表遍历能够同步。</li>
-<li>浪漫相遇法两个指针遍历同时出发，都走长短链表之和的路程。虽然前面的路程不同，但是因为有公共节点。后面一截路程一定相同，也就一定会相遇。</li>
-<li>如下图第一个相遇的节点就是所求结果</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/acd09f299751424bb204aa52a4b4dbe0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="三、代码"><a href="#三、代码" class="headerlink" title="三、代码"></a>三、代码</h2><h3 id="1-消除差距法"><a href="#1-消除差距法" class="headerlink" title="1.消除差距法"></a>1.消除差距法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：消除差距法：</span></span><br><span class="line"><span class="string">    两个链表相交之后，后面都是一样的，需要找第一个公共节点。</span></span><br><span class="line"><span class="string">    但是他们的第一个公共节点在哪儿呢。我们通过两个链表的长度之差，定位到长链表的遍历起始地方。</span></span><br><span class="line"><span class="string">    此举保证了两个链表遍历后一定能同时到达第一个公共节点。</span></span><br><span class="line"><span class="string">    消除差距是利用长链表遍历的时候先走几步（先出发），直到达到长，短链表遍历能够同步。</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：求长度O(m+n) 遍历找公共节点：O(m+n)</span></span><br><span class="line"><span class="string">            空间O(1)： i，pA,PB</span></span><br><span class="line"><span class="string">坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNode</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> headA <span class="keyword">or</span> <span class="keyword">not</span> headB: <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    lenA = lenB = <span class="number">0</span>  <span class="comment"># 两个链表长度</span></span><br><span class="line">    <span class="comment"># 求链表长度</span></span><br><span class="line">    <span class="keyword">while</span> pA:</span><br><span class="line">        lenA += <span class="number">1</span></span><br><span class="line">        pA = pA.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">while</span> pB:</span><br><span class="line">        lenB += <span class="number">1</span></span><br><span class="line">        pB = pB.<span class="built_in">next</span></span><br><span class="line">    <span class="comment"># 消除差距长链表遍历的时候先走几步（先出发）</span></span><br><span class="line">    <span class="keyword">if</span> lenB &gt;= lenA:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(lenB - lenA):  <span class="comment"># 通过先出发将差距弥补</span></span><br><span class="line">            headB = headB.<span class="built_in">next</span>  <span class="comment"># 当前节点</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(lenA - lenB):</span><br><span class="line">            headA = headA.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> headA <span class="keyword">and</span> headB:</span><br><span class="line">        <span class="keyword">if</span> headA <span class="keyword">is</span> headB:  <span class="comment"># 同步出发，相等就是相遇的第一个节点</span></span><br><span class="line">            <span class="keyword">return</span> headA</span><br><span class="line">        headA, headB = headA.<span class="built_in">next</span>, headB.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span> <span class="comment"># 没有相遇</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="2-浪漫相遇法"><a href="#2-浪漫相遇法" class="headerlink" title="2.浪漫相遇法"></a>2.浪漫相遇法</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">    描述：</span></span><br><span class="line"><span class="string">    方法：浪漫相遇法，为了消除两个的长度差，遍历的时候对两个链路总和进行遍历。只是起点不同，他们总会在第一个节点相遇</span></span><br><span class="line"><span class="string">    复杂度分析：时间O(m+n)：</span></span><br><span class="line"><span class="string">                空间O(1)： i，pA,PB</span></span><br><span class="line"><span class="string">    坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">getIntersectionNodeA</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> headA <span class="keyword">or</span> <span class="keyword">not</span> headB: <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        flagA = flagB = <span class="literal">False</span></span><br><span class="line">        pA, pB = headA, headB</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> pA != pB:</span><br><span class="line">            <span class="keyword">if</span> (flagA <span class="keyword">and</span> <span class="keyword">not</span> pA.<span class="built_in">next</span>) <span class="keyword">or</span> (flagB <span class="keyword">and</span> <span class="keyword">not</span> pB.<span class="built_in">next</span>): <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">            <span class="keyword">if</span> pA.<span class="built_in">next</span> <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                pA = headB</span><br><span class="line">                flagA = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pA = pA.<span class="built_in">next</span></span><br><span class="line">            <span class="keyword">if</span> pB.<span class="built_in">next</span> <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                pB = headA</span><br><span class="line">                flagB = <span class="literal">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pB = pB.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> pA</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-浪漫相遇法优化"><a href="#3-浪漫相遇法优化" class="headerlink" title="3.浪漫相遇法优化"></a>3.浪漫相遇法优化</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：题解，上面方法的优化。在遍历的时候要遍历最后一个节点之后的空节点。这样会使两个链表即使</span></span><br><span class="line"><span class="string">    没有公共节点，也会在在该节点相遇。就不用单独考虑特殊情况啦</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：</span></span><br><span class="line"><span class="string">            空间O(1)： pA,PB</span></span><br><span class="line"><span class="string">坑：</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNodeAA</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    <span class="keyword">while</span> pA != pB:</span><br><span class="line">        pA = pA.<span class="built_in">next</span> <span class="keyword">if</span> pA <span class="keyword">else</span> headB</span><br><span class="line">        pB = pB.<span class="built_in">next</span> <span class="keyword">if</span> pB <span class="keyword">else</span> headA</span><br><span class="line">    <span class="keyword">return</span> pA</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-set集合存储节点，判断重复（补充）"><a href="#4-set集合存储节点，判断重复（补充）" class="headerlink" title="4.set集合存储节点，判断重复（补充）"></a>4.set集合存储节点，判断重复（补充）</h3><p><strong>python</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="string">描述：</span></span><br><span class="line"><span class="string">方法：利用set存储一条链表，然后遍历另一条链表，如果发现set中有重复的，那么就是第一个交点</span></span><br><span class="line"><span class="string">        没有重复的返回None</span></span><br><span class="line"><span class="string">复杂度分析：时间O(m+n)：遍历两个链表</span></span><br><span class="line"><span class="string">            空间O(m)： 辅助空间set集合</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getIntersectionNodeB</span>(<span class="params">self, headA: ListNode, headB: ListNode</span>) -&gt; ListNode:</span><br><span class="line">    pA, pB = headA, headB</span><br><span class="line">    container = <span class="built_in">set</span>()</span><br><span class="line">    <span class="keyword">while</span> pA:</span><br><span class="line">        container.add(pA)</span><br><span class="line">        pA = pA.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">while</span> pB:</span><br><span class="line">        <span class="keyword">if</span> container.__contains__(pB): <span class="keyword">return</span> pB</span><br><span class="line">        pB = pB.<span class="built_in">next</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>C++</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 题目：剑指 Offer 52. 两个链表的第一个公共节点</span></span><br><span class="line"><span class="comment">* 描述：输入两个链表，找出它们的第一个公共节点。</span></span><br><span class="line"><span class="comment">* 实现:</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function">ListNode* <span class="title">getIntersectionNode</span><span class="params">(ListNode* headA, ListNode* headB)</span> </span>&#123;</span><br><span class="line">	ListNode* p1 = headA;</span><br><span class="line">	ListNode* p2 = headB;</span><br><span class="line">	set&lt;ListNode*&gt; myset;</span><br><span class="line">	<span class="keyword">while</span> (p1) &#123;</span><br><span class="line">		myset.<span class="built_in">emplace</span>(p1);</span><br><span class="line">		p1 = p1-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (p2) &#123;</span><br><span class="line">		<span class="keyword">if</span> (myset.<span class="built_in">count</span>(p2)) <span class="keyword">return</span> p2;</span><br><span class="line">		p2 = p2-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>此题是双指针的典型题。链表问题要想到用双指针。</p>
-]]></content>
-      <categories>
-        <category>数据结构与算法</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>字符指针修改字符、字符数组修改字符、String类修改字符</title>
     <url>/2019/12/12/%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E3%80%81String%E7%B1%BB%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -315,6 +335,36 @@
       </categories>
       <tags>
         <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>磁道扇区柱面是啥</title>
+    <url>/2021/12/14/%E7%A3%81%E9%81%93%E6%89%87%E5%8C%BA%E6%9F%B1%E9%9D%A2%E6%98%AF%E5%95%A5/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h2 id="磁道、扇区、盘片"><a href="#磁道、扇区、盘片" class="headerlink" title="磁道、扇区、盘片"></a>磁道、扇区、盘片</h2><p>首先，先在大脑中建立硬盘中专业术语到实物的映射。</p>
+<p>在脑海中建立硬盘的大致结构。简单来说硬盘就像一个一个盘子堆叠起来的结构。如下图。</p>
+<p><img src="https://img-blog.csdnimg.cn/5677b6b1c3934215a03be0d89caacc1b.png#pic_center" alt="在这里插入图片描述"></p>
+<p>在硬盘中，我们将类似每一个盘子的东西称作<strong>盘片</strong>。在这个盘片上会划分很多个同心圆，就像操场跑道一样的同心圆。如下图。<br><img src="https://img-blog.csdnimg.cn/961731fe77a149b58a9e6a0231222332.png#pic_center" alt="D:\桌面\博客\计算机基础知识补充\img\磁道-跑道.jpeg"></p>
+<p>我们这一条条跑道称为<strong>磁道</strong>。将每一条跑道划分为一个一个的扇形的小块，将小块称为<strong>扇区</strong>。如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/f57871be11674e728158e8892487c3b9.png#pic_center" alt="在这里插入图片描述"></p>
+<p>好了，有了这些基本的结构和术语类比，相信这些术语你能凭借字面意思就能想象他们的样子了。那下面内容对你轻而易举~</p>
+<h2 id="柱面、磁头"><a href="#柱面、磁头" class="headerlink" title="柱面、磁头"></a>柱面、磁头</h2><p>柱面就是<strong>每个磁道叠起来</strong>形成的一个柱面。如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/a981ada3723d433aa8ccc45f8be74380.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/a65e566e207a48fabe4825463e480b7f.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="重要结论"><a href="#重要结论" class="headerlink" title="重要结论"></a>重要结论</h2><ul>
+<li>柱面数 &#x3D; 一个盘面的磁道数</li>
+<li>磁头数 &#x3D; 盘面数</li>
+<li>一个盘面容量 &#x3D; 512（一个扇区容量） x 一个磁道的扇区数 x 一个盘面的磁道数 </li>
+<li>磁盘容量&#x3D;512 x 一个磁道扇区数 x 一个盘面的磁道数x磁头数</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/m0_37329910/article/details/85833252">图解磁盘</a></p>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>常识</tag>
       </tags>
   </entry>
   <entry>
@@ -387,36 +437,6 @@
       </tags>
   </entry>
   <entry>
-    <title>磁道扇区柱面是啥</title>
-    <url>/2021/12/14/%E7%A3%81%E9%81%93%E6%89%87%E5%8C%BA%E6%9F%B1%E9%9D%A2%E6%98%AF%E5%95%A5/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h2 id="磁道、扇区、盘片"><a href="#磁道、扇区、盘片" class="headerlink" title="磁道、扇区、盘片"></a>磁道、扇区、盘片</h2><p>首先，先在大脑中建立硬盘中专业术语到实物的映射。</p>
-<p>在脑海中建立硬盘的大致结构。简单来说硬盘就像一个一个盘子堆叠起来的结构。如下图。</p>
-<p><img src="https://img-blog.csdnimg.cn/5677b6b1c3934215a03be0d89caacc1b.png#pic_center" alt="在这里插入图片描述"></p>
-<p>在硬盘中，我们将类似每一个盘子的东西称作<strong>盘片</strong>。在这个盘片上会划分很多个同心圆，就像操场跑道一样的同心圆。如下图。<br><img src="https://img-blog.csdnimg.cn/961731fe77a149b58a9e6a0231222332.png#pic_center" alt="D:\桌面\博客\计算机基础知识补充\img\磁道-跑道.jpeg"></p>
-<p>我们这一条条跑道称为<strong>磁道</strong>。将每一条跑道划分为一个一个的扇形的小块，将小块称为<strong>扇区</strong>。如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/f57871be11674e728158e8892487c3b9.png#pic_center" alt="在这里插入图片描述"></p>
-<p>好了，有了这些基本的结构和术语类比，相信这些术语你能凭借字面意思就能想象他们的样子了。那下面内容对你轻而易举~</p>
-<h2 id="柱面、磁头"><a href="#柱面、磁头" class="headerlink" title="柱面、磁头"></a>柱面、磁头</h2><p>柱面就是<strong>每个磁道叠起来</strong>形成的一个柱面。如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/a981ada3723d433aa8ccc45f8be74380.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/a65e566e207a48fabe4825463e480b7f.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="重要结论"><a href="#重要结论" class="headerlink" title="重要结论"></a>重要结论</h2><ul>
-<li>柱面数 &#x3D; 一个盘面的磁道数</li>
-<li>磁头数 &#x3D; 盘面数</li>
-<li>一个盘面容量 &#x3D; 512（一个扇区容量） x 一个磁道的扇区数 x 一个盘面的磁道数 </li>
-<li>磁盘容量&#x3D;512 x 一个磁道扇区数 x 一个盘面的磁道数x磁头数</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/m0_37329910/article/details/85833252">图解磁盘</a></p>
-]]></content>
-      <categories>
-        <category>计算机基础</category>
-      </categories>
-      <tags>
-        <tag>常识</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>汉诺塔的非递归实现(借助堆栈模拟递归)</title>
     <url>/2021/12/14/%E6%B1%89%E8%AF%BA%E5%A1%94%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0-%E5%80%9F%E5%8A%A9%E5%A0%86%E6%A0%88%E6%A8%A1%E6%8B%9F%E9%80%92%E5%BD%92/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -467,63 +487,6 @@
       </categories>
       <tags>
         <tag>Netty</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第二章 java BIO编程</title>
-    <url>/2022/12/15/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20Java%20Bio%E7%BC%96%E7%A8%8B/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="1-I-O模型"><a href="#1-I-O模型" class="headerlink" title="1.  I&#x2F;O模型"></a>1.  I&#x2F;O模型</h1><h2 id="1-1-I-O模型的基本说明"><a href="#1-1-I-O模型的基本说明" class="headerlink" title="1.1 I&#x2F;O模型的基本说明"></a>1.1 I&#x2F;O模型的基本说明</h2><ol>
-<li><p>I&#x2F;O模型简单的理解：就是用什么样的数据通道进行数据的发送和接受，很大程度上决定了IO程序的性能</p>
-</li>
-<li><p>java支持三种IO模型：BIO, NIO, AIO</p>
-</li>
-<li><p>java BIO: 同步非阻塞模型（传统阻塞型），服务器实现模式为一个连接一个线程，即客户端有一个连接，服务器就新建一个线程进行处理，如果这个连接不释放，这个线程就会阻塞在那里造成不必要的线程开销。</p>
-<p><img src="https://img-blog.csdnimg.cn/direct/dd97952364b743319d249142277d2709.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p>java NIO：同步非阻塞，服务器实现模式为一个线程处理多个请求（连接），即客户端发送的请求连接会注册到多路复用器上，多路复用器轮询到连接有IO请求就会进行处理。</p>
-<p><img src="https://img-blog.csdnimg.cn/direct/5d654a5f588b44bca49c2dbb5681e277.png" alt="在这里插入图片描述"></p>
-</li>
-<li><p>java AIO: 异步非阻塞，AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是操作系统完成后才通知服务端程序启动线程去处理，一般使用于连接数量较多，连接时间较长的应用。</p>
-</li>
-</ol>
-<h1 id="2-BIO-NIO-AIO使用场景分析"><a href="#2-BIO-NIO-AIO使用场景分析" class="headerlink" title="2. BIO,NIO,AIO使用场景分析"></a>2. BIO,NIO,AIO使用场景分析</h1><ol>
-<li>BIO适用于 连接数量少，架构固定的应用，对服务器资源要求高。程序简单容易理解.JDK 1.4以前的选择。</li>
-<li>NIO适用于连接数量多，连接时间短（轻操作）的架构，比如聊天服务器，弹幕系统，服务器间通讯等，编程较为复杂。JDK1.4之后开始支持。</li>
-<li>AIO适用于连接数量多，连接时间长（重操作）的架构，比如相册服务器，充分调用OS参与并发操作，编程比较复杂。JDK1.7之后开始支持</li>
-</ol>
-<h1 id="3-Java-BIO基本介绍"><a href="#3-Java-BIO基本介绍" class="headerlink" title="3. Java BIO基本介绍"></a>3. Java BIO基本介绍</h1><ol>
-<li>java BIO 是传统的IO编程，相关的类和接口都在java.io</li>
-<li>BIO(Blocing IO):同步阻塞模型，服务器实现模式为一个连接对应一个线程进行处理，如果连接不做任何事情会造成不必要的线程开销。</li>
-<li>BIO适用于连接数量较少且固定的架构，对服务器资源要求较高</li>
-</ol>
-<h1 id="4-Java-BIO的工作机制"><a href="#4-Java-BIO的工作机制" class="headerlink" title="4. Java BIO的工作机制"></a>4. Java BIO的工作机制</h1><p><img src="https://img-blog.csdnimg.cn/direct/7accfb01aa7044f290901a779b8d318e.png" alt="在这里插入图片描述"></p>
-<ol>
-<li>服务端会启动一个serversocket</li>
-<li>客户端启动socket对服务器进行通信，默认情况下服务端对客户端的每一个连接都要新建一个线程处理该连接</li>
-<li>客户端发出请求后，看服务器是否有现成线程相应，没有会等待，或者拒绝。</li>
-<li>如果有响应，客户端线程会等待请求结束后，再继续执行。</li>
-</ol>
-<h1 id="5-Java-BIO应用举例"><a href="#5-Java-BIO应用举例" class="headerlink" title="5. Java BIO应用举例"></a>5. Java BIO应用举例</h1><h2 id="5-1-需求"><a href="#5-1-需求" class="headerlink" title="5.1 需求"></a>5.1 需求</h2><ol>
-<li>使用BIO模型编写一个服务器，监听6666端口，当有客户端连接时，启动一个线程与其通信。</li>
-<li>要求使用线程池，可以连接多个客户端。</li>
-<li>服务端接受用户发送的数据（终端中用Telnet方式发送数据）</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BIOServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//线程池机制</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//思路</span></span><br><span class="line">        <span class="comment">//1. 创建一个线程池</span></span><br><span class="line">        <span class="comment">//2. 如果有客户端连接，就创建一个线程，与之通讯(单独写一个方法)</span></span><br><span class="line"></span><br><span class="line">        <span class="type">ExecutorService</span> <span class="variable">newCachedThreadPool</span> <span class="operator">=</span> Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建ServerSocket</span></span><br><span class="line">        <span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">6666</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;服务器启动了&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">            <span class="comment">//监听，等待客户端连接</span></span><br><span class="line">            System.out.println(<span class="string">&quot;等待连接....&quot;</span>);</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> serverSocket.accept(); <span class="comment">// 会阻塞，主线程一直阻塞在这里等待新的连接</span></span><br><span class="line">            System.out.println(<span class="string">&quot;连接到一个客户端&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//就创建一个线程，与之通讯(单独写一个方法)</span></span><br><span class="line">            newCachedThreadPool.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123; <span class="comment">//我们重写</span></span><br><span class="line">                    <span class="comment">//可以和客户端通讯</span></span><br><span class="line">                    handler(socket);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//编写一个handler方法，和客户端通讯</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">handler</span><span class="params">(Socket socket)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">            <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="comment">//通过socket 获取输入流</span></span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//循环的读取客户端发送的数据</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">&quot;read....&quot;</span>);</span><br><span class="line">               <span class="type">int</span> <span class="variable">read</span> <span class="operator">=</span>  inputStream.read(bytes); <span class="comment">// 会阻塞。子线程会阻塞在这里接受新的消息。</span></span><br><span class="line">               <span class="keyword">if</span>(read != -<span class="number">1</span>) &#123;</span><br><span class="line">                   System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(bytes, <span class="number">0</span>, read</span><br><span class="line">                   )); <span class="comment">//输出客户端发送的数据</span></span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;关闭和client的连接&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                socket.close();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="5-2-分析"><a href="#5-2-分析" class="headerlink" title="5.2 分析"></a>5.2 分析</h2><ol>
-<li>Main线程监听6666端口，一旦有客户端请求连接，从线程池中new 一个线程thread_i进行处理。</li>
-<li>thread_i线程处理socket连接，对对应客户端进行数据Read,业务处理，数据write等操作。</li>
-<li>并发数较大的时候，创建大量线程，系统资源占用较大。</li>
-<li>连接建立后，如果当前线程没有数据可读，thread_i会阻塞到Read操作上，造成线程阻塞，系统资源浪费。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-        <tag>NIO</tag>
       </tags>
   </entry>
   <entry>
@@ -714,6 +677,63 @@
       </tags>
   </entry>
   <entry>
+    <title>第二章 java BIO编程</title>
+    <url>/2022/12/15/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20Java%20Bio%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="1-I-O模型"><a href="#1-I-O模型" class="headerlink" title="1.  I&#x2F;O模型"></a>1.  I&#x2F;O模型</h1><h2 id="1-1-I-O模型的基本说明"><a href="#1-1-I-O模型的基本说明" class="headerlink" title="1.1 I&#x2F;O模型的基本说明"></a>1.1 I&#x2F;O模型的基本说明</h2><ol>
+<li><p>I&#x2F;O模型简单的理解：就是用什么样的数据通道进行数据的发送和接受，很大程度上决定了IO程序的性能</p>
+</li>
+<li><p>java支持三种IO模型：BIO, NIO, AIO</p>
+</li>
+<li><p>java BIO: 同步非阻塞模型（传统阻塞型），服务器实现模式为一个连接一个线程，即客户端有一个连接，服务器就新建一个线程进行处理，如果这个连接不释放，这个线程就会阻塞在那里造成不必要的线程开销。</p>
+<p><img src="https://img-blog.csdnimg.cn/direct/dd97952364b743319d249142277d2709.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>java NIO：同步非阻塞，服务器实现模式为一个线程处理多个请求（连接），即客户端发送的请求连接会注册到多路复用器上，多路复用器轮询到连接有IO请求就会进行处理。</p>
+<p><img src="https://img-blog.csdnimg.cn/direct/5d654a5f588b44bca49c2dbb5681e277.png" alt="在这里插入图片描述"></p>
+</li>
+<li><p>java AIO: 异步非阻塞，AIO引入了异步通道的概念，采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是操作系统完成后才通知服务端程序启动线程去处理，一般使用于连接数量较多，连接时间较长的应用。</p>
+</li>
+</ol>
+<h1 id="2-BIO-NIO-AIO使用场景分析"><a href="#2-BIO-NIO-AIO使用场景分析" class="headerlink" title="2. BIO,NIO,AIO使用场景分析"></a>2. BIO,NIO,AIO使用场景分析</h1><ol>
+<li>BIO适用于 连接数量少，架构固定的应用，对服务器资源要求高。程序简单容易理解.JDK 1.4以前的选择。</li>
+<li>NIO适用于连接数量多，连接时间短（轻操作）的架构，比如聊天服务器，弹幕系统，服务器间通讯等，编程较为复杂。JDK1.4之后开始支持。</li>
+<li>AIO适用于连接数量多，连接时间长（重操作）的架构，比如相册服务器，充分调用OS参与并发操作，编程比较复杂。JDK1.7之后开始支持</li>
+</ol>
+<h1 id="3-Java-BIO基本介绍"><a href="#3-Java-BIO基本介绍" class="headerlink" title="3. Java BIO基本介绍"></a>3. Java BIO基本介绍</h1><ol>
+<li>java BIO 是传统的IO编程，相关的类和接口都在java.io</li>
+<li>BIO(Blocing IO):同步阻塞模型，服务器实现模式为一个连接对应一个线程进行处理，如果连接不做任何事情会造成不必要的线程开销。</li>
+<li>BIO适用于连接数量较少且固定的架构，对服务器资源要求较高</li>
+</ol>
+<h1 id="4-Java-BIO的工作机制"><a href="#4-Java-BIO的工作机制" class="headerlink" title="4. Java BIO的工作机制"></a>4. Java BIO的工作机制</h1><p><img src="https://img-blog.csdnimg.cn/direct/7accfb01aa7044f290901a779b8d318e.png" alt="在这里插入图片描述"></p>
+<ol>
+<li>服务端会启动一个serversocket</li>
+<li>客户端启动socket对服务器进行通信，默认情况下服务端对客户端的每一个连接都要新建一个线程处理该连接</li>
+<li>客户端发出请求后，看服务器是否有现成线程相应，没有会等待，或者拒绝。</li>
+<li>如果有响应，客户端线程会等待请求结束后，再继续执行。</li>
+</ol>
+<h1 id="5-Java-BIO应用举例"><a href="#5-Java-BIO应用举例" class="headerlink" title="5. Java BIO应用举例"></a>5. Java BIO应用举例</h1><h2 id="5-1-需求"><a href="#5-1-需求" class="headerlink" title="5.1 需求"></a>5.1 需求</h2><ol>
+<li>使用BIO模型编写一个服务器，监听6666端口，当有客户端连接时，启动一个线程与其通信。</li>
+<li>要求使用线程池，可以连接多个客户端。</li>
+<li>服务端接受用户发送的数据（终端中用Telnet方式发送数据）</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BIOServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//线程池机制</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//思路</span></span><br><span class="line">        <span class="comment">//1. 创建一个线程池</span></span><br><span class="line">        <span class="comment">//2. 如果有客户端连接，就创建一个线程，与之通讯(单独写一个方法)</span></span><br><span class="line"></span><br><span class="line">        <span class="type">ExecutorService</span> <span class="variable">newCachedThreadPool</span> <span class="operator">=</span> Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//创建ServerSocket</span></span><br><span class="line">        <span class="type">ServerSocket</span> <span class="variable">serverSocket</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">6666</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;服务器启动了&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">            <span class="comment">//监听，等待客户端连接</span></span><br><span class="line">            System.out.println(<span class="string">&quot;等待连接....&quot;</span>);</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> serverSocket.accept(); <span class="comment">// 会阻塞，主线程一直阻塞在这里等待新的连接</span></span><br><span class="line">            System.out.println(<span class="string">&quot;连接到一个客户端&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//就创建一个线程，与之通讯(单独写一个方法)</span></span><br><span class="line">            newCachedThreadPool.execute(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123; <span class="comment">//我们重写</span></span><br><span class="line">                    <span class="comment">//可以和客户端通讯</span></span><br><span class="line">                    handler(socket);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//编写一个handler方法，和客户端通讯</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">handler</span><span class="params">(Socket socket)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line">            <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="comment">//通过socket 获取输入流</span></span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">inputStream</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line"></span><br><span class="line">            <span class="comment">//循环的读取客户端发送的数据</span></span><br><span class="line">            <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">&quot;线程信息 id =&quot;</span> + Thread.currentThread().getId() + <span class="string">&quot; 名字=&quot;</span> + Thread.currentThread().getName());</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">&quot;read....&quot;</span>);</span><br><span class="line">               <span class="type">int</span> <span class="variable">read</span> <span class="operator">=</span>  inputStream.read(bytes); <span class="comment">// 会阻塞。子线程会阻塞在这里接受新的消息。</span></span><br><span class="line">               <span class="keyword">if</span>(read != -<span class="number">1</span>) &#123;</span><br><span class="line">                   System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(bytes, <span class="number">0</span>, read</span><br><span class="line">                   )); <span class="comment">//输出客户端发送的数据</span></span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;关闭和client的连接&quot;</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                socket.close();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="5-2-分析"><a href="#5-2-分析" class="headerlink" title="5.2 分析"></a>5.2 分析</h2><ol>
+<li>Main线程监听6666端口，一旦有客户端请求连接，从线程池中new 一个线程thread_i进行处理。</li>
+<li>thread_i线程处理socket连接，对对应客户端进行数据Read,业务处理，数据write等操作。</li>
+<li>并发数较大的时候，创建大量线程，系统资源占用较大。</li>
+<li>连接建立后，如果当前线程没有数据可读，thread_i会阻塞到Read操作上，造成线程阻塞，系统资源浪费。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第三章 第二节NIO网络编程应用实例-群聊系统</title>
     <url>/2022/12/17/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%BA%8C%E8%8A%82NIO%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B-%E7%BE%A4%E8%81%8A%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -760,8 +780,118 @@
       </tags>
   </entry>
   <entry>
+    <title>第4章Netty第一节概述</title>
+    <url>/2022/12/19/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20Netty%20%E7%AC%AC%E4%B8%80%E8%8A%82%E6%A6%82%E8%BF%B0/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="1-原生NIO存在的问题"><a href="#1-原生NIO存在的问题" class="headerlink" title="1. 原生NIO存在的问题"></a>1. 原生NIO存在的问题</h1><ol>
+<li>NIO的类库和API繁杂，使用麻烦。需要熟练掌握Selector, ServerSocketChannel, SocketChannel, ByteBuffer等。</li>
+<li>开发工作量和难度都非常大：例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常流的处理等等。</li>
+</ol>
+<h1 id="2-Netty官方说明"><a href="#2-Netty官方说明" class="headerlink" title="2. Netty官方说明"></a>2. Netty官方说明</h1><p><img src="https://img-blog.csdnimg.cn/direct/237e97df88124b25b1418dbca5c1761b.png" alt="在这里插入图片描述"></p>
+<ol>
+<li>Netty 是由JBOSS提供的一个Java开源框架，Netty提供异步的，基于事件驱动的网络应用程序框架，用以快速开发高性能，高可靠的网络IO程序。</li>
+<li>Netty 可以帮助你快速、简单的开发出一个网络应用，相当于简化和流程化了 NIO 的开发过程。</li>
+<li>Netty 是目前最流行的 NIO 框架，Netty 在互联网领域、大数据分布式计算领域、游戏行业、通信行业等获得了广泛的应用，知名的 Elasticsearch 、Dubbo 框架内部都采用了 Netty。</li>
+</ol>
+<h1 id="3-Netty的优点"><a href="#3-Netty的优点" class="headerlink" title="3. Netty的优点"></a>3. Netty的优点</h1><ol>
+<li>设计优雅：适用于各种传输类型的统一 API 阻塞和非阻塞 Socket；基于灵活且可扩展的事件模型，可以清晰地分离关注点；高度可定制的线程模型 - 单线程，一个或多个线程池.</li>
+<li>高性能、吞吐量更高：延迟更低；减少资源消耗；最小化不必要的内存复制。</li>
+</ol>
+<h1 id="4-线程模型基本介绍"><a href="#4-线程模型基本介绍" class="headerlink" title="4. 线程模型基本介绍"></a>4. 线程模型基本介绍</h1><ol>
+<li>目前存在的线程模型：</li>
+</ol>
+<ul>
+<li>传统阻塞IO服务模型</li>
+<li>Reactor模式</li>
+</ul>
+<h1 id="5-Reactor模式"><a href="#5-Reactor模式" class="headerlink" title="5. Reactor模式"></a>5. Reactor模式</h1><h2 id="5-1-单Reactor单线程"><a href="#5-1-单Reactor单线程" class="headerlink" title="5.1 单Reactor单线程"></a>5.1 单Reactor单线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/6310bfd5bea34cb7aa2c35d76ca2899c.png" alt="在这里插入图片描述"><br>前面的群聊实例就是这种方式：服务器端用一个线程通过多路复用搞定所有的 IO 操作（包括连接，读、写等），编码简单，清晰明了，但是如果客户端连接数量较多，将无法支撑，前面的 NIO 案例就属于这种模型。	<br>方案优缺点分析：</p>
+<ol>
+<li>优点：模型简单，没有多线程，进程通信，资源竞争问题。全部在一个线程中完成。</li>
+<li>缺点：性能问题，只有一个线程，无法完全发挥多核CPU的性能</li>
+<li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li>
+</ol>
+<h2 id="5-2-单Reactor多线程"><a href="#5-2-单Reactor多线程" class="headerlink" title="5.2 单Reactor多线程"></a>5.2 单Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/d0df38f203dd478088f3eb30053b8502.png" alt="在这里插入图片描述"></p>
+<p>说明：</p>
+<ol>
+<li>Reactor对象通过select 监控客户端请求时间，收到事件后，通过dispatch进行分发。</li>
+<li>如果建立连接请求，则acceptor荣国accept处理请求，然后创建handler对象处理完成连接后的各种事件</li>
+<li>如果不是连接请求，则由reactor分发调用连接对应的handler处理。</li>
+<li>handler只负责响应事件，不做具体的业务处理，通过read读取数据后，分发给后面的worker线程池的某个线程处理任务。</li>
+<li>worker线程池会分配独立线程完成真正的业务，并将结果返回给handler.</li>
+<li>handler收到响应后，通过send将结果返回client<br> 方案优缺点分析：</li>
+<li>优点：可以充分利用多核cpu的处理能力</li>
+<li>缺点：多线程数据共享和访问比较复杂，reactor处理所有的事件的监听和响应，在单线程运行，在高并发场景容易出现性能瓶颈。</li>
+<li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li>
+</ol>
+<h2 id="5-3-主从Reactor多线程"><a href="#5-3-主从Reactor多线程" class="headerlink" title="5.3 主从Reactor多线程"></a>5.3 主从Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/2bd1fe809ea04276b7c7a869731b6ba6.png" alt="在这里插入图片描述"></p>
+<p>说明：</p>
+<ol>
+<li>Reactor主线程MainReactor对象通过select监听连接事件，收到事件后，通过acceptor处理连接事件。</li>
+<li>当acceptor处理连接事件后，MainReactor将连接分配给SubReactor.</li>
+<li>subreactor将连接加入连接队列进行监听，并创建handler进行各种事件处理</li>
+<li>当有新事件发生时，subreactor调用对应的handler进行处理</li>
+<li>handler通过reade读取数据，分发给后面的worker线程池处理</li>
+<li>worker线程池分配独立的线程进行业务处理，并返回结果</li>
+<li>handler收到响应的结果后，再通过send将结果返回给client</li>
+<li>reactor主线程可以对应多个reactor子线程，即MainReactor可以关联多个subreactor<br> 方案优缺点分析：</li>
+<li>优点：父线程和子线程的数据交互简单职责明确，父线程只需要接受新连接，子线程完成后续的业务处理。</li>
+<li>缺点：编程难度高。</li>
+<li>使用场景：这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持</li>
+</ol>
+<h1 id="6-Reactor模式小结"><a href="#6-Reactor模式小结" class="headerlink" title="6. Reactor模式小结"></a>6. Reactor模式小结</h1><ol>
+<li>单Reactor单线程，前台接待员和服务员是同一个人</li>
+<li>单Reactor多线程，1个前台接待员，多个服务员。</li>
+<li>主从Reactor多线程，多个前台接待员，多个服务员。<br> Reactor模式优点：</li>
+<li>响应快，不必为单个同步时间所阻塞，虽然 Reactor 本身依然是同步的</li>
+<li>可以最大程度的避免复杂的多线程及同步问题，并且避免了多线程&#x2F;进程的切换开销</li>
+<li>扩展性好，可以方便的通过增加 Reactor 实例个数来充分利用 CPU 资源</li>
+<li>复用性好，Reactor 模型本身与具体事件处理逻辑无关，具有很高的复用性</li>
+</ol>
+<h1 id="7-Netty模型"><a href="#7-Netty模型" class="headerlink" title="7. Netty模型"></a>7. Netty模型</h1><h2 id="7-1-Netty简单版"><a href="#7-1-Netty简单版" class="headerlink" title="7.1 Netty简单版"></a>7.1 Netty简单版</h2><p>Netty主要基于主从reactors多线程模型做了一定的改进，其中主从reactor多线程模型有多个reactor<br><img src="https://img-blog.csdnimg.cn/direct/62285359d91842e09074647489686b82.png" alt="在这里插入图片描述"><br>说明：</p>
+<ol>
+<li>BossGroup线程维护selector，他只关注accept</li>
+<li>当接收到accept事件后，获取到对应的socketchannel,封装成NIOsocketChannel并注册到worker线程（事件循环），并进行维护</li>
+<li>当worker线程监听到selector中通道发生自己感兴趣的事件后，就进行处理（hanlder）.注意handler已经加入到通道中。</li>
+</ol>
+<h2 id="7-2-Netty进阶版"><a href="#7-2-Netty进阶版" class="headerlink" title="7.2 Netty进阶版"></a>7.2 Netty进阶版</h2><p><img src="https://img-blog.csdnimg.cn/direct/8ed26c042902425693eabeed5abcb778.png" alt="在这里插入图片描述"></p>
+<h2 id="7-2-Netty详细版"><a href="#7-2-Netty详细版" class="headerlink" title="7.2 Netty详细版"></a>7.2 Netty详细版</h2><p><img src="https://img-blog.csdnimg.cn/direct/54650aabe032417da26ab851a9d34033.png" alt="在这里插入图片描述">说明：</p>
+<ol>
+<li>Netty抽象出两组线程池BossGroup专门负责接受客户端的连接，workerGroup专门负责网络的读写</li>
+<li>BossGroup和workerGroup类型都是NIOEventLoopGroup</li>
+<li>NIOEventLoopGroup 相当于是一个事件循环组，这个组中包含多个事件循环，每一个事件循环都是NIOEventLoop.</li>
+<li>NIOEventLoop表示一个不断循环的执行处理任务的线程，每个NIOEventLoop都有一个selector，用户监听绑定在其上的socket网络通讯。</li>
+<li>NIOEventLoopGroup可以有多个线程，即可以含有多个NIOEventLoop</li>
+<li>每个bossNIOEventLoop循环执行的步骤有三步</li>
+</ol>
+<ul>
+<li>轮询accept事件</li>
+<li>处理accept事件，与client建立连接，生成NIOsocketChannel并将其注册到某个wokerNIOEventLoop上的selector。</li>
+<li>处理任务队列的任务，即runAllTasks</li>
+</ul>
+<ol start="7">
+<li>每个workerNIOEventLOOP循环执行的步骤</li>
+</ol>
+<ul>
+<li>轮询read，write事件</li>
+<li>处理IO事件，即read,write事件，在对应NIOSocketChannel处理</li>
+<li>处理任务队列的任务，即runAllTasks</li>
+</ul>
+<ol start="8">
+<li>每个workerNIOEventLoop处理业务时，会使用pipeline（管道）pipeline中包含了channel，即通过pipeline可以获取到对应的管道，管道中维护了很多的处理器。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第四章Netty第三节handler&amp;pipeline&amp;ByteBuf</title>
-    <url>/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf/</url>
+    <url>/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf%20-%20%E5%89%AF%E6%9C%AC/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
 
 <h1 id="Handler-Pipeline"><a href="#Handler-Pipeline" class="headerlink" title="Handler &amp; Pipeline"></a>Handler &amp; Pipeline</h1><h2 id="Pipeline中执行顺序"><a href="#Pipeline中执行顺序" class="headerlink" title="Pipeline中执行顺序"></a>Pipeline中执行顺序</h2><p>ChannelHandler用来处理Channel上的各种事件，分为入站和出站。ChannelHandler被连成一串就是pipeline.</p>
@@ -1291,116 +1421,6 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 准备 EventLoop 对象</span></span><br><span class="line">       <span class="type">EventLoop</span> <span class="variable">eventLoop</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NioEventLoopGroup</span>().next();</span><br><span class="line">       <span class="comment">// 2. 可以主动创建 promise, 结果容器</span></span><br><span class="line">       DefaultPromise&lt;Integer&gt; promise = <span class="keyword">new</span> <span class="title class_">DefaultPromise</span>&lt;&gt;(eventLoop);</span><br><span class="line">       <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">           <span class="comment">// 3. 任意一个线程执行计算，计算完毕后向 promise 填充结果</span></span><br><span class="line">           log.debug(<span class="string">&quot;开始计算...&quot;</span>);</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> / <span class="number">0</span>;</span><br><span class="line">               Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">               promise.setSuccess(<span class="number">80</span>);</span><br><span class="line">           &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">               e.printStackTrace();</span><br><span class="line">               promise.setFailure(e);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">       &#125;).start();</span><br><span class="line">       <span class="comment">// 4. 接收结果的线程</span></span><br><span class="line">       log.debug(<span class="string">&quot;等待结果...&quot;</span>);</span><br><span class="line">       log.debug(<span class="string">&quot;结果是: &#123;&#125;&quot;</span>, promise.get());</span><br></pre></td></tr></table></figure>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">22:37:03 [DEBUG] [main] c.i.n.c.TestNettyPromise - 等待结果...</span><br><span class="line">22:37:03 [DEBUG] [Thread-0] c.i.n.c.TestNettyPromise - 开始计算...</span><br><span class="line">22:37:04 [DEBUG] [main] c.i.n.c.TestNettyPromise - 结果是: 80</span><br></pre></td></tr></table></figure>
 <p>后续netty一般都用Promise</p>
-]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-        <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第4章Netty第一节概述</title>
-    <url>/2022/12/19/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20Netty%20%E7%AC%AC%E4%B8%80%E8%8A%82%E6%A6%82%E8%BF%B0/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="1-原生NIO存在的问题"><a href="#1-原生NIO存在的问题" class="headerlink" title="1. 原生NIO存在的问题"></a>1. 原生NIO存在的问题</h1><ol>
-<li>NIO的类库和API繁杂，使用麻烦。需要熟练掌握Selector, ServerSocketChannel, SocketChannel, ByteBuffer等。</li>
-<li>开发工作量和难度都非常大：例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常流的处理等等。</li>
-</ol>
-<h1 id="2-Netty官方说明"><a href="#2-Netty官方说明" class="headerlink" title="2. Netty官方说明"></a>2. Netty官方说明</h1><p><img src="https://img-blog.csdnimg.cn/direct/237e97df88124b25b1418dbca5c1761b.png" alt="在这里插入图片描述"></p>
-<ol>
-<li>Netty 是由JBOSS提供的一个Java开源框架，Netty提供异步的，基于事件驱动的网络应用程序框架，用以快速开发高性能，高可靠的网络IO程序。</li>
-<li>Netty 可以帮助你快速、简单的开发出一个网络应用，相当于简化和流程化了 NIO 的开发过程。</li>
-<li>Netty 是目前最流行的 NIO 框架，Netty 在互联网领域、大数据分布式计算领域、游戏行业、通信行业等获得了广泛的应用，知名的 Elasticsearch 、Dubbo 框架内部都采用了 Netty。</li>
-</ol>
-<h1 id="3-Netty的优点"><a href="#3-Netty的优点" class="headerlink" title="3. Netty的优点"></a>3. Netty的优点</h1><ol>
-<li>设计优雅：适用于各种传输类型的统一 API 阻塞和非阻塞 Socket；基于灵活且可扩展的事件模型，可以清晰地分离关注点；高度可定制的线程模型 - 单线程，一个或多个线程池.</li>
-<li>高性能、吞吐量更高：延迟更低；减少资源消耗；最小化不必要的内存复制。</li>
-</ol>
-<h1 id="4-线程模型基本介绍"><a href="#4-线程模型基本介绍" class="headerlink" title="4. 线程模型基本介绍"></a>4. 线程模型基本介绍</h1><ol>
-<li>目前存在的线程模型：</li>
-</ol>
-<ul>
-<li>传统阻塞IO服务模型</li>
-<li>Reactor模式</li>
-</ul>
-<h1 id="5-Reactor模式"><a href="#5-Reactor模式" class="headerlink" title="5. Reactor模式"></a>5. Reactor模式</h1><h2 id="5-1-单Reactor单线程"><a href="#5-1-单Reactor单线程" class="headerlink" title="5.1 单Reactor单线程"></a>5.1 单Reactor单线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/6310bfd5bea34cb7aa2c35d76ca2899c.png" alt="在这里插入图片描述"><br>前面的群聊实例就是这种方式：服务器端用一个线程通过多路复用搞定所有的 IO 操作（包括连接，读、写等），编码简单，清晰明了，但是如果客户端连接数量较多，将无法支撑，前面的 NIO 案例就属于这种模型。	<br>方案优缺点分析：</p>
-<ol>
-<li>优点：模型简单，没有多线程，进程通信，资源竞争问题。全部在一个线程中完成。</li>
-<li>缺点：性能问题，只有一个线程，无法完全发挥多核CPU的性能</li>
-<li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li>
-</ol>
-<h2 id="5-2-单Reactor多线程"><a href="#5-2-单Reactor多线程" class="headerlink" title="5.2 单Reactor多线程"></a>5.2 单Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/d0df38f203dd478088f3eb30053b8502.png" alt="在这里插入图片描述"></p>
-<p>说明：</p>
-<ol>
-<li>Reactor对象通过select 监控客户端请求时间，收到事件后，通过dispatch进行分发。</li>
-<li>如果建立连接请求，则acceptor荣国accept处理请求，然后创建handler对象处理完成连接后的各种事件</li>
-<li>如果不是连接请求，则由reactor分发调用连接对应的handler处理。</li>
-<li>handler只负责响应事件，不做具体的业务处理，通过read读取数据后，分发给后面的worker线程池的某个线程处理任务。</li>
-<li>worker线程池会分配独立线程完成真正的业务，并将结果返回给handler.</li>
-<li>handler收到响应后，通过send将结果返回client<br> 方案优缺点分析：</li>
-<li>优点：可以充分利用多核cpu的处理能力</li>
-<li>缺点：多线程数据共享和访问比较复杂，reactor处理所有的事件的监听和响应，在单线程运行，在高并发场景容易出现性能瓶颈。</li>
-<li>使用场景：客户端的数量有限，业务处理非常快速，比如 Redis在业务处理的时间复杂度 O(1) 的情况</li>
-</ol>
-<h2 id="5-3-主从Reactor多线程"><a href="#5-3-主从Reactor多线程" class="headerlink" title="5.3 主从Reactor多线程"></a>5.3 主从Reactor多线程</h2><p><img src="https://img-blog.csdnimg.cn/direct/2bd1fe809ea04276b7c7a869731b6ba6.png" alt="在这里插入图片描述"></p>
-<p>说明：</p>
-<ol>
-<li>Reactor主线程MainReactor对象通过select监听连接事件，收到事件后，通过acceptor处理连接事件。</li>
-<li>当acceptor处理连接事件后，MainReactor将连接分配给SubReactor.</li>
-<li>subreactor将连接加入连接队列进行监听，并创建handler进行各种事件处理</li>
-<li>当有新事件发生时，subreactor调用对应的handler进行处理</li>
-<li>handler通过reade读取数据，分发给后面的worker线程池处理</li>
-<li>worker线程池分配独立的线程进行业务处理，并返回结果</li>
-<li>handler收到响应的结果后，再通过send将结果返回给client</li>
-<li>reactor主线程可以对应多个reactor子线程，即MainReactor可以关联多个subreactor<br> 方案优缺点分析：</li>
-<li>优点：父线程和子线程的数据交互简单职责明确，父线程只需要接受新连接，子线程完成后续的业务处理。</li>
-<li>缺点：编程难度高。</li>
-<li>使用场景：这种模型在许多项目中广泛使用，包括 Nginx 主从 Reactor 多进程模型，Memcached 主从多线程，Netty 主从多线程模型的支持</li>
-</ol>
-<h1 id="6-Reactor模式小结"><a href="#6-Reactor模式小结" class="headerlink" title="6. Reactor模式小结"></a>6. Reactor模式小结</h1><ol>
-<li>单Reactor单线程，前台接待员和服务员是同一个人</li>
-<li>单Reactor多线程，1个前台接待员，多个服务员。</li>
-<li>主从Reactor多线程，多个前台接待员，多个服务员。<br> Reactor模式优点：</li>
-<li>响应快，不必为单个同步时间所阻塞，虽然 Reactor 本身依然是同步的</li>
-<li>可以最大程度的避免复杂的多线程及同步问题，并且避免了多线程&#x2F;进程的切换开销</li>
-<li>扩展性好，可以方便的通过增加 Reactor 实例个数来充分利用 CPU 资源</li>
-<li>复用性好，Reactor 模型本身与具体事件处理逻辑无关，具有很高的复用性</li>
-</ol>
-<h1 id="7-Netty模型"><a href="#7-Netty模型" class="headerlink" title="7. Netty模型"></a>7. Netty模型</h1><h2 id="7-1-Netty简单版"><a href="#7-1-Netty简单版" class="headerlink" title="7.1 Netty简单版"></a>7.1 Netty简单版</h2><p>Netty主要基于主从reactors多线程模型做了一定的改进，其中主从reactor多线程模型有多个reactor<br><img src="https://img-blog.csdnimg.cn/direct/62285359d91842e09074647489686b82.png" alt="在这里插入图片描述"><br>说明：</p>
-<ol>
-<li>BossGroup线程维护selector，他只关注accept</li>
-<li>当接收到accept事件后，获取到对应的socketchannel,封装成NIOsocketChannel并注册到worker线程（事件循环），并进行维护</li>
-<li>当worker线程监听到selector中通道发生自己感兴趣的事件后，就进行处理（hanlder）.注意handler已经加入到通道中。</li>
-</ol>
-<h2 id="7-2-Netty进阶版"><a href="#7-2-Netty进阶版" class="headerlink" title="7.2 Netty进阶版"></a>7.2 Netty进阶版</h2><p><img src="https://img-blog.csdnimg.cn/direct/8ed26c042902425693eabeed5abcb778.png" alt="在这里插入图片描述"></p>
-<h2 id="7-2-Netty详细版"><a href="#7-2-Netty详细版" class="headerlink" title="7.2 Netty详细版"></a>7.2 Netty详细版</h2><p><img src="https://img-blog.csdnimg.cn/direct/54650aabe032417da26ab851a9d34033.png" alt="在这里插入图片描述">说明：</p>
-<ol>
-<li>Netty抽象出两组线程池BossGroup专门负责接受客户端的连接，workerGroup专门负责网络的读写</li>
-<li>BossGroup和workerGroup类型都是NIOEventLoopGroup</li>
-<li>NIOEventLoopGroup 相当于是一个事件循环组，这个组中包含多个事件循环，每一个事件循环都是NIOEventLoop.</li>
-<li>NIOEventLoop表示一个不断循环的执行处理任务的线程，每个NIOEventLoop都有一个selector，用户监听绑定在其上的socket网络通讯。</li>
-<li>NIOEventLoopGroup可以有多个线程，即可以含有多个NIOEventLoop</li>
-<li>每个bossNIOEventLoop循环执行的步骤有三步</li>
-</ol>
-<ul>
-<li>轮询accept事件</li>
-<li>处理accept事件，与client建立连接，生成NIOsocketChannel并将其注册到某个wokerNIOEventLoop上的selector。</li>
-<li>处理任务队列的任务，即runAllTasks</li>
-</ul>
-<ol start="7">
-<li>每个workerNIOEventLOOP循环执行的步骤</li>
-</ol>
-<ul>
-<li>轮询read，write事件</li>
-<li>处理IO事件，即read,write事件，在对应NIOSocketChannel处理</li>
-<li>处理任务队列的任务，即runAllTasks</li>
-</ul>
-<ol start="8">
-<li>每个workerNIOEventLoop处理业务时，会使用pipeline（管道）pipeline中包含了channel，即通过pipeline可以获取到对应的管道，管道中维护了很多的处理器。</li>
-</ol>
 ]]></content>
       <categories>
         <category>Netty</category>

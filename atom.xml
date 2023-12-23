@@ -6,7 +6,7 @@
   <link href="https://liuhsir.top/atom.xml" rel="self"/>
   
   <link href="https://liuhsir.top/"/>
-  <updated>2023-12-22T15:29:52.973Z</updated>
+  <updated>2023-12-23T08:37:56.933Z</updated>
   <id>https://liuhsir.top/</id>
   
   <author>
@@ -17,9 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>初学Netty SeverBootstrap和Bootstrap踩坑</title>
+    <link href="https://liuhsir.top/2022/12/23/Netty%20SeverBootstrap%E5%92%8CBootstrap%E8%B8%A9%E5%9D%91/"/>
+    <id>https://liuhsir.top/2022/12/23/Netty%20SeverBootstrap%E5%92%8CBootstrap%E8%B8%A9%E5%9D%91/</id>
+    <published>2022-12-23T08:37:25.000Z</published>
+    <updated>2023-12-23T08:37:56.933Z</updated>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="错误描述no-further-information-127-0-0-1-8090"><a href="#错误描述no-further-information-127-0-0-1-8090" class="headerlink" title="错误描述no further information: &#x2F;127.0.0.1:8090"></a>错误描述no further information: &#x2F;127.0.0.1:8090</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:8090</span><br></pre></td></tr></table></figure><h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>看到问题很明显，连接失败？刚开始以为是ip+端口号写错了，检查发现没有错误。<br>后来才发现server端ServerBootstrap写错成了客户端的BootStrap<br>将</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br></pre></td></tr></table></figure><p>修改为：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br></pre></td></tr></table></figure><h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>SeverBootstrap和Bootstrap都是Netty的启动类，他们的主要作用就是配置相关参数（IP,端口等）并启动整个Netty服务。<br>ServerBootstrap:<strong>用于服务端的启动</strong><br>Boostrap：<strong>用于客户端的启动</strong></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
+
+&lt;h1 id=&quot;错误描述no-further-information-127-0-0-1-8090&quot;&gt;&lt;a href=&quot;#错误描述no-further-information-127-</summary>
+      
+    
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/categories/Netty/"/>
+    
+    
+    <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
+    
+    <category term="NIO" scheme="https://liuhsir.top/tags/NIO/"/>
+    
+  </entry>
+  
+  <entry>
     <title>第四章Netty第三节handler&amp;pipeline&amp;ByteBuf</title>
-    <link href="https://liuhsir.top/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf/"/>
-    <id>https://liuhsir.top/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf/</id>
+    <link href="https://liuhsir.top/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf%20-%20%E5%89%AF%E6%9C%AC/"/>
+    <id>https://liuhsir.top/2022/12/22/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%B8%89%E8%8A%82handler&amp;pipeline&amp;ByteBuf%20-%20%E5%89%AF%E6%9C%AC/</id>
     <published>2022-12-22T15:29:25.000Z</published>
     <updated>2023-12-22T15:29:52.973Z</updated>
     
