@@ -40,117 +40,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C++字符串和数字相互转换(刷题必备)</title>
-    <url>/2021/12/23/C++%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2-%E5%88%B7%E9%A2%98%E5%BF%85%E5%A4%87/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="C-数字和字符串相互转换"><a href="#C-数字和字符串相互转换" class="headerlink" title="C++数字和字符串相互转换"></a>C++数字和字符串相互转换</h1><p>C++数字和字符串相互转换，此文详细介绍了两者互相转换的方法。通过内置函数和字符串流（对象）来实现转换。</p>
-<h2 id="数字转字符串"><a href="#数字转字符串" class="headerlink" title="数字转字符串"></a>数字转字符串</h2><h3 id="方法1：to-string-函数"><a href="#方法1：to-string-函数" class="headerlink" title="方法1：to_string()函数"></a>方法1：to_string()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	string num_s = <span class="built_in">to_string</span>(num);<span class="comment">//转换</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="方法2：ostringstream对象-str-函数"><a href="#方法2：ostringstream对象-str-函数" class="headerlink" title="方法2：ostringstream对象+str()函数"></a>方法2：ostringstream对象+str()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	ostringstream oss;<span class="comment">//字符输出流对象</span></span><br><span class="line">	oss &lt;&lt; num;<span class="comment">//将数字放入输出流对象中</span></span><br><span class="line">	string num_s = oss.<span class="built_in">str</span>();<span class="comment">//将其转换成string</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="字符串转数字"><a href="#字符串转数字" class="headerlink" title="字符串转数字"></a>字符串转数字</h2><h3 id="方法1：atoi-函数"><a href="#方法1：atoi-函数" class="headerlink" title="方法1：atoi()函数"></a>方法1：atoi()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int=<span class="built_in">stoi</span>(str.<span class="built_in">c_str</span>());<span class="comment">//字符转换成int</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="方法2：istringstream对象"><a href="#方法2：istringstream对象" class="headerlink" title="方法2：istringstream对象"></a>方法2：istringstream对象</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str= <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int;</span><br><span class="line">	<span class="function">istringstream  <span class="title">iss</span><span class="params">(str)</span></span>;<span class="comment">//字符串输入流对象</span></span><br><span class="line">	iss &gt;&gt; str_int;        <span class="comment">//字符串转换成int，通过输入流，将输入流中字符串的输入到int型就可以转换。</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p> <a href="http://c.biancheng.net/view/1527.html">http://c.biancheng.net/view/1527.html</a><br> <a href="https://www.bilibili.com/read/cv8350834">https://www.bilibili.com/read/cv8350834</a></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>初学Netty SeverBootstrap和Bootstrap踩坑</title>
-    <url>/2022/12/23/Netty%20SeverBootstrap%E5%92%8CBootstrap%E8%B8%A9%E5%9D%91/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="错误描述no-further-information-127-0-0-1-8090"><a href="#错误描述no-further-information-127-0-0-1-8090" class="headerlink" title="错误描述no further information: &#x2F;127.0.0.1:8090"></a>错误描述no further information: &#x2F;127.0.0.1:8090</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:8090</span><br></pre></td></tr></table></figure>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>看到问题很明显，连接失败？刚开始以为是ip+端口号写错了，检查发现没有错误。<br>后来才发现server端ServerBootstrap写错成了客户端的BootStrap<br>将</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br></pre></td></tr></table></figure>
-<p>修改为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br></pre></td></tr></table></figure>
-<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>SeverBootstrap和Bootstrap都是Netty的启动类，他们的主要作用就是配置相关参数（IP,端口等）并启动整个Netty服务。<br>ServerBootstrap:<strong>用于服务端的启动</strong><br>Boostrap：<strong>用于客户端的启动</strong></p>
-]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-        <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello Hexo</title>
-    <url>/2019/07/21/hello-Hexo/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<p>Clean and generate and deploy</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d --g</span><br></pre></td></tr></table></figure>
-
-<p>Don’t send referrer info to load image</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++类的继承方式探究</title>
-    <url>/2019/10/10/C++%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F%E6%8E%A2%E7%A9%B6/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h2 id="一，继承方式简介"><a href="#一，继承方式简介" class="headerlink" title="一，继承方式简介"></a>一，继承方式简介</h2><p><strong>1，三种继承方式：<br>公有继承<br>私有继承<br>保护继承<br>2，不同继承方式的影响主要体现在：<br>（1）派生类成员对基类成员的访问权限<br>（2）通过派生类对象对基类成员的访问权限</strong></p>
-<h2 id="二，公有继承"><a href="#二，公有继承" class="headerlink" title="二，公有继承"></a>二，公有继承</h2><p><strong>1，公有继承(public)<br>（1）继承的派生类访问控制<br>基类的public和protected成员可以直接访问，但是基类的private成员，不可直接访问。</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">getA</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> a; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> a;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="built_in">getA</span>();<span class="comment">//基类的public成员在派生类中访问属性不变</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		a = <span class="number">2</span>;<span class="comment">//基类的private成员在派生类中不可以访问，编译器报错</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		c = <span class="number">2</span>;<span class="comment">//基类的protected成员在派生类可以访问</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里强调一下基类的private成员，在派生类中不可直接访问。编译器会报错：<br><img src="https://img-blog.csdnimg.cn/20191010193437323.png" alt="在这里插入图片描述"></p>
-<p><strong>（2）通过派生类的对象：只能访问public成员。</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPublic</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing public member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPrivate</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing private member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing protected member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	B b;</span><br><span class="line">	b.<span class="built_in">testPublic</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过派生类的对象，只能访问基类public成员。其他成员是不可见的，如下图<br><img src="https://img-blog.csdnimg.cn/20191010194715729.png" alt="在这里插入图片描述"></p>
-<h2 id="三，私有继承（private）"><a href="#三，私有继承（private）" class="headerlink" title="三，私有继承（private）"></a>三，私有继承（private）</h2><p><strong>(1)派生类中的成员函数访问权限：<br>可以直接访问基类中的public和protected成员，但不能直接访问基类的private成员；下面设计实验验证：</strong><br><img src="https://img-blog.csdnimg.cn/20191010195942960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>报错如下：<br><img src="https://img-blog.csdnimg.cn/20191010200012195.png" alt="在这里插入图片描述"></p>
-<p><strong>(2)派生类的对象访问权限：<br>不能直接访问从基类继承的任何成员。这是因为基类的public和protected成员，被私有继承后，都以private身份出现在派生类中。<br>实验验证：</strong><br><img src="https://img-blog.csdnimg.cn/2019101020054456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="四，保护继承-protected"><a href="#四，保护继承-protected" class="headerlink" title="四，保护继承(protected)"></a>四，保护继承(protected)</h2><p><strong>（1）派生类中的成员函数访问权限：<br>可以直接访问基类中的public和protected成员，但不能直接访问基类的private成员，这点和public,private一样，但我们还需要实验验证一下：</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPublic</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing public member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPrivate</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing private member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing protected member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">protected</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123; <span class="built_in">testPublic</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123; <span class="built_in">testProtected</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123; <span class="built_in">testPrivate</span>(); &#125;<span class="comment">//基类的private成员在派生类中不可以访问，编译器报错</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>基类的私有成员在派生类还是不能访问<br><img src="https://img-blog.csdnimg.cn/20191010201119430.png" alt="在这里插入图片描述"></p>
-<p><strong>（2）通过派生类的对象：<br>不能直接访问从基类继承的任何成员。这是因为基类的public和protected成员继承后都以protected身份出现在派生类中。而protected成员在类外都是不能调用的。看一个例子：</strong><br><img src="https://img-blog.csdnimg.cn/20191010201711556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>（3）特点：<br>对建立其所在类对象的模块来说，它与 private 成员的性质相同。如下图解释：<br><img src="https://img-blog.csdnimg.cn/2019101020305984.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>对于其派生类来说，它与 public 成员的性质相同。见下例：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123; <span class="built_in">testProtected</span>(); &#125;<span class="comment">//对于其派生类来说，它与 public 成员的性质相同,即可以在类中被访问</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>既实现了数据隐藏，又方便继承，实现代码重用。</p>
-<h2 id="五，三者对比总结："><a href="#五，三者对比总结：" class="headerlink" title="五，三者对比总结："></a>五，三者对比总结：</h2><p><strong>看了这三种继承方式访问属性是不是有点晕？将三者继承方式进行对比总结一下，便于记忆。<br>1，三者共同点：不论以何种方式继承，派生类中成员函数都可以访问基类中public,protected成员，但是都不可以访问private成员。<br>2，不同点：除了公有继承方式通过派生类的对象可以访问基类中的pubic成员外（且只能访问public成员），其他继承方式在通过派生类的对象不可以访问基类中任何数据成员。</strong></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++函数章节知识点浅析</title>
     <url>/2019/10/04/C++%E5%87%BD%E6%95%B0%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B5%85%E6%9E%90/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -202,6 +91,117 @@
       </categories>
       <tags>
         <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++类的继承方式探究</title>
+    <url>/2019/10/10/C++%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F%E6%8E%A2%E7%A9%B6/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h2 id="一，继承方式简介"><a href="#一，继承方式简介" class="headerlink" title="一，继承方式简介"></a>一，继承方式简介</h2><p><strong>1，三种继承方式：<br>公有继承<br>私有继承<br>保护继承<br>2，不同继承方式的影响主要体现在：<br>（1）派生类成员对基类成员的访问权限<br>（2）通过派生类对象对基类成员的访问权限</strong></p>
+<h2 id="二，公有继承"><a href="#二，公有继承" class="headerlink" title="二，公有继承"></a>二，公有继承</h2><p><strong>1，公有继承(public)<br>（1）继承的派生类访问控制<br>基类的public和protected成员可以直接访问，但是基类的private成员，不可直接访问。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">getA</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> a; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> a;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="built_in">getA</span>();<span class="comment">//基类的public成员在派生类中访问属性不变</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		a = <span class="number">2</span>;<span class="comment">//基类的private成员在派生类中不可以访问，编译器报错</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		c = <span class="number">2</span>;<span class="comment">//基类的protected成员在派生类可以访问</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里强调一下基类的private成员，在派生类中不可直接访问。编译器会报错：<br><img src="https://img-blog.csdnimg.cn/20191010193437323.png" alt="在这里插入图片描述"></p>
+<p><strong>（2）通过派生类的对象：只能访问public成员。</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPublic</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing public member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPrivate</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing private member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing protected member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	B b;</span><br><span class="line">	b.<span class="built_in">testPublic</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过派生类的对象，只能访问基类public成员。其他成员是不可见的，如下图<br><img src="https://img-blog.csdnimg.cn/20191010194715729.png" alt="在这里插入图片描述"></p>
+<h2 id="三，私有继承（private）"><a href="#三，私有继承（private）" class="headerlink" title="三，私有继承（private）"></a>三，私有继承（private）</h2><p><strong>(1)派生类中的成员函数访问权限：<br>可以直接访问基类中的public和protected成员，但不能直接访问基类的private成员；下面设计实验验证：</strong><br><img src="https://img-blog.csdnimg.cn/20191010195942960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>报错如下：<br><img src="https://img-blog.csdnimg.cn/20191010200012195.png" alt="在这里插入图片描述"></p>
+<p><strong>(2)派生类的对象访问权限：<br>不能直接访问从基类继承的任何成员。这是因为基类的public和protected成员，被私有继承后，都以private身份出现在派生类中。<br>实验验证：</strong><br><img src="https://img-blog.csdnimg.cn/2019101020054456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="四，保护继承-protected"><a href="#四，保护继承-protected" class="headerlink" title="四，保护继承(protected)"></a>四，保护继承(protected)</h2><p><strong>（1）派生类中的成员函数访问权限：<br>可以直接访问基类中的public和protected成员，但不能直接访问基类的private成员，这点和public,private一样，但我们还需要实验验证一下：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPublic</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing public member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testPrivate</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing private member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="string">&quot;Testing protected member&quot;</span> &lt;&lt; endl; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">protected</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123; <span class="built_in">testPublic</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123; <span class="built_in">testProtected</span>(); &#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123; <span class="built_in">testPrivate</span>(); &#125;<span class="comment">//基类的private成员在派生类中不可以访问，编译器报错</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>基类的私有成员在派生类还是不能访问<br><img src="https://img-blog.csdnimg.cn/20191010201119430.png" alt="在这里插入图片描述"></p>
+<p><strong>（2）通过派生类的对象：<br>不能直接访问从基类继承的任何成员。这是因为基类的public和protected成员继承后都以protected身份出现在派生类中。而protected成员在类外都是不能调用的。看一个例子：</strong><br><img src="https://img-blog.csdnimg.cn/20191010201711556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>（3）特点：<br>对建立其所在类对象的模块来说，它与 private 成员的性质相同。如下图解释：<br><img src="https://img-blog.csdnimg.cn/2019101020305984.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0ODUwOTE3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>对于其派生类来说，它与 public 成员的性质相同。见下例：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">testProtected</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> :<span class="keyword">public</span> A &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123; <span class="built_in">testProtected</span>(); &#125;<span class="comment">//对于其派生类来说，它与 public 成员的性质相同,即可以在类中被访问</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>既实现了数据隐藏，又方便继承，实现代码重用。</p>
+<h2 id="五，三者对比总结："><a href="#五，三者对比总结：" class="headerlink" title="五，三者对比总结："></a>五，三者对比总结：</h2><p><strong>看了这三种继承方式访问属性是不是有点晕？将三者继承方式进行对比总结一下，便于记忆。<br>1，三者共同点：不论以何种方式继承，派生类中成员函数都可以访问基类中public,protected成员，但是都不可以访问private成员。<br>2，不同点：除了公有继承方式通过派生类的对象可以访问基类中的pubic成员外（且只能访问public成员），其他继承方式在通过派生类的对象不可以访问基类中任何数据成员。</strong></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>初学Netty SeverBootstrap和Bootstrap踩坑</title>
+    <url>/2022/12/23/Netty%20SeverBootstrap%E5%92%8CBootstrap%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="错误描述no-further-information-127-0-0-1-8090"><a href="#错误描述no-further-information-127-0-0-1-8090" class="headerlink" title="错误描述no further information: &#x2F;127.0.0.1:8090"></a>错误描述no further information: &#x2F;127.0.0.1:8090</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: /127.0.0.1:8090</span><br></pre></td></tr></table></figure>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>看到问题很明显，连接失败？刚开始以为是ip+端口号写错了，检查发现没有错误。<br>后来才发现server端ServerBootstrap写错成了客户端的BootStrap<br>将</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br></pre></td></tr></table></figure>
+<p>修改为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br></pre></td></tr></table></figure>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>SeverBootstrap和Bootstrap都是Netty的启动类，他们的主要作用就是配置相关参数（IP,端口等）并启动整个Netty服务。<br>ServerBootstrap:<strong>用于服务端的启动</strong><br>Boostrap：<strong>用于客户端的启动</strong></p>
+]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++字符串和数字相互转换(刷题必备)</title>
+    <url>/2021/12/23/C++%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2-%E5%88%B7%E9%A2%98%E5%BF%85%E5%A4%87/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="C-数字和字符串相互转换"><a href="#C-数字和字符串相互转换" class="headerlink" title="C++数字和字符串相互转换"></a>C++数字和字符串相互转换</h1><p>C++数字和字符串相互转换，此文详细介绍了两者互相转换的方法。通过内置函数和字符串流（对象）来实现转换。</p>
+<h2 id="数字转字符串"><a href="#数字转字符串" class="headerlink" title="数字转字符串"></a>数字转字符串</h2><h3 id="方法1：to-string-函数"><a href="#方法1：to-string-函数" class="headerlink" title="方法1：to_string()函数"></a>方法1：to_string()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	string num_s = <span class="built_in">to_string</span>(num);<span class="comment">//转换</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法2：ostringstream对象-str-函数"><a href="#方法2：ostringstream对象-str-函数" class="headerlink" title="方法2：ostringstream对象+str()函数"></a>方法2：ostringstream对象+str()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> num = <span class="number">12345</span>;</span><br><span class="line">	ostringstream oss;<span class="comment">//字符输出流对象</span></span><br><span class="line">	oss &lt;&lt; num;<span class="comment">//将数字放入输出流对象中</span></span><br><span class="line">	string num_s = oss.<span class="built_in">str</span>();<span class="comment">//将其转换成string</span></span><br><span class="line">	cout &lt;&lt; num_s.<span class="built_in">at</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="字符串转数字"><a href="#字符串转数字" class="headerlink" title="字符串转数字"></a>字符串转数字</h2><h3 id="方法1：atoi-函数"><a href="#方法1：atoi-函数" class="headerlink" title="方法1：atoi()函数"></a>方法1：atoi()函数</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str = <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int=<span class="built_in">stoi</span>(str.<span class="built_in">c_str</span>());<span class="comment">//字符转换成int</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="方法2：istringstream对象"><a href="#方法2：istringstream对象" class="headerlink" title="方法2：istringstream对象"></a>方法2：istringstream对象</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	string str= <span class="string">&quot;12345&quot;</span>;</span><br><span class="line">	<span class="type">int</span> str_int;</span><br><span class="line">	<span class="function">istringstream  <span class="title">iss</span><span class="params">(str)</span></span>;<span class="comment">//字符串输入流对象</span></span><br><span class="line">	iss &gt;&gt; str_int;        <span class="comment">//字符串转换成int，通过输入流，将输入流中字符串的输入到int型就可以转换。</span></span><br><span class="line">	cout &lt;&lt; str_int + <span class="number">1</span> &lt;&lt; endl;<span class="comment">//加1，是数字才能+1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p> <a href="http://c.biancheng.net/view/1527.html">http://c.biancheng.net/view/1527.html</a><br> <a href="https://www.bilibili.com/read/cv8350834">https://www.bilibili.com/read/cv8350834</a></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello Hexo</title>
+    <url>/2019/07/21/hello-Hexo/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>Clean and generate and deploy</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo d --g</span><br></pre></td></tr></table></figure>
+
+<p>Don’t send referrer info to load image</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;referrer&quot;</span> <span class="attr">content</span>=<span class="string">&quot;no-referrer&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -298,6 +298,36 @@
       </categories>
       <tags>
         <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>磁道扇区柱面是啥</title>
+    <url>/2021/12/14/%E7%A3%81%E9%81%93%E6%89%87%E5%8C%BA%E6%9F%B1%E9%9D%A2%E6%98%AF%E5%95%A5/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h2 id="磁道、扇区、盘片"><a href="#磁道、扇区、盘片" class="headerlink" title="磁道、扇区、盘片"></a>磁道、扇区、盘片</h2><p>首先，先在大脑中建立硬盘中专业术语到实物的映射。</p>
+<p>在脑海中建立硬盘的大致结构。简单来说硬盘就像一个一个盘子堆叠起来的结构。如下图。</p>
+<p><img src="https://img-blog.csdnimg.cn/5677b6b1c3934215a03be0d89caacc1b.png#pic_center" alt="在这里插入图片描述"></p>
+<p>在硬盘中，我们将类似每一个盘子的东西称作<strong>盘片</strong>。在这个盘片上会划分很多个同心圆，就像操场跑道一样的同心圆。如下图。<br><img src="https://img-blog.csdnimg.cn/961731fe77a149b58a9e6a0231222332.png#pic_center" alt="D:\桌面\博客\计算机基础知识补充\img\磁道-跑道.jpeg"></p>
+<p>我们这一条条跑道称为<strong>磁道</strong>。将每一条跑道划分为一个一个的扇形的小块，将小块称为<strong>扇区</strong>。如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/f57871be11674e728158e8892487c3b9.png#pic_center" alt="在这里插入图片描述"></p>
+<p>好了，有了这些基本的结构和术语类比，相信这些术语你能凭借字面意思就能想象他们的样子了。那下面内容对你轻而易举~</p>
+<h2 id="柱面、磁头"><a href="#柱面、磁头" class="headerlink" title="柱面、磁头"></a>柱面、磁头</h2><p>柱面就是<strong>每个磁道叠起来</strong>形成的一个柱面。如下图：</p>
+<p><img src="https://img-blog.csdnimg.cn/a981ada3723d433aa8ccc45f8be74380.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/a65e566e207a48fabe4825463e480b7f.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="重要结论"><a href="#重要结论" class="headerlink" title="重要结论"></a>重要结论</h2><ul>
+<li>柱面数 &#x3D; 一个盘面的磁道数</li>
+<li>磁头数 &#x3D; 盘面数</li>
+<li>一个盘面容量 &#x3D; 512（一个扇区容量） x 一个磁道的扇区数 x 一个盘面的磁道数 </li>
+<li>磁盘容量&#x3D;512 x 一个磁道扇区数 x 一个盘面的磁道数x磁头数</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/m0_37329910/article/details/85833252">图解磁盘</a></p>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>常识</tag>
       </tags>
   </entry>
   <entry>
@@ -460,76 +490,6 @@
       </tags>
   </entry>
   <entry>
-    <title>第三章 第三节NIO零拷贝</title>
-    <url>/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="1-NIO与零拷贝"><a href="#1-NIO与零拷贝" class="headerlink" title="1. NIO与零拷贝"></a>1. NIO与零拷贝</h1><h2 id="1-1-零拷贝基本介绍"><a href="#1-1-零拷贝基本介绍" class="headerlink" title="1.1 零拷贝基本介绍"></a>1.1 零拷贝基本介绍</h2><ol>
-<li>零拷贝是网络编程的关键，很多性能优化都离不开</li>
-<li>Java程序中，常用的零拷贝有mmap(内存映射)和sendFile。</li>
-</ol>
-<h3 id="传统的IO数据读写"><a href="#传统的IO数据读写" class="headerlink" title="传统的IO数据读写"></a>传统的IO数据读写</h3><p> 需要三次用户态和内核态切换<br> 4次内存的拷贝<br><img src="https://img-blog.csdnimg.cn/direct/3aca32ecdbea4b52bcd88e2ef8908cec.png" alt="在这里插入图片描述"></p>
-<h3 id="mmap优化"><a href="#mmap优化" class="headerlink" title="mmap优化"></a>mmap优化</h3><ol>
-<li>mmap经过内存映射（userbuffer 和 kernelbuffer 共享），将文件映射到内核缓冲区，同时，用户空间可以共享内核空间的数据（直接从内核空间buffer拷贝到内核空间socketbuffer）。这样，进行网络传输时，可以减少内核空间到用户空间的拷贝次数。<br>  <img src="https://img-blog.csdnimg.cn/direct/dc402123c3a64d2d84cbbf52aceb9ee1.png" alt="在这里插入图片描述"></li>
-</ol>
-<h3 id="sendFile优化（DMA-copy）"><a href="#sendFile优化（DMA-copy）" class="headerlink" title="sendFile优化（DMA copy）"></a>sendFile优化（DMA copy）</h3><ol>
-<li>linux2.1 ：数据不经过用户态，直接从内核缓冲区 &#x3D;&gt; socketBuffer &#x3D;&gt; protocal engin.，由于和用户态完全无关，就减少了一次上下文切换.<br><img src="https://img-blog.csdnimg.cn/direct/395bc55550aa4ef1a44de30c275b02c8.png" alt="在这里插入图片描述"></li>
-<li>linux2.4: 直接从内核缓冲区 &#x3D;&gt; 协议栈（拷贝到socketBuffer信息很少，忽略不计）<br>  <img src="https://img-blog.csdnimg.cn/direct/b283190e735f4eefa6e45bf4304437c5.png" alt="在这里插入图片描述"></li>
-</ol>
-<h3 id="零拷贝再次理解"><a href="#零拷贝再次理解" class="headerlink" title="零拷贝再次理解"></a>零拷贝再次理解</h3><ol>
-<li>零拷贝:指的是没有CPU拷贝。通过DMA拷贝。(所谓DMA拷贝就是通过其他硬件负责数据的转移，不需要CPU参与，解放了CPU。<a href="https://blog.csdn.net/Erica_1230/article/details/106130799">DMA copy 和 CPU copy</a>)</li>
-<li>零拷贝优势：更少的数据复制，减少上下文切换（内核态和用户态的切换）。</li>
-</ol>
-<h3 id="mmap-和-sendFile-的区别"><a href="#mmap-和-sendFile-的区别" class="headerlink" title="mmap 和 sendFile 的区别"></a>mmap 和 sendFile 的区别</h3><ol>
-<li>mmap适合小数据量读写，sendFile适合大文件传输</li>
-<li>sendFile可以利用DMA，减少cpu拷贝。mmap不能，它是用户buffer和内核buffer共享的。</li>
-</ol>
-<h2 id="1-2-案例"><a href="#1-2-案例" class="headerlink" title="1. 2 案例"></a>1. 2 案例</h2><p>使用NIO零拷贝方式传递（channel.transeferTo）一个大文件。速度快得多。</p>
-<h1 id="2-Java-AIO-基本介绍"><a href="#2-Java-AIO-基本介绍" class="headerlink" title="2. Java AIO 基本介绍"></a>2. Java AIO 基本介绍</h1><ol>
-<li>JDK1.7引入了AIO,采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时长较长的应用。</li>
-<li>目前AIO还没有广泛使用。netty是基于NIO的而不是AIO.</li>
-</ol>
-<h1 id="3-BIO-NIO-AIO-对比"><a href="#3-BIO-NIO-AIO-对比" class="headerlink" title="3. BIO NIO AIO 对比"></a>3. BIO NIO AIO 对比</h1><p><img src="https://img-blog.csdnimg.cn/direct/dfad9627ec7b470cbe56c62369dcf760.png" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-        <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>磁道扇区柱面是啥</title>
-    <url>/2021/12/14/%E7%A3%81%E9%81%93%E6%89%87%E5%8C%BA%E6%9F%B1%E9%9D%A2%E6%98%AF%E5%95%A5/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h2 id="磁道、扇区、盘片"><a href="#磁道、扇区、盘片" class="headerlink" title="磁道、扇区、盘片"></a>磁道、扇区、盘片</h2><p>首先，先在大脑中建立硬盘中专业术语到实物的映射。</p>
-<p>在脑海中建立硬盘的大致结构。简单来说硬盘就像一个一个盘子堆叠起来的结构。如下图。</p>
-<p><img src="https://img-blog.csdnimg.cn/5677b6b1c3934215a03be0d89caacc1b.png#pic_center" alt="在这里插入图片描述"></p>
-<p>在硬盘中，我们将类似每一个盘子的东西称作<strong>盘片</strong>。在这个盘片上会划分很多个同心圆，就像操场跑道一样的同心圆。如下图。<br><img src="https://img-blog.csdnimg.cn/961731fe77a149b58a9e6a0231222332.png#pic_center" alt="D:\桌面\博客\计算机基础知识补充\img\磁道-跑道.jpeg"></p>
-<p>我们这一条条跑道称为<strong>磁道</strong>。将每一条跑道划分为一个一个的扇形的小块，将小块称为<strong>扇区</strong>。如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/f57871be11674e728158e8892487c3b9.png#pic_center" alt="在这里插入图片描述"></p>
-<p>好了，有了这些基本的结构和术语类比，相信这些术语你能凭借字面意思就能想象他们的样子了。那下面内容对你轻而易举~</p>
-<h2 id="柱面、磁头"><a href="#柱面、磁头" class="headerlink" title="柱面、磁头"></a>柱面、磁头</h2><p>柱面就是<strong>每个磁道叠起来</strong>形成的一个柱面。如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/a981ada3723d433aa8ccc45f8be74380.png#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/a65e566e207a48fabe4825463e480b7f.png#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="重要结论"><a href="#重要结论" class="headerlink" title="重要结论"></a>重要结论</h2><ul>
-<li>柱面数 &#x3D; 一个盘面的磁道数</li>
-<li>磁头数 &#x3D; 盘面数</li>
-<li>一个盘面容量 &#x3D; 512（一个扇区容量） x 一个磁道的扇区数 x 一个盘面的磁道数 </li>
-<li>磁盘容量&#x3D;512 x 一个磁道扇区数 x 一个盘面的磁道数x磁头数</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/m0_37329910/article/details/85833252">图解磁盘</a></p>
-]]></content>
-      <categories>
-        <category>计算机基础</category>
-      </categories>
-      <tags>
-        <tag>常识</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>第三章 第一节JavaNIO编程</title>
     <url>/2022/12/16/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%B8%80%E8%8A%82JavaNIO%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -668,6 +628,46 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ServerSocketChannel</span> <span class="keyword">extends</span> <span class="title class_">AbstractSelectableChannel</span> <span class="keyword">implements</span> <span class="title class_">NetworkChannel</span>&#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ServerSocketChannel <span class="title function_">open</span><span class="params">()</span><span class="comment">//得到一个 ServerSocketChannel 通道</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> ServerSocketChannel <span class="title function_">bind</span><span class="params">(SocketAddress local)</span><span class="comment">//设置服务器端端口号</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> SelectableChannel <span class="title function_">configureBlocking</span><span class="params">(<span class="type">boolean</span> block)</span><span class="comment">//设置阻塞或非阻塞模式，取值 false 表示采用非阻塞模式</span></span><br><span class="line"><span class="keyword">public</span> SocketChannel <span class="title function_">accept</span><span class="params">()</span><span class="comment">//接受一个连接，返回代表这个连接的通道对象</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> SelectionKey <span class="title function_">register</span><span class="params">(Selector sel, <span class="type">int</span> ops)</span><span class="comment">//注册一个选择器并设置监听事件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="6-6-2-SocketChannel"><a href="#6-6-2-SocketChannel" class="headerlink" title="6.6.2 SocketChannel"></a>6.6.2 SocketChannel</h3><p>网络IOchannel，负责进行读写操作。可以将数据读或写入通道。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">SocketChannel</span> <span class="keyword">extends</span> <span class="title class_">AbstractSelectableChannel</span> <span class="keyword">implements</span> <span class="title class_">ByteChannel</span>, ScatteringByteChannel, GatheringByteChannel, NetworkChannel&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> SocketChannel <span class="title function_">open</span><span class="params">()</span>;<span class="comment">//得到一个 SocketChannel 通道</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> SelectableChannel <span class="title function_">configureBlocking</span><span class="params">(<span class="type">boolean</span> block)</span>;<span class="comment">//设置阻塞或非阻塞模式，取值 false 表示采用非阻塞模式</span></span><br><span class="line">	<span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">connect</span><span class="params">(SocketAddress remote)</span>;<span class="comment">//连接服务器</span></span><br><span class="line">	<span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">finishConnect</span><span class="params">()</span>;<span class="comment">//如果上面的方法连接失败，接下来就要通过该方法完成连接操作</span></span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">write</span><span class="params">(ByteBuffer src)</span>;<span class="comment">//往通道里写数据</span></span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">read</span><span class="params">(ByteBuffer dst)</span>;<span class="comment">//从通道里读数据</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> SelectionKey <span class="title function_">register</span><span class="params">(Selector sel, <span class="type">int</span> ops, Object att)</span>;<span class="comment">//注册一个选择器并设置监听事件，最后一个参数可以设置共享数据</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span>;<span class="comment">//关闭通道</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第三章 第三节NIO零拷贝</title>
+    <url>/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="1-NIO与零拷贝"><a href="#1-NIO与零拷贝" class="headerlink" title="1. NIO与零拷贝"></a>1. NIO与零拷贝</h1><h2 id="1-1-零拷贝基本介绍"><a href="#1-1-零拷贝基本介绍" class="headerlink" title="1.1 零拷贝基本介绍"></a>1.1 零拷贝基本介绍</h2><ol>
+<li>零拷贝是网络编程的关键，很多性能优化都离不开</li>
+<li>Java程序中，常用的零拷贝有mmap(内存映射)和sendFile。</li>
+</ol>
+<h3 id="传统的IO数据读写"><a href="#传统的IO数据读写" class="headerlink" title="传统的IO数据读写"></a>传统的IO数据读写</h3><p> 需要三次用户态和内核态切换<br> 4次内存的拷贝<br><img src="https://img-blog.csdnimg.cn/direct/3aca32ecdbea4b52bcd88e2ef8908cec.png" alt="在这里插入图片描述"></p>
+<h3 id="mmap优化"><a href="#mmap优化" class="headerlink" title="mmap优化"></a>mmap优化</h3><ol>
+<li>mmap经过内存映射（userbuffer 和 kernelbuffer 共享），将文件映射到内核缓冲区，同时，用户空间可以共享内核空间的数据（直接从内核空间buffer拷贝到内核空间socketbuffer）。这样，进行网络传输时，可以减少内核空间到用户空间的拷贝次数。<br>  <img src="https://img-blog.csdnimg.cn/direct/dc402123c3a64d2d84cbbf52aceb9ee1.png" alt="在这里插入图片描述"></li>
+</ol>
+<h3 id="sendFile优化（DMA-copy）"><a href="#sendFile优化（DMA-copy）" class="headerlink" title="sendFile优化（DMA copy）"></a>sendFile优化（DMA copy）</h3><ol>
+<li>linux2.1 ：数据不经过用户态，直接从内核缓冲区 &#x3D;&gt; socketBuffer &#x3D;&gt; protocal engin.，由于和用户态完全无关，就减少了一次上下文切换.<br><img src="https://img-blog.csdnimg.cn/direct/395bc55550aa4ef1a44de30c275b02c8.png" alt="在这里插入图片描述"></li>
+<li>linux2.4: 直接从内核缓冲区 &#x3D;&gt; 协议栈（拷贝到socketBuffer信息很少，忽略不计）<br>  <img src="https://img-blog.csdnimg.cn/direct/b283190e735f4eefa6e45bf4304437c5.png" alt="在这里插入图片描述"></li>
+</ol>
+<h3 id="零拷贝再次理解"><a href="#零拷贝再次理解" class="headerlink" title="零拷贝再次理解"></a>零拷贝再次理解</h3><ol>
+<li>零拷贝:指的是没有CPU拷贝。通过DMA拷贝。(所谓DMA拷贝就是通过其他硬件负责数据的转移，不需要CPU参与，解放了CPU。<a href="https://blog.csdn.net/Erica_1230/article/details/106130799">DMA copy 和 CPU copy</a>)</li>
+<li>零拷贝优势：更少的数据复制，减少上下文切换（内核态和用户态的切换）。</li>
+</ol>
+<h3 id="mmap-和-sendFile-的区别"><a href="#mmap-和-sendFile-的区别" class="headerlink" title="mmap 和 sendFile 的区别"></a>mmap 和 sendFile 的区别</h3><ol>
+<li>mmap适合小数据量读写，sendFile适合大文件传输</li>
+<li>sendFile可以利用DMA，减少cpu拷贝。mmap不能，它是用户buffer和内核buffer共享的。</li>
+</ol>
+<h2 id="1-2-案例"><a href="#1-2-案例" class="headerlink" title="1. 2 案例"></a>1. 2 案例</h2><p>使用NIO零拷贝方式传递（channel.transeferTo）一个大文件。速度快得多。</p>
+<h1 id="2-Java-AIO-基本介绍"><a href="#2-Java-AIO-基本介绍" class="headerlink" title="2. Java AIO 基本介绍"></a>2. Java AIO 基本介绍</h1><ol>
+<li>JDK1.7引入了AIO,采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时长较长的应用。</li>
+<li>目前AIO还没有广泛使用。netty是基于NIO的而不是AIO.</li>
+</ol>
+<h1 id="3-BIO-NIO-AIO-对比"><a href="#3-BIO-NIO-AIO-对比" class="headerlink" title="3. BIO NIO AIO 对比"></a>3. BIO NIO AIO 对比</h1><p><img src="https://img-blog.csdnimg.cn/direct/dfad9627ec7b470cbe56c62369dcf760.png" alt="在这里插入图片描述"></p>
+]]></content>
       <categories>
         <category>Netty</category>
       </categories>
@@ -1306,6 +1306,24 @@
       </tags>
   </entry>
   <entry>
+    <title>第四章Netty第四节案例实现echo server</title>
+    <url>/2022/12/23/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E5%9B%9B%E8%8A%82%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0echo%20server/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>实现一个echo server。通俗的说就是客户端发送什么就会接受到什么。echo的意思“回声”。</p>
+<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br><span class="line">               .group(<span class="keyword">new</span> <span class="title class_">NioEventLoopGroup</span>())</span><br><span class="line">               .channel(NioServerSocketChannel.class)</span><br><span class="line">               .childHandler(<span class="keyword">new</span> <span class="title class_">ChannelInitializer</span>&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initChannel</span><span class="params">(NioSocketChannel ch)</span> &#123;</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">ChannelInboundHandlerAdapter</span>()&#123;</span><br><span class="line">                           <span class="meta">@Override</span></span><br><span class="line">                           <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> &#123;</span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">buffer</span> <span class="operator">=</span> (ByteBuf) msg;</span><br><span class="line">                               System.out.println(buffer.toString(Charset.defaultCharset()));</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 建议使用 ctx.alloc() 创建 ByteBuf</span></span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">response</span> <span class="operator">=</span> ctx.alloc().buffer();</span><br><span class="line">                               response.writeBytes(buffer);</span><br><span class="line">                               ctx.writeAndFlush(response);</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 思考：需要释放 buffer 吗</span></span><br><span class="line">                               buffer.release();<span class="comment">// 没有向后传递了，所以应该释放？</span></span><br><span class="line">                               <span class="comment">// 思考：需要释放 response 吗</span></span><br><span class="line">                               response.release();<span class="comment">// 没有向后传递了，所以应该释放？</span></span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;).bind(<span class="number">8090</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">NioEventLoopGroup</span> <span class="variable">group</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NioEventLoopGroup</span>();</span><br><span class="line">       <span class="type">Channel</span> <span class="variable">channel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br><span class="line">               .group(group)</span><br><span class="line">               .channel(NioSocketChannel.class)</span><br><span class="line">               .handler(<span class="keyword">new</span> <span class="title class_">ChannelInitializer</span>&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initChannel</span><span class="params">(NioSocketChannel ch)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">StringEncoder</span>());</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">ChannelInboundHandlerAdapter</span>() &#123;</span><br><span class="line">                           <span class="meta">@Override</span></span><br><span class="line">                           <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">buffer</span> <span class="operator">=</span> (ByteBuf) msg;</span><br><span class="line">                               System.out.println(buffer.toString(Charset.defaultCharset()));</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 思考：需要释放 buffer 吗</span></span><br><span class="line">                               buffer.release();<span class="comment">//可以释放。不释放，tail会释放。能自己释放还是自己释放。</span></span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;).connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8090</span>).sync().channel();</span><br><span class="line">       channel.closeFuture().addListener(future -&gt; &#123;</span><br><span class="line">           group.shutdownGracefully();</span><br><span class="line">       &#125;);</span><br><span class="line">       <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">           <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">           <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">               <span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> scanner.nextLine();</span><br><span class="line">               <span class="keyword">if</span> (<span class="string">&quot;q&quot;</span>.equals(line)) &#123;</span><br><span class="line">                   channel.close();</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               channel.writeAndFlush(line);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;).start();</span><br></pre></td></tr></table></figure>
+<h1 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h1><p>客户端打印输出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">hey</span><br><span class="line">hey</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第四章Netty第二节入门案例+channel,future,promise介绍</title>
     <url>/2022/12/21/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E4%BA%8C%E8%8A%82%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B+%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
@@ -1529,24 +1547,6 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">22:37:03 [DEBUG] [main] c.i.n.c.TestNettyPromise - 等待结果...</span><br><span class="line">22:37:03 [DEBUG] [Thread-0] c.i.n.c.TestNettyPromise - 开始计算...</span><br><span class="line">22:37:04 [DEBUG] [main] c.i.n.c.TestNettyPromise - 结果是: 80</span><br></pre></td></tr></table></figure>
 <p>后续netty一般都用Promise</p>
 ]]></content>
-      <categories>
-        <category>Netty</category>
-      </categories>
-      <tags>
-        <tag>Netty</tag>
-        <tag>NIO</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第四章Netty第四节案例实现echo server</title>
-    <url>/2022/12/23/%E7%AC%AC%E5%9B%9B%E7%AB%A0Netty%E7%AC%AC%E5%9B%9B%E8%8A%82%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0echo%20server/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
-
-<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>实现一个echo server。通俗的说就是客户端发送什么就会接受到什么。echo的意思“回声”。</p>
-<h1 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">ServerBootstrap</span>()</span><br><span class="line">               .group(<span class="keyword">new</span> <span class="title class_">NioEventLoopGroup</span>())</span><br><span class="line">               .channel(NioServerSocketChannel.class)</span><br><span class="line">               .childHandler(<span class="keyword">new</span> <span class="title class_">ChannelInitializer</span>&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initChannel</span><span class="params">(NioSocketChannel ch)</span> &#123;</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">ChannelInboundHandlerAdapter</span>()&#123;</span><br><span class="line">                           <span class="meta">@Override</span></span><br><span class="line">                           <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> &#123;</span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">buffer</span> <span class="operator">=</span> (ByteBuf) msg;</span><br><span class="line">                               System.out.println(buffer.toString(Charset.defaultCharset()));</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 建议使用 ctx.alloc() 创建 ByteBuf</span></span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">response</span> <span class="operator">=</span> ctx.alloc().buffer();</span><br><span class="line">                               response.writeBytes(buffer);</span><br><span class="line">                               ctx.writeAndFlush(response);</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 思考：需要释放 buffer 吗</span></span><br><span class="line">                               buffer.release();<span class="comment">// 没有向后传递了，所以应该释放？</span></span><br><span class="line">                               <span class="comment">// 思考：需要释放 response 吗</span></span><br><span class="line">                               response.release();<span class="comment">// 没有向后传递了，所以应该释放？</span></span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;).bind(<span class="number">8090</span>);</span><br></pre></td></tr></table></figure>
-<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">NioEventLoopGroup</span> <span class="variable">group</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">NioEventLoopGroup</span>();</span><br><span class="line">       <span class="type">Channel</span> <span class="variable">channel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bootstrap</span>()</span><br><span class="line">               .group(group)</span><br><span class="line">               .channel(NioSocketChannel.class)</span><br><span class="line">               .handler(<span class="keyword">new</span> <span class="title class_">ChannelInitializer</span>&lt;NioSocketChannel&gt;() &#123;</span><br><span class="line">                   <span class="meta">@Override</span></span><br><span class="line">                   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initChannel</span><span class="params">(NioSocketChannel ch)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">StringEncoder</span>());</span><br><span class="line">                       ch.pipeline().addLast(<span class="keyword">new</span> <span class="title class_">ChannelInboundHandlerAdapter</span>() &#123;</span><br><span class="line">                           <span class="meta">@Override</span></span><br><span class="line">                           <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                               <span class="type">ByteBuf</span> <span class="variable">buffer</span> <span class="operator">=</span> (ByteBuf) msg;</span><br><span class="line">                               System.out.println(buffer.toString(Charset.defaultCharset()));</span><br><span class="line"></span><br><span class="line">                               <span class="comment">// 思考：需要释放 buffer 吗</span></span><br><span class="line">                               buffer.release();<span class="comment">//可以释放。不释放，tail会释放。能自己释放还是自己释放。</span></span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;).connect(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8090</span>).sync().channel();</span><br><span class="line">       channel.closeFuture().addListener(future -&gt; &#123;</span><br><span class="line">           group.shutdownGracefully();</span><br><span class="line">       &#125;);</span><br><span class="line">       <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">           <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">           <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">               <span class="type">String</span> <span class="variable">line</span> <span class="operator">=</span> scanner.nextLine();</span><br><span class="line">               <span class="keyword">if</span> (<span class="string">&quot;q&quot;</span>.equals(line)) &#123;</span><br><span class="line">                   channel.close();</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">               channel.writeAndFlush(line);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;).start();</span><br></pre></td></tr></table></figure>
-<h1 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h1><p>客户端打印输出</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">hey</span><br><span class="line">hey</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Netty</category>
       </categories>
