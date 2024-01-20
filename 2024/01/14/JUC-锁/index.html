@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JUC-锁 | 坚韧的长线「串联」散落的珍珠</title><meta name="author" content="--believe"><meta name="copyright" content="--believe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="乐观锁和悲观锁悲观锁当一个线程在操作资源的时候，会悲观的任务有其他的线程会来抢占该资源，因此会在操作资源前进行加锁，避免其他线程抢占。Synchronized关键字和Lock实现类就是悲观锁。显示的锁定资源后再对资源进行操作。使用场景：  适合写操作多的场景。先加锁能够保证写操作时数据正确  本质：加锁去操作同步资源。 乐观锁当一个线程去操作资源的时候，会乐观的任务其他线程不会来抢占资源，因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JUC-锁">
+<meta property="og:url" content="https://liuhsir.top/2024/01/14/JUC-%E9%94%81/index.html">
+<meta property="og:site_name" content="坚韧的长线「串联」散落的珍珠">
+<meta property="og:description" content="乐观锁和悲观锁悲观锁当一个线程在操作资源的时候，会悲观的任务有其他的线程会来抢占该资源，因此会在操作资源前进行加锁，避免其他线程抢占。Synchronized关键字和Lock实现类就是悲观锁。显示的锁定资源后再对资源进行操作。使用场景：  适合写操作多的场景。先加锁能够保证写操作时数据正确  本质：加锁去操作同步资源。 乐观锁当一个线程去操作资源的时候，会乐观的任务其他线程不会来抢占资源，因">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png">
+<meta property="article:published_time" content="2024-01-14T10:18:25.000Z">
+<meta property="article:modified_time" content="2024-01-15T02:07:10.123Z">
+<meta property="article:author" content="--believe">
+<meta property="article:tag" content="JUC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liuhsir.top/2024/01/14/JUC-%E9%94%81/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JUC-锁',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-01-15 10:07:10'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="坚韧的长线「串联」散落的珍珠" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="坚韧的长线「串联」散落的珍珠"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">JUC-锁</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-01-14T10:18:25.000Z" title="发表于 2024-01-14 18:18:25">2024-01-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-15T02:07:10.123Z" title="更新于 2024-01-15 10:07:10">2024-01-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JUC/">JUC</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JUC-锁"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/> 
+
+<h1 id="乐观锁和悲观锁"><a href="#乐观锁和悲观锁" class="headerlink" title="乐观锁和悲观锁"></a>乐观锁和悲观锁</h1><h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><p>当一个线程在操作资源的时候，会悲观的任务有其他的线程会来抢占该资源，因此会在操作资源前进行加锁，避免其他线程抢占。<br>Synchronized关键字和Lock实现类就是悲观锁。<br>显示的锁定资源后再对资源进行操作。<br><strong>使用场景：</strong></p>
+<ul>
+<li>适合写操作多的场景。先加锁能够保证写操作时数据正确</li>
+</ul>
+<p><strong>本质：</strong><br>加锁去操作同步资源。</p>
+<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>当一个线程去操作资源的时候，会乐观的任务其他线程不会来抢占资源，因此不会加锁。<br>java中通过无锁编程来实现，只是在对数据进行修改的时候，判断其他线程是否对该数据进行修改过</p>
+<ul>
+<li>如果没有修改过，该线程直接修改数据。</li>
+<li>如果修改过，该线程则根据不同的实现方式执行不同的操作，比如放弃修改，重试抢锁等等。</li>
+</ul>
+<p>原子操作类那些底层的是CAS(Compare And swap)算法，也就是乐观锁。<br><strong>判断规则：</strong></p>
+<ul>
+<li>版本号机制Version（每修改一次版本号递增，当前版本号是最大的，可以直接修改。不是最大的，意味着别人修改过了，我的修改要重新处理）</li>
+<li>最常采用的是CAS算法（后面会详细讲，这里略）</li>
+</ul>
+<p><strong>使用场景：</strong><br>乐观锁适合读操作多的场景，不加锁读操作性能大幅提升<br><strong>本质：</strong><br>无锁去操作同步资源。</p>
+<h1 id="乐观锁和悲观锁举例"><a href="#乐观锁和悲观锁举例" class="headerlink" title="乐观锁和悲观锁举例"></a>乐观锁和悲观锁举例</h1><p>乐观锁：Synchronized和Lock的实现类<br>悲观锁：原子操作的类<br><img src="https://img-blog.csdnimg.cn/direct/82617594cb364fb69f046175f4d8e9b0.png" alt="在这里插入图片描述"></p>
+<h1 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h1><h2 id="阿里加锁规范"><a href="#阿里加锁规范" class="headerlink" title="阿里加锁规范"></a>阿里加锁规范</h2><p>高并发时，同步调用时需要考虑加锁性能损耗。能用无锁数据结构就用无锁数据结构。能用块锁，就不要锁方法体。能用对象锁，就不要用类锁。<br>（尽可能让锁的代码块尽可能小，避免锁造成不必要的性能开销）</p>
+<h2 id="Synchronized三种作用方式"><a href="#Synchronized三种作用方式" class="headerlink" title="Synchronized三种作用方式"></a>Synchronized三种作用方式</h2><p>作用于实例方法：当前实例加锁，进入实例前要获取当前实例的锁对象。<br>作用于代码块：对括号里的对象进行加锁。<br>作用于静态方法（类方法）：对当前类加锁，进去同步代码前要获得当前对象的锁。</p>
+<h2 id="Synchronized作用于非静态方法和静态方法的区别（重要）"><a href="#Synchronized作用于非静态方法和静态方法的区别（重要）" class="headerlink" title="Synchronized作用于非静态方法和静态方法的区别（重要）"></a>Synchronized作用于非静态方法和静态方法的区别（重要）</h2><p><strong>类中Synchronized修饰非静态方法（对象锁）</strong></p>
+<ul>
+<li>加的锁为this对象锁。 </li>
+<li>一个对象只有一把对象锁，因此多个线程执行一个对象的非静态同步方法时，存在竞争关系。先获得对象锁的线程先执行。（不同对象不会有竞争）</li>
+<li>不同对象有不同的对象锁，线程如果持有不同对象锁，线程间无竞争的关系。</li>
+</ul>
+<p><strong>类中Synchronized修饰静态方法（类锁）</strong></p>
+<ul>
+<li>加的锁为类锁。 </li>
+<li>先获得类锁的线程先执行。多个线程执行同一个类模板的不同对象的静态同步方法的时候，存在竞争关系。先获得类锁的线程先执行。（同一个对象会竞争，不同对象也会竞争）</li>
+<li>不同类有不同的类锁，线程如果持有不同的类锁，线程间无竞争关系</li>
+<li>一个对象的类锁和对象锁是不同的锁。一个线程持有类锁，一个线程持有对象锁，线程间无竞争关系。</li>
+</ul>
+<p> <strong>类中无Syncronize修饰的方法（和锁无关）</strong><br> 线程执行该方法不需要获得锁，直接执行就行了。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Phone</span> <span class="comment">//资源类</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">sendEmail</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123; TimeUnit.SECONDS.sleep(<span class="number">3</span>); &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; e.printStackTrace(); &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----sendEmail&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">sendSMS</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-----sendSMS&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;-------hello&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 题目：谈谈你对多线程锁的理解,8锁案例说明</span></span><br><span class="line"><span class="comment"> * 口诀：线程   操作  资源类</span></span><br><span class="line"><span class="comment"> * 8锁案例说明：</span></span><br><span class="line"><span class="comment"> * 1 标准访问有ab两个线程，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 2 sendEmail方法中加入暂停3秒钟，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 3 添加一个普通的hello方法，请问先打印邮件还是hello</span></span><br><span class="line"><span class="comment"> * 4 有两部手机，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 5 有两个静态同步方法，有1部手机，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 6 有两个静态同步方法，有2部手机，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 7 有1个静态同步方法，有1个普通同步方法,有1部手机，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> * 8 有1个静态同步方法，有1个普通同步方法,有2部手机，请问先打印邮件还是短信</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 笔记总结：</span></span><br><span class="line"><span class="comment"> * 1-2(对象锁)</span></span><br><span class="line"><span class="comment"> *  *  *  一个对象里面如果有多个synchronized方法，某一个时刻内，只要一个线程去调用其中的一个synchronized方法了，</span></span><br><span class="line"><span class="comment"> *  *  *  其它的线程都只能等待，换句话说，某一个时刻内，只能有唯一的一个线程去访问这些synchronized方法</span></span><br><span class="line"><span class="comment"> *  *  *  锁的是当前对象this，被锁定后，其它的线程都不能进入到当前对象的其它的synchronized方法</span></span><br><span class="line"><span class="comment"> *  3-4</span></span><br><span class="line"><span class="comment"> *  *  加个普通方法后发现和同步锁无关</span></span><br><span class="line"><span class="comment"> *  *  换成两个对象后，不是同一把锁了，情况立刻变化。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *  5-6（类锁） 都换成静态同步方法后，情况又变化</span></span><br><span class="line"><span class="comment"> *  三种 synchronized 锁的内容有一些差别:</span></span><br><span class="line"><span class="comment"> * 对于普通同步方法，锁的是当前实例对象，通常指this,具体的一部部手机,所有的普通同步方法用的都是同一把锁——&gt;实例对象本身，</span></span><br><span class="line"><span class="comment"> * 对于静态同步方法，锁的是当前类的Class对象，如Phone.class唯一的一个模板</span></span><br><span class="line"><span class="comment"> * 对于同步方法块，锁的是 synchronized 括号内的对象</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * *  7-8</span></span><br><span class="line"><span class="comment"> *  *    当一个线程试图访问同步代码时它首先必须得到锁，正常退出或抛出异常时必须释放锁。</span></span><br><span class="line"><span class="comment"> *  *  *</span></span><br><span class="line"><span class="comment"> *  *  *  所有的普通同步方法用的都是同一把锁——实例对象本身，就是new出来的具体实例对象本身,本类this</span></span><br><span class="line"><span class="comment"> *  *  *  也就是说如果一个实例对象的普通同步方法获取锁后，该实例对象的其他普通同步方法必须等待获取锁的方法释放锁后才能获取锁。</span></span><br><span class="line"><span class="comment"> *  *  *</span></span><br><span class="line"><span class="comment"> *  *  *  所有的静态同步方法用的也是同一把锁——类对象本身，就是我们说过的唯一模板Class</span></span><br><span class="line"><span class="comment"> *  *  *  具体实例对象this和唯一模板Class，这两把锁是两个不同的对象，所以静态同步方法与普通同步方法之间是不会有竞态条件的</span></span><br><span class="line"><span class="comment"> *  *  *  但是一旦一个静态同步方法获取锁后，其他的静态同步方法都必须等待该方法释放锁后才能获取锁。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Lock8Demo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span><span class="comment">//一切程序的入口</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">Phone</span> <span class="variable">phone</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phone</span>();</span><br><span class="line">        <span class="type">Phone</span> <span class="variable">phone2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Phone</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            phone.sendEmail();</span><br><span class="line">        &#125;,<span class="string">&quot;a&quot;</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//暂停毫秒,保证a线程先启动</span></span><br><span class="line">        <span class="keyword">try</span> &#123; TimeUnit.MILLISECONDS.sleep(<span class="number">200</span>); &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; e.printStackTrace(); &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            phone.sendSMS();</span><br><span class="line"><span class="comment">//            phone.hello();</span></span><br><span class="line"><span class="comment">//            phone2.sendSMS();</span></span><br><span class="line">        &#125;,<span class="string">&quot;b&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="字节码角度分析Synchronized"><a href="#字节码角度分析Synchronized" class="headerlink" title="字节码角度分析Synchronized"></a>字节码角度分析Synchronized</h2><h3 id="查看反汇编："><a href="#查看反汇编：" class="headerlink" title="查看反汇编："></a>查看反汇编：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -c *.java<span class="comment">// -c对代码进行反汇编。 -v (verbose)输出附加信息行号，本地变量表，反汇编</span></span><br></pre></td></tr></table></figure>
+<h3 id="synchronized同步代码块"><a href="#synchronized同步代码块" class="headerlink" title="synchronized同步代码块"></a>synchronized同步代码块</h3><ul>
+<li>实现使用的是monitorenter和monitorexit。monitorenter代表获得锁对象，monitorexit代表释放锁对象。</li>
+<li>通常情况下，一个monitorenter对应两个monitorexit，正常情况下，从第一个monitorexit释放锁。异常情况下，从第二个monitorexit释放锁。</li>
+</ul>
+<h3 id="synchronized普通同步方法"><a href="#synchronized普通同步方法" class="headerlink" title="synchronized普通同步方法"></a>synchronized普通同步方法</h3><p>调用指令时，先检查ACC_SYNCHRONIZED（Access）标志是否被设置了，如果该方法有这个标志，代表是同步方法，访问的时候要获取锁对象。<br>方法完成时（无论是否正常介数）释放锁。</p>
+<h3 id="synchronized静态同步方法"><a href="#synchronized静态同步方法" class="headerlink" title="synchronized静态同步方法"></a>synchronized静态同步方法</h3><p>调用指令时，ACC_STATIC，和ACC_SYNCHRONIZED标志。第一个表示是否静态方法，第二个表示是否同步方法。</p>
+<h3 id="反编译Synchronized锁是什么"><a href="#反编译Synchronized锁是什么" class="headerlink" title="反编译Synchronized锁是什么"></a>反编译Synchronized锁是什么</h3><p><strong>为什么任何一个对象都可以成为锁？</strong><br>Java虚拟机支持方法级<br><strong>什么是管程？</strong><br>管程（Monitor）:可以看做是一个功能模块，他将共享变量和对共享变量的操作封装起来。进程可以调用管程实现进程间的并发控制。<br><strong>同步指令实现？</strong><br>Java虚拟机支持<strong>方法级的同步</strong>和<strong>方法内部指令序列的同步</strong>，这两种同步结构都是由管程（Monitor或者称为锁）来实现的。</p>
+<ul>
+<li>方法级的同步：通过读取ACC_SYNCHRONIZED判断是否是同步方法，如果是同步方法，执行线程要求必须持有管程（锁）。执行完毕后释放锁。</li>
+<li>方法内部指令序列的同步：同步一段指令序列是通过synchronized方法块来表示。java虚拟机指令集中的monitorenter和monitorexit指令实现的。</li>
+</ul>
+<h3 id="Monitor的实现-OjectMonitor"><a href="#Monitor的实现-OjectMonitor" class="headerlink" title="Monitor的实现 OjectMonitor"></a>Monitor的实现 OjectMonitor</h3><p>每个对象都关联一个ObjectMonitor锁对象。他有一些属性来保证该资源的同步安全。<br><img src="https://img-blog.csdnimg.cn/direct/87c532c89f8f44bab5635d3708516170.png" alt="在这里插入图片描述"><br>ower: 持有该锁的线程<br>waitset：存放处于wait状态的线程队列<br>entrylist：存放等待锁的线程队列<br>recursions（递归）：锁的重入次数<br>count: 记录该线程获取锁的次数。<br><img src="https://img-blog.csdnimg.cn/direct/ae6945e8743347b39f3e46a1febc72aa.png" alt="在这里插入图片描述"></p>
+<h1 id="公平锁和非公平锁"><a href="#公平锁和非公平锁" class="headerlink" title="公平锁和非公平锁"></a>公平锁和非公平锁</h1><h2 id="公平锁-先来先得"><a href="#公平锁-先来先得" class="headerlink" title="公平锁(先来先得)"></a>公平锁(先来先得)</h2><p>多个线程按照线程请求锁的先后顺序获取锁。默认都是非公平锁，公平锁需要设置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Lock</span> <span class="variable">lock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReentrantLock</span>(<span class="literal">true</span>);/l/<span class="literal">true</span>表示公平锁,先来先得</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><strong>执行流程：</strong><br>获取锁的时候，会将线程自己添加到等待队列中并休眠。当线程使用完锁之后，会去唤醒等待队列首部的线程。线程的休眠和恢复需要从用户态转换为内核态，线程切换是比较慢的，所以公平锁的执行较慢。</p>
+<h2 id="非公平锁（随机获得锁，默认）"><a href="#非公平锁（随机获得锁，默认）" class="headerlink" title="非公平锁（随机获得锁，默认）"></a>非公平锁（随机获得锁，默认）</h2><p>每个线程获取到锁的顺序是随机的，并不会按照先来先得的顺序。所有的线程会竞争获取锁。<br><strong>执行流程：</strong><br>当线程申请锁时，会通过CAS尝试获取锁。如果获取成功，就持有锁对象。如果获取失败，就进入等待队列。好处是不用遵循先到先得的原则，避免了线程的休眠和恢复过程，执行更快。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>默认是非公平锁。能够让程序执行更快（追求效率）。<br>非公平锁可能造成线程饿死的情况。</p>
+<h1 id="可重入锁（递归锁）"><a href="#可重入锁（递归锁）" class="headerlink" title="可重入锁（递归锁）"></a>可重入锁（递归锁）</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>可重入锁又叫递归锁。一个线程在<strong>外部方法</strong>中获取到锁的时候。在进入内部方法需要获取锁的时候，线程会自动获取到该锁。而不会阻塞。</p>
+<h2 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h2><h3 id="隐式锁（Synchronized关键字修饰的）："><a href="#隐式锁（Synchronized关键字修饰的）：" class="headerlink" title="隐式锁（Synchronized关键字修饰的）："></a>隐式锁（Synchronized关键字修饰的）：</h3><p>线程在外部获取锁之后，内部自动获取到锁。<br><strong>实现原理</strong><br>每个锁对象ObjectMonitor都有一个<strong>count计数器</strong>和<strong>ower</strong>持有该锁对象的线程。<br>当执行monitorenter的时候：会看count计数器是否为0，如果为0说明该锁对象没有被其他线程占有，将count计数器+1，将ower设置为当前的线程。如果不为0，该线程需要等待。<br>当执行monitorexit的时候：会将count计数器减一，count为0代表可以释放。将ower清空。</p>
+<h3 id="显式锁（Lock实现类）"><a href="#显式锁（Lock实现类）" class="headerlink" title="显式锁（Lock实现类）"></a>显式锁（Lock实现类）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lock.lock();<span class="comment">//加锁</span></span><br><span class="line">lock.unlock();<span class="comment">//解锁</span></span><br></pre></td></tr></table></figure>
+<p>加锁和释放锁的次数要一样，不然会导致该线程一直持有锁。其他线程无法获取锁。</p>
+<h1 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h1><p>一个线程持有某个锁对象，有需要申请其他的锁对象。其他锁对象被另一个线程占有。在无外力干扰的情况下，一直处于僵持状态。<br>举例： A线程持有obj1锁对象，申请obj2锁对象。B线程持有obj2锁对象，申请obj1锁对象。A，B线程均被阻塞住，处于僵持状态。</p>
+<h2 id="手写一个死锁的例子"><a href="#手写一个死锁的例子" class="headerlink" title="手写一个死锁的例子"></a>手写一个死锁的例子</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">Object</span> <span class="variable">obj1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Object</span> <span class="variable">obj2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (obj1) &#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">&quot;：&quot;</span> + <span class="string">&quot;拿到了obj1锁对象&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;等待obj2锁对象...&quot;</span>);</span><br><span class="line">                <span class="keyword">synchronized</span> (obj2)&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot;：&quot;</span> + <span class="string">&quot;拿到了obj2锁对象&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (obj2)&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">&quot;：&quot;</span> + <span class="string">&quot;拿到了obj2锁对象&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;等待obj1锁对象...&quot;</span>);</span><br><span class="line">                <span class="keyword">synchronized</span> (obj1)&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot;：&quot;</span> + <span class="string">&quot;拿到了obj1锁对象&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;, <span class="string">&quot;t1&quot;</span>).start();</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br><img src="https://img-blog.csdnimg.cn/direct/eab87490f8dc409a9d71968088de3e24.png" alt="在这里插入图片描述"></p>
+<h2 id="检测死锁"><a href="#检测死锁" class="headerlink" title="检测死锁"></a>检测死锁</h2><h3 id="第一种方式命令行jps-jstack"><a href="#第一种方式命令行jps-jstack" class="headerlink" title="第一种方式命令行jps+jstack"></a>第一种方式命令行jps+jstack</h3><p>jps查看死锁线程编号 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jps -l</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/direct/ef155509969849eb8adeb9d264bb1603.png" alt="在这里插入图片描述"><br>jstack 查看当前时刻的线程快照</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack <span class="number">13992</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/direct/685a70dc8758458e933ea0f619e54237.png" alt="在这里插入图片描述"></p>
+<h3 id="第二种jconsole图形化界面"><a href="#第二种jconsole图形化界面" class="headerlink" title="第二种jconsole图形化界面"></a>第二种jconsole图形化界面</h3><p><img src="https://img-blog.csdnimg.cn/direct/6c752cb44dbe477693ee6d0734b37518.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/bc3282df5403455a87a2afd8d3280d2c.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/f8248749f36e495a8c621a1f2389360f.png" alt="在这里插入图片描述"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://liuhsir.top">--believe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://liuhsir.top/2024/01/14/JUC-%E9%94%81/">https://liuhsir.top/2024/01/14/JUC-%E9%94%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liuhsir.top" target="_blank">坚韧的长线「串联」散落的珍珠</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JUC/">JUC</a></div><div class="post_share"><div class="social-share" data-image="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JUC-中断机制和LockSupport</div></div></a></div><div class="next-post pull-right"><a href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JUC-CompletableFuture</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-13</div><div class="title">JUC-CompletableFuture</div></div></a></div><div><a href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-18</div><div class="title">JUC-Java内存模型JMM</div></div></a></div><div><a href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-01-15</div><div class="title">JUC-中断机制和LockSupport</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">--believe</div><div class="author-info__description">凡事尽力而为，但求无愧于心，而后顺其自然</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:liuhangsir@std.uestc.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://leetcode.cn/u/_believe/" target="_blank" title="LeetCode"><i class="fa-solid fa-code" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感谢访问本站，希望对您有所启发，谢谢！^_^</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">1.</span> <span class="toc-text">乐观锁和悲观锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81"><span class="toc-number">1.1.</span> <span class="toc-text">悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">1.2.</span> <span class="toc-text">乐观锁</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%BE%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">乐观锁和悲观锁举例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized"><span class="toc-number">3.</span> <span class="toc-text">Synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%BF%E9%87%8C%E5%8A%A0%E9%94%81%E8%A7%84%E8%8C%83"><span class="toc-number">3.1.</span> <span class="toc-text">阿里加锁规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronized%E4%B8%89%E7%A7%8D%E4%BD%9C%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">Synchronized三种作用方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronized%E4%BD%9C%E7%94%A8%E4%BA%8E%E9%9D%9E%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">Synchronized作用于非静态方法和静态方法的区别（重要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90Synchronized"><span class="toc-number">3.5.</span> <span class="toc-text">字节码角度分析Synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%8F%8D%E6%B1%87%E7%BC%96%EF%BC%9A"><span class="toc-number">3.5.1.</span> <span class="toc-text">查看反汇编：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">3.5.2.</span> <span class="toc-text">synchronized同步代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E6%99%AE%E9%80%9A%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="toc-number">3.5.3.</span> <span class="toc-text">synchronized普通同步方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized%E9%9D%99%E6%80%81%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="toc-number">3.5.4.</span> <span class="toc-text">synchronized静态同步方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91Synchronized%E9%94%81%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">3.5.5.</span> <span class="toc-text">反编译Synchronized锁是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Monitor%E7%9A%84%E5%AE%9E%E7%8E%B0-OjectMonitor"><span class="toc-number">3.5.6.</span> <span class="toc-text">Monitor的实现 OjectMonitor</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%E5%92%8C%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81"><span class="toc-number">4.</span> <span class="toc-text">公平锁和非公平锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81-%E5%85%88%E6%9D%A5%E5%85%88%E5%BE%97"><span class="toc-number">4.1.</span> <span class="toc-text">公平锁(先来先得)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88%E9%9A%8F%E6%9C%BA%E8%8E%B7%E5%BE%97%E9%94%81%EF%BC%8C%E9%BB%98%E8%AE%A4%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">非公平锁（随机获得锁，默认）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">4.3.</span> <span class="toc-text">使用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88%E9%80%92%E5%BD%92%E9%94%81%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">可重入锁（递归锁）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">5.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB"><span class="toc-number">5.2.</span> <span class="toc-text">种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F%E9%94%81%EF%BC%88Synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E4%BF%AE%E9%A5%B0%E7%9A%84%EF%BC%89%EF%BC%9A"><span class="toc-number">5.2.1.</span> <span class="toc-text">隐式锁（Synchronized关键字修饰的）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E5%BC%8F%E9%94%81%EF%BC%88Lock%E5%AE%9E%E7%8E%B0%E7%B1%BB%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">显式锁（Lock实现类）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">6.</span> <span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E6%AD%BB%E9%94%81%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">6.1.</span> <span class="toc-text">手写一个死锁的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81"><span class="toc-number">6.2.</span> <span class="toc-text">检测死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%91%BD%E4%BB%A4%E8%A1%8Cjps-jstack"><span class="toc-number">6.2.1.</span> <span class="toc-text">第一种方式命令行jps+jstack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8Djconsole%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2"><span class="toc-number">6.2.2.</span> <span class="toc-text">第二种jconsole图形化界面</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-Java内存模型JMM"/></a><div class="content"><a class="title" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM">JUC-Java内存模型JMM</a><time datetime="2024-01-18T10:18:25.000Z" title="发表于 2024-01-18 18:18:25">2024-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-中断机制和LockSupport"/></a><div class="content"><a class="title" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport">JUC-中断机制和LockSupport</a><time datetime="2024-01-15T14:28:35.000Z" title="发表于 2024-01-15 22:28:35">2024-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-锁"/></a><div class="content"><a class="title" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁">JUC-锁</a><time datetime="2024-01-14T10:18:25.000Z" title="发表于 2024-01-14 18:18:25">2024-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-CompletableFuture"/></a><div class="content"><a class="title" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture">JUC-CompletableFuture</a><time datetime="2024-01-13T10:18:25.000Z" title="发表于 2024-01-13 18:18:25">2024-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"/></a><div class="content"><a class="title" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接">复习sql-内连接，左外连接，右外连接，全外连接，交叉连接</a><time datetime="2024-01-06T02:18:25.000Z" title="发表于 2024-01-06 10:18:25">2024-01-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By --believe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a target="_blank" rel="noopener" href="https://butterfly.js.org/">  blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: '9f2ba515a6f9d3a7503b',
+      clientSecret: 'e619be1a9ab5181cab82472fa1f2c950ee141ef9',
+      repo: 'believe001.github.io',
+      owner: 'believe001',
+      admin: ['believe001'],
+      id: 'da7b77e7dba09c0ce41fd9a49bc226be',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.css')
+      await getScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

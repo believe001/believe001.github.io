@@ -1,0 +1,252 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>指针重点总结 | 坚韧的长线「串联」散落的珍珠</title><meta name="author" content="--believe"><meta name="copyright" content="--believe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="C&#x2F;C++指针踩坑历险记-常量指针-const ptr *，指针常量ptr * const，引用，指针传参，指针修改，指针指向的值修改等问题好久没写C语言了，不过一直用C++在刷题，遇到指针总有些发憷？初学指针的时候觉得指针好难，其实搞清指针的重要几个概念，指针就不难~对指针一些重点知识进行一个总结。 指针初体验我们知道指针本质上就是一个存放地址的变量（该变量存放地址，一串你看不懂">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针重点总结">
+<meta property="og:url" content="https://liuhsir.top/2021/12/14/%E6%8C%87%E9%92%88%E9%87%8D%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="坚韧的长线「串联」散落的珍珠">
+<meta property="og:description" content="C&#x2F;C++指针踩坑历险记-常量指针-const ptr *，指针常量ptr * const，引用，指针传参，指针修改，指针指向的值修改等问题好久没写C语言了，不过一直用C++在刷题，遇到指针总有些发憷？初学指针的时候觉得指针好难，其实搞清指针的重要几个概念，指针就不难~对指针一些重点知识进行一个总结。 指针初体验我们知道指针本质上就是一个存放地址的变量（该变量存放地址，一串你看不懂">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image">
+<meta property="article:published_time" content="2021-12-14T11:51:50.000Z">
+<meta property="article:modified_time" content="2023-12-14T13:24:16.247Z">
+<meta property="article:author" content="--believe">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liuhsir.top/2021/12/14/%E6%8C%87%E9%92%88%E9%87%8D%E7%82%B9%E6%80%BB%E7%BB%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '指针重点总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-14 21:24:16'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="坚韧的长线「串联」散落的珍珠" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="坚韧的长线「串联」散落的珍珠"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">指针重点总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-14T11:51:50.000Z" title="发表于 2021-12-14 19:51:50">2021-12-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-14T13:24:16.247Z" title="更新于 2023-12-14 21:24:16">2023-12-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-C/">C/C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="指针重点总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/> 
+
+<h1 id="C-C-指针踩坑历险记-常量指针-const-ptr-，指针常量ptr-const，引用，指针传参，指针修改，指针指向的值修改等问题"><a href="#C-C-指针踩坑历险记-常量指针-const-ptr-，指针常量ptr-const，引用，指针传参，指针修改，指针指向的值修改等问题" class="headerlink" title="C&#x2F;C++指针踩坑历险记-常量指针-const ptr *，指针常量ptr * const，引用，指针传参，指针修改，指针指向的值修改等问题"></a>C&#x2F;C++指针踩坑历险记-常量指针-const ptr *，指针常量ptr * const，引用，指针传参，指针修改，指针指向的值修改等问题</h1><p>好久没写C语言了，不过一直用C++在刷题，遇到指针总有些发憷？初学指针的时候觉得指针好难，其实搞清指针的重要几个概念，指针就不难~对指针一些重点知识进行一个总结。</p>
+<h2 id="指针初体验"><a href="#指针初体验" class="headerlink" title="指针初体验"></a>指针初体验</h2><p>我们知道指针本质上就是一个存放地址的变量（该变量存放地址，一串你看不懂的数字）。比如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span>* ptr = &amp;a;<span class="comment">//就表示指向a的一个变量ptr，ptr内部存放的是一个地址（一串你看不懂的数字）</span></span><br></pre></td></tr></table></figure>
+
+<p>下面举个例子,直观地展示一下ptr的值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>;</span><br><span class="line">	<span class="type">int</span>* ptr = &amp;a;<span class="comment">//ptr是一个地址</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;0x%x&quot;</span>, ptr);<span class="comment">//打印ptr的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<p><img src="https://img-blog.csdnimg.cn/da134d7ede0b49018e82c2858f778b30.png#pic_center" alt="在这里插入图片描述"></p>
+<p>通过设置断点查看程序执行过程，也可以查看ptr存放的到底是什么</p>
+<p><img src="https://img-blog.csdnimg.cn/01e45242a53c4c9e8e88e36d5a1066cb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+<p>你现在只需要知道指针就是指向一个内存块的地址，本质上就是一个变量。<br>对指针有了直观的认识之后，你肯定会想，要一个内存单元的地址有什么用呢？这个地址（0x00d3fb30）我又看不懂。我们要内存中的值（比如上面a的值3）不就行了吗?<br>其实不然，指针在函数参数传递中大有妙用。请往下看</p>
+<h2 id="指针在函数”传值”中的应用"><a href="#指针在函数”传值”中的应用" class="headerlink" title="指针在函数”传值”中的应用"></a>指针在函数”传值”中的应用</h2><p>我们知道函数传参过程中，实参和形参结合，也就是形参会等于实参的值，然后函数老大就一脚把实参踹开，之后就不干实参啥事了。</p>
+<p>之后在函数内部，函数老大就抓着形参不放，所有的操作都是对实参起作用，和形参无关（暂时这么理解）。下面举个例子</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a)</span> </span>&#123;</span><br><span class="line">	a = a + <span class="number">1</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a值(形参)为%d\n&quot;</span>, a);<span class="comment">//形式结合，a=b=3,然后a=a+1=4.</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">3</span>;</span><br><span class="line">	<span class="built_in">add</span>(b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b值（实参）为%d\n&quot;</span>, b);<span class="comment">//实参不变，b=3</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这个例子，我们要记住，<strong>函数形参和实参结合时，函数内部先将实参的值赋给形参，然后再对形参进行操作。</strong></p>
+<p>当形参为地址时，对形参操作也可能会影响实参，下面举例说明</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span>* a)</span> </span>&#123;<span class="comment">//形参为指针,a等于b的地址</span></span><br><span class="line">	*a = *a + <span class="number">1</span>;<span class="comment">//a也就是b的地址，*表示取出该地址内存中的值3，加1后存放在a地址中。即3+1=4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址为0x%x\n&quot;</span>, a);<span class="comment">//一个地址，和b的地址一样0x136f9c4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址内存里面的值为%d\n&quot;</span>, *a);<span class="comment">//4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">3</span>;</span><br><span class="line">	<span class="built_in">add</span>(&amp;b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b的地址为0x%x\n&quot;</span>, &amp;b);<span class="comment">//b的地址0x136f9c4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b值（实参）为%d\n&quot;</span>, b);<span class="comment">//在函数内部通过地址改变了b的值，b=4</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p><img src="https://img-blog.csdnimg.cn/48bfc3c79e4f49db96e028a1d874a33b.png#pic_center" alt="在这里插入图片描述"></p>
+<p>通过这个地址我们需要明白两点</p>
+<ol>
+<li><p>当函数形参为指针类型时，表示该函数传递一个指针给形参，然后对形参进行操作。此时形参是一个指针，也就是一个地址，我们通过地址可以使实参发生变化。比如例子中改变*a使得实参b发生变化。示意图如下：<br> <img src="https://img-blog.csdnimg.cn/8bb5fce4b681413d8e073e1a8c9bedb0.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBALS1iZWxpZXZl,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li><p>为了和传值区分，我们称上面函数传参方式为传址。其实传址本质上还是传值。</p>
+</li>
+</ol>
+<h2 id="传址妙用"><a href="#传址妙用" class="headerlink" title="传址妙用"></a>传址妙用</h2><p>传址可以大大减少内存的消耗，试想一下如果b中存放的是一个占很大内存的对象，如果采用传值方式传递，形实结合会新开辟一块和b一样的空间，供函数内部操作。这样会很消耗内存空间。</p>
+<p>但如果我们只传递b的一个地址（一串数字的大小），形实结合时，仅仅需要一小块空间就能够存放下b的地址。然后在函数内仅仅需要通过*就可以操作该地址内部的值。此举大大节约空间。但此举操作可能会影响函数外部的对象的值，使用时应该考虑清楚。</p>
+<h2 id="用-对指针指向的值修改"><a href="#用-对指针指向的值修改" class="headerlink" title="用*对指针指向的值修改"></a>用*对指针指向的值修改</h2><p>毫无疑问，在函数内部用*对形参指向的值进行修改，函数外部的实参值也会变化。如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span>* a)</span> </span>&#123;<span class="comment">//形参为指针,a等于b的地址</span></span><br><span class="line">	*a = *a + <span class="number">1</span>;<span class="comment">//a也就是b的地址，*表示取出该地址内存中的值3，加1后存放在a地址中。即3+1=4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址为0x%x\n&quot;</span>, a);<span class="comment">//一个地址，和b的地址一样0x136f9c4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址内存里面的值为%d\n&quot;</span>, *a);<span class="comment">//4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">3</span>;</span><br><span class="line">	<span class="built_in">add</span>(&amp;b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b的地址为0x%x\n&quot;</span>, &amp;b);<span class="comment">//b的地址0x136f9c4</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b值（实参）为%d\n&quot;</span>, b);<span class="comment">//在函数内部通过地址改变了b的值，b=4</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是如果直接对形参修改（不用*）,不会对函数外部的实参值有任何影响。如下</p>
+<h2 id="直接对指针本身修改"><a href="#直接对指针本身修改" class="headerlink" title="直接对指针本身修改"></a>直接对指针本身修改</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span>* a)</span> </span>&#123;<span class="comment">//形参为指针</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> c = <span class="number">10</span>;</span><br><span class="line">	a = &amp;c;<span class="comment">//a的值变化了，此时a已经与函数外部的b彻底没关系了。不会影响函数外部b的值。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址为0x%x\n&quot;</span>, a);<span class="comment">//a为c的地址</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数内部的a地址内存里面的值为%d\n&quot;</span>, *a);<span class="comment">//*a=10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">3</span>;</span><br><span class="line">	<span class="built_in">add</span>(&amp;b);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b的地址为0x%x\n&quot;</span>, &amp;b);<span class="comment">//b的地址</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;函数外部的b值（实参）为%d\n&quot;</span>, b);<span class="comment">//b=3,未发生变化</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要正确理解 * 表示对该指针指向的内存单元的值进行操作。</p>
+<p>直接对形参修改（不用*），表示对该地址修改了。原来形参还和实参指向同一块地址，<strong>形参地址一旦修改，形参就彻底和实参失去联系了。再对形参任何操作均不会对函数外部的实参值有任何影响</strong>。这点要注意，容易出错。</p>
+<h2 id="常量指针"><a href="#常量指针" class="headerlink" title="常量指针"></a>常量指针</h2><p>所谓常量指针就是<strong>指向常量的指针</strong>,表示为<code>const int*</code> 。不能用*去修改内存中的常量。举例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span>* ptr = &amp;a;</span><br><span class="line">	*ptr = <span class="number">4</span>;<span class="comment">//报错：表达式必须是可修改的左值</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="指针常量"><a href="#指针常量" class="headerlink" title="指针常量"></a>指针常量</h2><p>指针常量，<strong>表示该地址是一个常量，不能修改</strong>。表示为<code>int * const </code>.举例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">4</span>;</span><br><span class="line">	<span class="type">int</span>* <span class="type">const</span> ptr= &amp;a;</span><br><span class="line">	ptr = &amp;b;<span class="comment">//报错：表达式必须是可修改的左值</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>C++中的引用，本质上就是指针常量。</p>
+<h2 id="C-引用"><a href="#C-引用" class="headerlink" title="C++引用"></a>C++引用</h2><p>C++引用是C++中特有的，<strong>本质上就是指针常量，如果进行修改，一定是指向的内存变化，而不是指针本身</strong>。用&amp;表示。在引用的基础上改变，原值也要变，<strong>可以看做一个变量的别名</strong>。举例</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>;</span><br><span class="line">	<span class="type">int</span>&amp; ptr= a;<span class="comment">//ptr就是a的别名</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ptr);<span class="comment">//3</span></span><br><span class="line">	ptr = <span class="number">5</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ptr);<span class="comment">//5</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, a);<span class="comment">//5</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://liuhsir.top">--believe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://liuhsir.top/2021/12/14/%E6%8C%87%E9%92%88%E9%87%8D%E7%82%B9%E6%80%BB%E7%BB%93/">https://liuhsir.top/2021/12/14/%E6%8C%87%E9%92%88%E9%87%8D%E7%82%B9%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liuhsir.top" target="_blank">坚韧的长线「串联」散落的珍珠</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post_share"><div class="social-share" data-image="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/12/14/%E6%B1%89%E8%AF%BA%E5%A1%94%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0-%E5%80%9F%E5%8A%A9%E5%A0%86%E6%A0%88%E6%A8%A1%E6%8B%9F%E9%80%92%E5%BD%92/" title="汉诺塔的非递归实现(借助堆栈模拟递归)"><img class="cover" src="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">汉诺塔的非递归实现(借助堆栈模拟递归)</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/12/%E6%95%B0%E7%BB%84%E4%B8%AD%E6%95%B0%E5%AD%97%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/" title="剑指 Offer 56 - I. 数组中数字出现的次数（位运算）-真是妙蛙种子吃着妙脆角秒进米奇妙妙屋秒到家了"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">剑指 Offer 56 - I. 数组中数字出现的次数（位运算）-真是妙蛙种子吃着妙脆角秒进米奇妙妙屋秒到家了</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/23/C++%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2-%E5%88%B7%E9%A2%98%E5%BF%85%E5%A4%87/" title="C++字符串和数字相互转换(刷题必备)"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-23</div><div class="title">C++字符串和数字相互转换(刷题必备)</div></div></a></div><div><a href="/2019/10/10/C++%E4%B8%AD%E7%9A%84static%E7%9A%84%E4%BD%9C%E7%94%A8/" title="C++中的static的作用"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-10</div><div class="title">C++中的static的作用</div></div></a></div><div><a href="/2019/10/04/C++%E5%87%BD%E6%95%B0%E7%AB%A0%E8%8A%82%E7%9F%A5%E8%AF%86%E7%82%B9%E6%B5%85%E6%9E%90/" title="C++函数章节知识点浅析"><img class="cover" src="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-04</div><div class="title">C++函数章节知识点浅析</div></div></a></div><div><a href="/2019/10/10/C++%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F%E6%8E%A2%E7%A9%B6/" title="C++类的继承方式探究"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-10-10</div><div class="title">C++类的继承方式探究</div></div></a></div><div><a href="/2019/12/12/%E5%AD%97%E7%AC%A6%E6%8C%87%E9%92%88%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E3%80%81String%E7%B1%BB%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6/" title="字符指针修改字符、字符数组修改字符、String类修改字符"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-12-12</div><div class="title">字符指针修改字符、字符数组修改字符、String类修改字符</div></div></a></div><div><a href="/2021/12/14/%E6%B1%89%E8%AF%BA%E5%A1%94%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0-%E5%80%9F%E5%8A%A9%E5%A0%86%E6%A0%88%E6%A8%A1%E6%8B%9F%E9%80%92%E5%BD%92/" title="汉诺塔的非递归实现(借助堆栈模拟递归)"><img class="cover" src="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-14</div><div class="title">汉诺塔的非递归实现(借助堆栈模拟递归)</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">--believe</div><div class="author-info__description">凡事尽力而为，但求无愧于心，而后顺其自然</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:liuhangsir@std.uestc.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://leetcode.cn/u/_believe/" target="_blank" title="LeetCode"><i class="fa-solid fa-code" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感谢访问本站，希望对您有所启发，谢谢！^_^</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C-C-%E6%8C%87%E9%92%88%E8%B8%A9%E5%9D%91%E5%8E%86%E9%99%A9%E8%AE%B0-%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88-const-ptr-%EF%BC%8C%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8Fptr-const%EF%BC%8C%E5%BC%95%E7%94%A8%EF%BC%8C%E6%8C%87%E9%92%88%E4%BC%A0%E5%8F%82%EF%BC%8C%E6%8C%87%E9%92%88%E4%BF%AE%E6%94%B9%EF%BC%8C%E6%8C%87%E9%92%88%E6%8C%87%E5%90%91%E7%9A%84%E5%80%BC%E4%BF%AE%E6%94%B9%E7%AD%89%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">C&#x2F;C++指针踩坑历险记-常量指针-const ptr *，指针常量ptr * const，引用，指针传参，指针修改，指针指向的值修改等问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="toc-number">1.1.</span> <span class="toc-text">指针初体验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%9C%A8%E5%87%BD%E6%95%B0%E2%80%9D%E4%BC%A0%E5%80%BC%E2%80%9D%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">指针在函数”传值”中的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E5%9D%80%E5%A6%99%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">传址妙用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8-%E5%AF%B9%E6%8C%87%E9%92%88%E6%8C%87%E5%90%91%E7%9A%84%E5%80%BC%E4%BF%AE%E6%94%B9"><span class="toc-number">1.4.</span> <span class="toc-text">用*对指针指向的值修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%AF%B9%E6%8C%87%E9%92%88%E6%9C%AC%E8%BA%AB%E4%BF%AE%E6%94%B9"><span class="toc-number">1.5.</span> <span class="toc-text">直接对指针本身修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="toc-number">1.6.</span> <span class="toc-text">常量指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8F"><span class="toc-number">1.7.</span> <span class="toc-text">指针常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E5%BC%95%E7%94%A8"><span class="toc-number">1.8.</span> <span class="toc-text">C++引用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-Java内存模型JMM"/></a><div class="content"><a class="title" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM">JUC-Java内存模型JMM</a><time datetime="2024-01-18T10:18:25.000Z" title="发表于 2024-01-18 18:18:25">2024-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-中断机制和LockSupport"/></a><div class="content"><a class="title" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport">JUC-中断机制和LockSupport</a><time datetime="2024-01-15T14:28:35.000Z" title="发表于 2024-01-15 22:28:35">2024-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-锁"/></a><div class="content"><a class="title" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁">JUC-锁</a><time datetime="2024-01-14T10:18:25.000Z" title="发表于 2024-01-14 18:18:25">2024-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-CompletableFuture"/></a><div class="content"><a class="title" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture">JUC-CompletableFuture</a><time datetime="2024-01-13T10:18:25.000Z" title="发表于 2024-01-13 18:18:25">2024-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"/></a><div class="content"><a class="title" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接">复习sql-内连接，左外连接，右外连接，全外连接，交叉连接</a><time datetime="2024-01-06T02:18:25.000Z" title="发表于 2024-01-06 10:18:25">2024-01-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By --believe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a target="_blank" rel="noopener" href="https://butterfly.js.org/">  blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: '9f2ba515a6f9d3a7503b',
+      clientSecret: 'e619be1a9ab5181cab82472fa1f2c950ee141ef9',
+      repo: 'believe001.github.io',
+      owner: 'believe001',
+      admin: ['believe001'],
+      id: '4e02a73e428638de0ac5aabecb80e18b',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.css')
+      await getScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

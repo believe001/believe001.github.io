@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Servlet&amp;HTTP&amp;Reques&amp;Response快速入门 | 坚韧的长线「串联」散落的珍珠</title><meta name="author" content="--believe"><meta name="copyright" content="--believe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="servlet相关配置 URLPattern:servlet访问路径 一个servlet可以定义多个访问路径 1@WebServlet(&#123;&quot;&#x2F;d4&quot;,&quot;&#x2F;dd4&quot;,&quot;&#x2F;ddd4&quot;&#125;)  路径规则：  &#x2F;xxx:路径匹配 &#x2F;xxx&#x2F;xx：多层路径，目录结构 *.do：拓展名匹配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet&amp;HTTP&amp;Reques&amp;Response快速入门">
+<meta property="og:url" content="https://liuhsir.top/2022/02/19/servlet&HTTP&Reques&Response%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="坚韧的长线「串联」散落的珍珠">
+<meta property="og:description" content="servlet相关配置 URLPattern:servlet访问路径 一个servlet可以定义多个访问路径 1@WebServlet(&#123;&quot;&#x2F;d4&quot;,&quot;&#x2F;dd4&quot;,&quot;&#x2F;ddd4&quot;&#125;)  路径规则：  &#x2F;xxx:路径匹配 &#x2F;xxx&#x2F;xx：多层路径，目录结构 *.do：拓展名匹配">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg">
+<meta property="article:published_time" content="2022-02-19T15:18:25.000Z">
+<meta property="article:modified_time" content="2023-12-28T10:11:31.663Z">
+<meta property="article:author" content="--believe">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://liuhsir.top/2022/02/19/servlet&amp;HTTP&amp;Reques&amp;Response%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Servlet&HTTP&Reques&Response快速入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-28 18:11:31'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="坚韧的长线「串联」散落的珍珠" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="坚韧的长线「串联」散落的珍珠"></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间线</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Servlet&amp;HTTP&amp;Reques&amp;Response快速入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-19T15:18:25.000Z" title="发表于 2022-02-19 23:18:25">2022-02-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-28T10:11:31.663Z" title="更新于 2023-12-28 18:11:31">2023-12-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%9F%BA%E7%A1%80/">Java基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Servlet&amp;HTTP&amp;Reques&amp;Response快速入门"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><meta name="referrer" content="no-referrer"/> 
+
+<h2 id="servlet相关配置"><a href="#servlet相关配置" class="headerlink" title="servlet相关配置"></a>servlet相关配置</h2><ol>
+<li><p>URLPattern:servlet访问路径</p>
+<p>一个servlet可以定义多个访问路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@WebServlet(&#123;&quot;/d4&quot;,&quot;/dd4&quot;,&quot;/ddd4&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>路径规则：</p>
+<ul>
+<li>&#x2F;xxx:路径匹配</li>
+<li>&#x2F;xxx&#x2F;xx：多层路径，目录结构</li>
+<li>*.do：拓展名匹配</li>
+</ul>
+</li>
+</ol>
+<h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><ol>
+<li><p>概念</p>
+<p>Hyper Text Transfer Protocol超文本传输协议。何谓协议?即定义了两个设备之间传输信息的格式。</p>
+</li>
+<li><p>特点</p>
+<ul>
+<li>默认端口号是80</li>
+<li>基于请求&#x2F;响应模型的：一次请求对应一次响应</li>
+<li>无状态的，每次请求之间相互独立，不能交互数据</li>
+</ul>
+</li>
+</ol>
+<p>3.版本</p>
+<ul>
+<li>1.0:每一次请求相应都会建立新的连接</li>
+<li>1.1:复用连接</li>
+</ul>
+<ol start="4">
+<li><p>请求消息数据格式</p>
+<ul>
+<li><p>请求行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /login.html	HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<p>HTTP协议中有7种请求方法，常用的有2种</p>
+<p><strong>GET</strong></p>
+<ol>
+<li>请求参数在请求行中，在url后？连接</li>
+<li>请求的url长度有限制</li>
+<li>不太完全</li>
+</ol>
+<p><strong>POST</strong></p>
+<ol>
+<li>请求参数在请求体中</li>
+<li>请求的url长度没有限制</li>
+<li>相对安全</li>
+</ol>
+</li>
+<li><p>请求头</p>
+<ol>
+<li><p>User-agent</p>
+<p>浏览器告诉服务器，我的浏览器的版本信息</p>
+</li>
+<li><p>Referer</p>
+<p>高速浏览器我从哪里来</p>
+<p>可以防止盗链、进行统计工作</p>
+</li>
+</ol>
+</li>
+<li><p>请求空行</p>
+<p>空行，用于分隔post请求头和请求体。</p>
+</li>
+<li><p>请求体（正文）</p>
+<p>post请求方式请求数据存放的地方</p>
+</li>
+<li><p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST /login.html	HTTP/1.1</span><br><span class="line">Host: localhost</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http://localhost/login.html</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line"></span><br><span class="line">username=zhangsan	</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>响应消息数据格式(略)</p>
+</li>
+</ol>
+<h2 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h2><h3 id="Resquest功能"><a href="#Resquest功能" class="headerlink" title="Resquest功能"></a>Resquest功能</h3><p>主要用户获取请求消息数据</p>
+<ol>
+<li><p>获取请求行数据 GET &#x2F;day14&#x2F;demo1?name&#x3D;zhangsan HTTP&#x2F;1.1</p>
+<ul>
+<li>getMethod 获取请求方法GET</li>
+<li>getContextPath获取虚拟路径&#x2F;day14</li>
+<li>getServletPath获取servlet路径&#x2F;demo1</li>
+<li>getQueryString获取Get请求参数name&#x3D;zhangsan</li>
+<li>getRequestURI获取请求URI&#x2F;day14&#x2F;demo1</li>
+<li>getProtocol获取协议及版本HTTP&#x2F;1.1</li>
+<li>getRemoteAddr获取客户机IP地址</li>
+</ul>
+</li>
+<li><p>获取请求头数据</p>
+<ul>
+<li>getHeader(String name)</li>
+<li>getHeaderNames():获取所有的请求头名称</li>
+</ul>
+</li>
+<li><p>获取请求体数据</p>
+<p>getReader获取流对象后获取</p>
+</li>
+</ol>
+<h3 id="其他功能"><a href="#其他功能" class="headerlink" title="其他功能"></a>其他功能</h3><ol>
+<li><p>获取请求参数通用方法</p>
+<ol>
+<li>String getParameter(String name):根据参数名称获取参数值    username&#x3D;zs&amp;password&#x3D;123</li>
+<li>String[] getParameterValues(String name):根据参数名称获取参数值的数组  hobby&#x3D;xx&amp;hobby&#x3D;game</li>
+<li>Enumeration<String> getParameterNames():获取所有请求的参数名称</li>
+<li>Map&lt;String,String[]&gt; getParameterMap():获取所有参数的map集合</li>
+</ol>
+</li>
+</ol>
+<h3 id="中文乱码问题"><a href="#中文乱码问题" class="headerlink" title="中文乱码问题"></a>中文乱码问题</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.setCharacterEncoding(&quot;utf-8&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="请求转发"><a href="#请求转发" class="headerlink" title="请求转发"></a>请求转发</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.getRequestDispatcher.forward(ServletRequest request,ServletResponse response) </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>特点</p>
+<ol>
+<li>转发只是一次请求</li>
+<li>只能转发到当前服务器内部资源中</li>
+<li>浏览器地址栏不发生变化</li>
+</ol>
+</li>
+<li><p>共享数据</p>
+<ol>
+<li><p>域对象：在一定的作用范围内共享数据</p>
+</li>
+<li><p>request域：在一次请求中的数据共享范围</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setAttribute() 存储数据</span><br><span class="line">getAttribute()获取数据</span><br><span class="line">removeAttribute移除数据</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h3 id="ServletContext"><a href="#ServletContext" class="headerlink" title="ServletContext"></a>ServletContext</h3><p>(在Response下详细学习)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ServletContext <span class="title function_">getServletContext</span><span class="params">()</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="案例-登录"><a href="#案例-登录" class="headerlink" title="案例-登录"></a>案例-登录</h3><p>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44850917/article/details/122842886">案例-登录</a></p>
+<h2 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h2><h3 id="HTTP协议响应"><a href="#HTTP协议响应" class="headerlink" title="HTTP协议响应"></a>HTTP协议响应</h3><ol>
+<li><p>请求消息：客户端发送给服务器的数据</p>
+<ul>
+<li>请求行</li>
+<li>请求头</li>
+<li>请求空行</li>
+<li>请求体</li>
+</ul>
+</li>
+<li><p>响应消息：服务端发送给客户端的消息</p>
+<ul>
+<li><p>响应行</p>
+<ol>
+<li><p>组成</p>
+<p>协议&#x2F;版本 响应状态码 状态码描述</p>
+</li>
+<li><p>响应状态码</p>
+<p>1xx:服务端接受客户端消息，但没有接受完成，等待一段时间后，发送1xx多状态码</p>
+<p>2xx:成功，200</p>
+<p>3xx:重定向。302重定向。304访问缓存</p>
+<p>4xx:客户端错误</p>
+<p>​	404请求路径没有对应的资源</p>
+<p>​	405请求方式没有对应的doxxx方法</p>
+<p>5xx:服务端错误500服务端内部异常</p>
+</li>
+</ol>
+</li>
+<li><p>响应头</p>
+<ol>
+<li><p>Content-Type：服务端告诉客户端本次响应体的数据格式以及编码格式</p>
+</li>
+<li><p>Content-disposition：服务端高数客户端以什么格式打开相应数据</p>
+<p>–inline默认</p>
+<p>–attachment;filename&#x3D;xxx 以附件方式打开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(&quot;content-disposition&quot;,&quot;attachment;filname=111&quot;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>响应空行</p>
+</li>
+<li><p>响应体：传输的数据</p>
+</li>
+<li><p>响应内容实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/html;charset=UTF-8</span><br><span class="line">Content-Length: 101</span><br><span class="line">Date: Wed, 06 Jun 2018 07:08:42 GMT</span><br><span class="line"></span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;$Title$&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">hello , response</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h3 id="Response对象"><a href="#Response对象" class="headerlink" title="Response对象"></a>Response对象</h3><ol>
+<li><p>设置响应消息</p>
+<ul>
+<li><p>设置响应行</p>
+<p>格式：HTTP&#x2F;1.1 200 OK</p>
+<p>设置状态码：setStatus</p>
+</li>
+<li><p>设置响应头</p>
+<p>setHeader(String name, String value) </p>
+</li>
+<li><p>设置响应体</p>
+<p>1.获取输出流getWriter或者getOutputStream</p>
+<p>2.使用输出流</p>
+</li>
+</ul>
+</li>
+<li><p>重定向</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//response.setStatus(302);//1. 设置状态码为302</span></span><br><span class="line"><span class="comment">//      response.setHeader(&quot;location&quot;,&quot;/day/servletDemo3&quot;); //2.设置响应头location</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//上面的写法的简介</span></span><br><span class="line">response.sendRedirect(<span class="string">&quot;/day/servletDemo3&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="重定向和转发区别"><a href="#重定向和转发区别" class="headerlink" title="重定向和转发区别"></a>重定向和转发区别</h3><ol>
+<li>重定向特点<ul>
+<li>地址栏发生变化</li>
+<li>重定向可以访问其他站点</li>
+<li>重定向是两次请求，不能用request域类共享数据</li>
+</ul>
+</li>
+<li>转发特点<ul>
+<li>转发地址路径不变</li>
+<li>是一次请求</li>
+<li>转发只能访问当前服务器的资源</li>
+</ul>
+</li>
+</ol>
+<h3 id="访问路径"><a href="#访问路径" class="headerlink" title="访问路径"></a>访问路径</h3><ol>
+<li><p>相对路径</p>
+<p>比如.&#x2F;index.html</p>
+<p>.&#x2F;当前目录</p>
+<p>..&#x2F;后退一级目录</p>
+</li>
+<li><p>绝对路径</p>
+<p>比如 <a target="_blank" rel="noopener" href="http://localhost/day14/demo">http://localhost/day14/demo</a></p>
+<p>或者 &#x2F;day14&#x2F;demo</p>
+</li>
+<li><p>路径使用</p>
+<ul>
+<li><p>客户端使用</p>
+<p>需要添加虚拟目录,虚拟目录动态获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.getContextPath()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务器使用</p>
+<p>不需要添加虚拟目录，一般转发时用</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="服务器输出字符数据到浏览器"><a href="#服务器输出字符数据到浏览器" class="headerlink" title="服务器输出字符数据到浏览器"></a>服务器输出字符数据到浏览器</h3><ol>
+<li><p>步骤</p>
+<p>获取字符输出流 -&gt; 输出数据</p>
+</li>
+<li><p>乱码问题</p>
+<p>设置响应头</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=utf-8&quot;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>案例-验证码</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44850917/article/details/122845044">验证码案例</a></p>
+</li>
+</ol>
+<h2 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>代表整个web应用，可以和程序的容器（服务器）通信</p>
+<h3 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h3><ol>
+<li><p>request获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request.getServletContext();</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>HttpServlet获取</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.getServletContext();</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><ol>
+<li><p>获取MIME类型</p>
+<p>MIME类型:在互联网通信过程中定义的一种文件数据类型</p>
+<p>格式：大类型&#x2F;小类型</p>
+<p> text&#x2F;html               image&#x2F;jpeg</p>
+<p>获取方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getMimeType(String file)</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>域对象：共享数据</p>
+<ul>
+<li>setAttribute</li>
+<li>getAttribute</li>
+<li>removeAttribute</li>
+</ul>
+<p>ServletContext对象的范围：所有用户请求的数据，个人理解是所有的servlet之间共享数据</p>
+</li>
+<li><p>获取文件的真实（服务器）路径</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">b</span> <span class="operator">=</span> context.getRealPath(<span class="string">&quot;/b.txt&quot;</span>);<span class="comment">//web目录下资源访问</span></span><br><span class="line">System.out.println(b);</span><br><span class="line"><span class="type">String</span> <span class="variable">c</span> <span class="operator">=</span> context.getRealPath(<span class="string">&quot;/WEB-INF/c.txt&quot;</span>);<span class="comment">//WEB-INF目录下的资源访问</span></span><br><span class="line">System.out.println(c);</span><br><span class="line"><span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> context.getRealPath(<span class="string">&quot;/WEB-INF/classes/a.txt&quot;</span>);<span class="comment">//src目录下的资源访问</span></span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="案例-文件下载"><a href="#案例-文件下载" class="headerlink" title="案例-文件下载"></a>案例-文件下载</h2><ol>
+<li><p>文件下载需求</p>
+<ul>
+<li>页面显示超链接</li>
+<li>点击超链接后弹出下载提示框</li>
+<li>完成图片文件下载</li>
+</ul>
+</li>
+<li><p>链接 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44850917/article/details/122957155">文件下载-案例</a></p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://liuhsir.top">--believe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://liuhsir.top/2022/02/19/servlet&amp;HTTP&amp;Reques&amp;Response%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">https://liuhsir.top/2022/02/19/servlet&amp;HTTP&amp;Reques&amp;Response%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://liuhsir.top" target="_blank">坚韧的长线「串联」散落的珍珠</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/12/11/%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0callback/" title="什么是回调函数callback？"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">什么是回调函数callback？</div></div></a></div><div class="next-post pull-right"><a href="/2022/02/16/%E6%A1%88%E4%BE%8B-03%E4%B8%8B%E8%BD%BD/" title="案例-03下载"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">案例-03下载</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/12/Java%E6%B3%A8%E8%A7%A3/" title="Java注解"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-12</div><div class="title">Java注解</div></div></a></div><div><a href="/2022/01/18/JDBC%E5%88%9D%E8%AF%86/" title="JDBC初识"><img class="cover" src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-18</div><div class="title">JDBC初识</div></div></a></div><div><a href="/2022/02/06/Tomcat&Servlet%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="Tomcat&amp;Servlet快速入门"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-06</div><div class="title">Tomcat&amp;Servlet快速入门</div></div></a></div><div><a href="/2022/01/21/XML%E8%A6%81%E7%82%B9%E6%80%BB%E7%BB%93/" title="XML要点总结"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-21</div><div class="title">XML要点总结</div></div></a></div><div><a href="/2022/01/21/Tomcat%E7%AB%AF%E5%8F%A380%E8%A2%AB%E5%8D%A0%E7%94%A8/" title="Tomcat端口80被占用"><img class="cover" src="https://pica.zhimg.com/70/v2-a976b66ff0540936624b284730a88d97_1440w.image" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-21</div><div class="title">Tomcat端口80被占用</div></div></a></div><div><a href="/2022/01/11/%E5%8F%8D%E5%B0%84%E9%80%9A%E4%BF%97%E6%98%93%E6%87%82%EF%BC%8C%E5%8F%8D%E5%B0%84%E4%BD%93%E7%8E%B0%E5%9C%A8%E5%93%AA%E9%87%8C/" title="反射通俗易懂，反射体现在哪里"><img class="cover" src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-11</div><div class="title">反射通俗易懂，反射体现在哪里</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">--believe</div><div class="author-info__description">凡事尽力而为，但求无愧于心，而后顺其自然</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:liuhangsir@std.uestc.edu.cn" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://leetcode.cn/u/_believe/" target="_blank" title="LeetCode"><i class="fa-solid fa-code" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感谢访问本站，希望对您有所启发，谢谢！^_^</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#servlet%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">servlet相关配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP"><span class="toc-number">2.</span> <span class="toc-text">HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Request"><span class="toc-number">3.</span> <span class="toc-text">Request</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Resquest%E5%8A%9F%E8%83%BD"><span class="toc-number">3.1.</span> <span class="toc-text">Resquest功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%8A%9F%E8%83%BD"><span class="toc-number">3.2.</span> <span class="toc-text">其他功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">中文乱码问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%BD%AC%E5%8F%91"><span class="toc-number">3.4.</span> <span class="toc-text">请求转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ServletContext"><span class="toc-number">3.5.</span> <span class="toc-text">ServletContext</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E7%99%BB%E5%BD%95"><span class="toc-number">3.6.</span> <span class="toc-text">案例-登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Response"><span class="toc-number">4.</span> <span class="toc-text">Response</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E5%93%8D%E5%BA%94"><span class="toc-number">4.1.</span> <span class="toc-text">HTTP协议响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Response%E5%AF%B9%E8%B1%A1"><span class="toc-number">4.2.</span> <span class="toc-text">Response对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E8%BD%AC%E5%8F%91%E5%8C%BA%E5%88%AB"><span class="toc-number">4.3.</span> <span class="toc-text">重定向和转发区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84"><span class="toc-number">4.4.</span> <span class="toc-text">访问路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6%E6%95%B0%E6%8D%AE%E5%88%B0%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">4.5.</span> <span class="toc-text">服务器输出字符数据到浏览器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServletContext%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">ServletContext对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">5.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96"><span class="toc-number">5.2.</span> <span class="toc-text">获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="toc-number">5.3.</span> <span class="toc-text">功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="toc-number">6.</span> <span class="toc-text">案例-文件下载</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-Java内存模型JMM"/></a><div class="content"><a class="title" href="/2024/01/18/JUC-Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8BJMM/" title="JUC-Java内存模型JMM">JUC-Java内存模型JMM</a><time datetime="2024-01-18T10:18:25.000Z" title="发表于 2024-01-18 18:18:25">2024-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-中断机制和LockSupport"/></a><div class="content"><a class="title" href="/2024/01/15/JUC-%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6%E5%92%8CLockSupport/" title="JUC-中断机制和LockSupport">JUC-中断机制和LockSupport</a><time datetime="2024-01-15T14:28:35.000Z" title="发表于 2024-01-15 22:28:35">2024-01-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁"><img src="https://jsd.012700.xyz/gh/jerryc127/CDN@latest/cover/default_bg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-锁"/></a><div class="content"><a class="title" href="/2024/01/14/JUC-%E9%94%81/" title="JUC-锁">JUC-锁</a><time datetime="2024-01-14T10:18:25.000Z" title="发表于 2024-01-14 18:18:25">2024-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JUC-CompletableFuture"/></a><div class="content"><a class="title" href="/2024/01/13/JUC-CompletableFuture/" title="JUC-CompletableFuture">JUC-CompletableFuture</a><time datetime="2024-01-13T10:18:25.000Z" title="发表于 2024-01-13 18:18:25">2024-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"><img src="https://picx.zhimg.com/80/v2-c07c3ffc85372a217d3d74ae57400f0c_720w.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接"/></a><div class="content"><a class="title" href="/2024/01/06/%E5%86%85%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%B7%A6%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%8F%B3%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%85%A8%E5%A4%96%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5/" title="复习sql-内连接，左外连接，右外连接，全外连接，交叉连接">复习sql-内连接，左外连接，右外连接，全外连接，交叉连接</a><time datetime="2024-01-06T02:18:25.000Z" title="发表于 2024-01-06 10:18:25">2024-01-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2024 By --believe</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,  welcome  to  my  <a target="_blank" rel="noopener" href="https://butterfly.js.org/">  blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js"></script><div class="js-pjax"><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: '9f2ba515a6f9d3a7503b',
+      clientSecret: 'e619be1a9ab5181cab82472fa1f2c950ee141ef9',
+      repo: 'believe001.github.io',
+      owner: 'believe001',
+      admin: ['believe001'],
+      id: 'd843cb575af49428d6f61fe4de769e51',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.css')
+      await getScript('https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Gitalk' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
