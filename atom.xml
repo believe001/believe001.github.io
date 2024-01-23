@@ -6,7 +6,7 @@
   <link href="https://liuhsir.top/atom.xml" rel="self"/>
   
   <link href="https://liuhsir.top/"/>
-  <updated>2024-01-20T13:49:06.170Z</updated>
+  <updated>2024-01-23T08:25:58.115Z</updated>
   <id>https://liuhsir.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JUC-JMM与volatile</title>
+    <link href="https://liuhsir.top/2024/01/23/JUC-JMM%E4%B8%8Evolatile/"/>
+    <id>https://liuhsir.top/2024/01/23/JUC-JMM%E4%B8%8Evolatile/</id>
+    <published>2024-01-23T08:14:25.000Z</published>
+    <updated>2024-01-23T08:25:58.115Z</updated>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="volatile简介及作用"><a href="#volatile简介及作用" class="headerlink" title="volatile简介及作用"></a>volatile简介及作用</h1><p>volatile是JVM提供的轻量级的同步机制。volatile关键字能够保证并发编程的三大特性中的可见性，有序性。但是不能保证原子性。<br>保证可见性：<br>经过volatile修饰的变量，在本地内存中修改之后，会立即刷回主内存中。当主内存中的共享变量修改之后，其他线程的本地内存会立即同步获取到这个最新的值。<br>保证有序性：<br>通过禁止指令重排优化来保证有序性。禁止指令重排优化是通过内存屏障来实现的。</p><h1 id="内存屏障"><a href="#内存屏障" class="headerlink" title="内存屏障"></a>内存屏障</h1><p>内存屏障就是CPU或者编译器对内存随机访问的一个同步点，使得对该点之前的操作在该点之后的操作之前。避免代码重排序。<br>内存屏障粗分类：</p><ul><li>读屏障：在读操作之前插入读屏障，让工作内存中的缓存失效，进而从主存中获取最新的数据。</li><li>写屏障：在写操作之后插入写屏障，让工作内存中的缓存立即写入到主内存中去。</li></ul><p>内存屏障细分类：<br>LoadLoad: 保证load1在load2之前执行。<br>StoreStore:保证store1保存在store2保存之前。<br>LoadStore:保证load1读取数据在store1写入数据之前。<br>StoreLoad:保证store保存数据在load读取数据之前。<br><img src="https://img-blog.csdnimg.cn/direct/c30c00405bba415f94aff52fc85a602a.png" alt="在这里插入图片描述"></p><h2 id="JMM针对编译器制定的volatile重排序的规则表："><a href="#JMM针对编译器制定的volatile重排序的规则表：" class="headerlink" title="JMM针对编译器制定的volatile重排序的规则表："></a>JMM针对编译器制定的volatile重排序的规则表：</h2><p><img src="https://img-blog.csdnimg.cn/direct/cd3e1b8af0a84ba2a7144cced49973fb.png" alt="在这里插入图片描述"></p><ul><li>当第一个操作为volatile读时，无论第二个操作是什么，都不能重排序。</li><li>当第二个操作为volatile写时，无论第一个操作是什么，都不能重排。</li><li>当第一个操作是volatile写时，第二个操作是读时，不能重排。</li></ul><h2 id="JMM在指令序列中插入屏障来禁止指令重排"><a href="#JMM在指令序列中插入屏障来禁止指令重排" class="headerlink" title="JMM在指令序列中插入屏障来禁止指令重排"></a>JMM在指令序列中插入屏障来禁止指令重排</h2><ul><li>在volatile写操作的前面加StoreStore屏障</li><li>在volatile写操作的后面加StoreLoad屏障</li><li>在volatile读操作的后面加LoadLoad屏障</li><li>在volatile读操作的后面加LoadStore屏障</li></ul><h1 id="volatile使用场景"><a href="#volatile使用场景" class="headerlink" title="volatile使用场景"></a>volatile使用场景</h1><p>单一赋值可以，复合赋值是禁止的。一般用来保存某个状态，判断业务是否介数。比如boolean值的flag。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="volatile可见性"><a href="#volatile可见性" class="headerlink" title="volatile可见性"></a>volatile可见性</h2><p>volaile修饰的变量具有可见性。<br>对于写操作，本地内存中修改后，会立即刷回主存中。<br>对于读操作，本地内存会从主存中获取最新的值。</p><h2 id="volatile有序性（禁止指令重排）"><a href="#volatile有序性（禁止指令重排）" class="headerlink" title="volatile有序性（禁止指令重排）"></a>volatile有序性（禁止指令重排）</h2><p>JMM在指令序列中通过插入内存屏障来禁止指令重排，保证有序性。<br>对于volatile写操作：在volatile写操作之前插入StoreStore指令，在volatile写操作之后插入StoreLoad指令来保证指令的有序。<br>对于volatile写操作：在volatile读操作之后插入LoadLoad指令和LoadStore指令，保证指令的有序。<br>参考：<br>1.《Java并发编程的艺术》<br>2.  <a href="https://blog.csdn.net/qq_44300280/article/details/127476199">JMM与volatile</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
+
+&lt;h1 id=&quot;volatile简介及作用&quot;&gt;&lt;a href=&quot;#volatile简介及作用&quot; class=&quot;headerlink&quot; title=&quot;volatile简介及作用&quot;&gt;&lt;/a</summary>
+      
+    
+    
+    
+    <category term="JUC" scheme="https://liuhsir.top/categories/JUC/"/>
+    
+    
+    <category term="JUC" scheme="https://liuhsir.top/tags/JUC/"/>
+    
+  </entry>
   
   <entry>
     <title>JUC-Java内存模型JMM</title>
@@ -533,32 +559,6 @@
     <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
     
     <category term="NIO" scheme="https://liuhsir.top/tags/NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第一章 Netty介绍</title>
-    <link href="https://liuhsir.top/2022/12/15/%E7%AC%AC%E4%B8%80%E7%AB%A0Netty%E4%BB%8B%E7%BB%8D/"/>
-    <id>https://liuhsir.top/2022/12/15/%E7%AC%AC%E4%B8%80%E7%AB%A0Netty%E4%BB%8B%E7%BB%8D/</id>
-    <published>2022-12-15T12:43:25.000Z</published>
-    <updated>2023-12-16T07:09:50.687Z</updated>
-    
-    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="1-Netty介绍"><a href="#1-Netty介绍" class="headerlink" title="1. Netty介绍"></a>1. Netty介绍</h1><ol><li>是一个异步的、基于事件驱动的网络应用框架，用以开发高性能，高可靠性的网络io程序。</li><li>Netty主要针对在TCP协议下，面向clients端的高并发应用，或者peer-to-peer场景下大量数据持续传输的应用。</li><li>Netty本质上是一个NIO框架，适用于服务器通讯相关的多种应用场景。<br> <img src="https://img-blog.csdnimg.cn/direct/61a96819e845426db0f6b980cb184c6d.png" alt="netty是基于TCP的"></li></ol><h1 id="2-应用场景"><a href="#2-应用场景" class="headerlink" title="2. 应用场景"></a>2. 应用场景</h1><h2 id="2-1-互联网行业"><a href="#2-1-互联网行业" class="headerlink" title="2.1 互联网行业"></a>2.1 互联网行业</h2><ul><li>互联网行业：在分布式系统中，各个节点之间需要远程服务调用，高性能的RPC框架必不可少。Netty作为异步高性能的通信框架，往往作为基础通信组件被这些RPC框架使用。</li><li>典型的引用： 阿里分布式服务框架Dubbo 的RPC框架使用Dubbo协议进行节点间通信，Dubbo协议默认使用Netty作为基础通信组件，用于实现各个节点之间的内部通信。</li></ul><h2 id="2-2-游戏行业"><a href="#2-2-游戏行业" class="headerlink" title="2.2 游戏行业"></a>2.2 游戏行业</h2><ul><li>Netty作为高性能的基础通信组件，提高了TCP&#x2F;UDP和HTTP协议，方便定制和开发私有协议栈，账号登录服务器。</li><li>地图服务器之间可以方便的通过Netty进行高性能的通信。</li></ul><h2 id="2-3-大数据行业"><a href="#2-3-大数据行业" class="headerlink" title="2.3 大数据行业"></a>2.3 大数据行业</h2><ul><li>Hadoop的高性能通信和序列化组件Avro的RPC框架,默认采用Netty进行跨节点通信。</li><li>他的Netty Service基于Netty框架二次封装实现。</li></ul><h1 id="3-学习资料"><a href="#3-学习资料" class="headerlink" title="3. 学习资料"></a>3. 学习资料</h1><p><img src="https://img-blog.csdnimg.cn/direct/627cbfa4a361453eaa53557fcf9463d3.png" alt="Netty书籍"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
-
-&lt;h1 id=&quot;1-Netty介绍&quot;&gt;&lt;a href=&quot;#1-Netty介绍&quot; class=&quot;headerlink&quot; title=&quot;1. Netty介绍&quot;&gt;&lt;/a&gt;1. Netty介绍</summary>
-      
-    
-    
-    
-    <category term="Netty" scheme="https://liuhsir.top/categories/Netty/"/>
-    
-    
-    <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
     
   </entry>
   
