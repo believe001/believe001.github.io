@@ -93,7 +93,7 @@
 <li>在volatile读操作的后面加LoadLoad屏障</li>
 <li>在volatile读操作的后面加LoadStore屏障</li>
 </ul>
-<h1 id="volatile使用场景"><a href="#volatile使用场景" class="headerlink" title="volatile使用场景"></a>volatile使用场景</h1><p>单一赋值可以，复合赋值是禁止的。一般用来保存某个状态，判断业务是否介数。比如boolean值的flag。</p>
+<h1 id="volatile使用场景"><a href="#volatile使用场景" class="headerlink" title="volatile使用场景"></a>volatile使用场景</h1><p>单一赋值可以，复合赋值是禁止的。一般用来保存某个状态，判断业务是否结束。比如boolean值的flag。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="volatile可见性"><a href="#volatile可见性" class="headerlink" title="volatile可见性"></a>volatile可见性</h2><p>volaile修饰的变量具有可见性。<br>对于写操作，本地内存中修改后，会立即刷回主存中。<br>对于读操作，本地内存会从主存中获取最新的值。</p>
 <h2 id="volatile有序性（禁止指令重排）"><a href="#volatile有序性（禁止指令重排）" class="headerlink" title="volatile有序性（禁止指令重排）"></a>volatile有序性（禁止指令重排）</h2><p>JMM在指令序列中通过插入内存屏障来禁止指令重排，保证有序性。<br>对于volatile写操作：在volatile写操作之前插入StoreStore指令，在volatile写操作之后插入StoreLoad指令来保证指令的有序。<br>对于volatile写操作：在volatile读操作之后插入LoadLoad指令和LoadStore指令，保证指令的有序。<br>参考：<br>1.《Java并发编程的艺术》<br>2.  <a href="https://blog.csdn.net/qq_44300280/article/details/127476199">JMM与volatile</a></p>
 ]]></content>
