@@ -6,7 +6,7 @@
   <link href="https://liuhsir.top/atom.xml" rel="self"/>
   
   <link href="https://liuhsir.top/"/>
-  <updated>2024-01-25T03:58:47.059Z</updated>
+  <updated>2024-01-26T08:19:02.135Z</updated>
   <id>https://liuhsir.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JUC-Java对象内存布局（对象头，类型指针，自填充）</title>
+    <link href="https://liuhsir.top/2024/01/26/JUC-Java%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%EF%BC%88%E5%AF%B9%E8%B1%A1%E5%A4%B4%EF%BC%8C%E7%B1%BB%E5%9E%8B%E6%8C%87%E9%92%88%EF%BC%8C%E8%87%AA%E5%A1%AB%E5%85%85%EF%BC%89/"/>
+    <id>https://liuhsir.top/2024/01/26/JUC-Java%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%EF%BC%88%E5%AF%B9%E8%B1%A1%E5%A4%B4%EF%BC%8C%E7%B1%BB%E5%9E%8B%E6%8C%87%E9%92%88%EF%BC%8C%E8%87%AA%E5%A1%AB%E5%85%85%EF%BC%89/</id>
+    <published>2024-01-26T08:18:32.000Z</published>
+    <updated>2024-01-26T08:19:02.135Z</updated>
+    
+    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="1-引入问题"><a href="#1-引入问题" class="headerlink" title="1. 引入问题"></a>1. 引入问题</h1><p>有如下问题：</p><ol><li>请解释一下对象的创建过程</li><li>Class对象在堆还是在方法区中</li><li>对象在内存中的存储布局</li><li>对象头具体包括什么</li><li>对象怎么定位</li><li>对象怎么分配</li><li>Object obj &#x3D; new Object(); 在内存中占用多少个字节</li></ol><h1 id="2-堆内存布局"><a href="#2-堆内存布局" class="headerlink" title="2. 堆内存布局"></a>2. 堆内存布局</h1><h2 id="2-1-基于分代的堆的内存布局（复习）"><a href="#2-1-基于分代的堆的内存布局（复习）" class="headerlink" title="2.1 基于分代的堆的内存布局（复习）"></a>2.1 基于分代的堆的内存布局（复习）</h2><p><img src="https://img-blog.csdnimg.cn/direct/9fd6927109eb42e2af93552015da020b.png" alt="在这里插入图片描述"></p><p>堆：</p><ul><li>年轻代(1)<ul><li>伊甸园区(8)</li><li>s0(1)</li><li>s1(1)</li></ul></li><li>老年代(2)<br>(注：元空间在堆外内存中）</li></ul><h2 id="2-2-对象在堆中组成部分"><a href="#2-2-对象在堆中组成部分" class="headerlink" title="2.2 对象在堆中组成部分"></a>2.2 对象在堆中组成部分</h2><p><img src="https://img-blog.csdnimg.cn/direct/b9590a7c136c492c97847011a1941d2e.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/direct/088aad98f48f4fd786342aefbc7397d2.png" alt="在这里插入图片描述"></p><p>对象在堆中主要由下面三个部分组成</p><ul><li>对象头（Header）</li><li>实例数据（Instance Data）</li><li>对齐填充（Padding）</li></ul><p>其中对象头又分为对象标志（存储对象的基本信息）和类型指针（指向类模板）。</p><h2 id="2-3-对象头"><a href="#2-3-对象头" class="headerlink" title="2.3 对象头"></a>2.3 对象头</h2><h3 id="2-3-1-对象标志（Mark-Word）"><a href="#2-3-1-对象标志（Mark-Word）" class="headerlink" title="2.3.1 对象标志（Mark Word）"></a>2.3.1 对象标志（Mark Word）</h3><p>对象标志用8字节64位来存储类的一些基本信息。比如：hashcode，GC分代年龄，锁标志等<br><img src="https://img-blog.csdnimg.cn/direct/ff5fd7db7eeb44e8b554462579ecad25.png" alt="在这里插入图片描述"><br>注意这里分代年龄是4位。联想之前S区的分代年龄到达了15还没被GC就会到老年区，这里为什么是15？因为底层给了4bit来计算分代年龄。这里的15 &#x3D; 2 ^ 4 - 1</p><h3 id="2-3-2-类型指针（Class-Pointer）"><a href="#2-3-2-类型指针（Class-Pointer）" class="headerlink" title="2.3.2 类型指针（Class Pointer）"></a>2.3.2 类型指针（Class Pointer）</h3><p>Cat object &#x3D; new Cat();<br>分析这一句代码各个量的存储位置：</p><ul><li>new Cat()：先在堆空间创建实例对象Cat。</li><li>object ：局部引用变量存放在栈帧中的局部变量表中</li><li>Cat：类模板（类元数据）存放在方法区（方法区的实现元空间放在堆外内存中）<br><strong>类型指针指向他的类模板，通过这个指针来确定该实例对象属于哪个类。</strong></li></ul><h3 id="2-3-3-补充：32位CPU和64位CPU区别"><a href="#2-3-3-补充：32位CPU和64位CPU区别" class="headerlink" title="2.3.3 补充：32位CPU和64位CPU区别"></a>2.3.3 补充：32位CPU和64位CPU区别</h3><p>32位CPU表示总线的位宽位32位，通过总线来寻址，也就是能够表示2 ^ 32 &#x3D; 4 * 2 ^ 30 &#x3D; 4G内存。<br>同理，64位能够表示8G内存。</p><h2 id="2-4-实例数据"><a href="#2-4-实例数据" class="headerlink" title="2.4 实例数据"></a>2.4 实例数据</h2><p>如果对象有成员属性，这里就会有数据信息。如果没有属性，就不会有数据信息。比如boolean类型的属性占1个字节。int类型占4个字节。</p><h3 id="2-4-1-补充：8中基本数据类型占存储空间的大小。"><a href="#2-4-1-补充：8中基本数据类型占存储空间的大小。" class="headerlink" title="2.4.1 补充：8中基本数据类型占存储空间的大小。"></a>2.4.1 补充：8中基本数据类型占存储空间的大小。</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">整数类型：byte(1字节),short(2字节), int(4字节),long(8字节)</span><br><span class="line">浮点类型：float(4字节)， double(8字节)</span><br><span class="line">字符类型：char(2字节)</span><br><span class="line">布尔类型: boolean(1个字节)</span><br></pre></td></tr></table></figure><h2 id="2-5-对齐填充"><a href="#2-5-对齐填充" class="headerlink" title="2.5 对齐填充"></a>2.5 对齐填充</h2><h3 id="2-5-1-为什么要对齐数据？"><a href="#2-5-1-为什么要对齐数据？" class="headerlink" title="2.5.1 为什么要对齐数据？"></a>2.5.1 为什么要对齐数据？</h3><p>为了CPU能够高效寻址 。</p><h1 id="3-分析对象占多少个字节"><a href="#3-分析对象占多少个字节" class="headerlink" title="3. 分析对象占多少个字节"></a>3. 分析对象占多少个字节</h1><h2 id="3-1-普通对象"><a href="#3-1-普通对象" class="headerlink" title="3.1 普通对象"></a>3.1 普通对象</h2><p>Object object &#x3D; new Object()占几个字节？<br>在64位CPU上，对象头中对象标志占8个字节，类型指针占4个字节。实例数据区无数据。对齐区12不是8的倍数了，扩充4个字节变成16。因此一共16个字节。</p><h2 id="3-2-数组对象（多了个length）"><a href="#3-2-数组对象（多了个length）" class="headerlink" title="3.2 数组对象（多了个length）"></a>3.2 数组对象（多了个length）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    <span class="type">int</span>[] a = &#123;<span class="number">1</span>&#125;;</span><br><span class="line">    System.out.println(ClassLayout.parseInstance(a).toPrintable());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>打印的内存布局信息：</p><p><img src="https://img-blog.csdnimg.cn/direct/2fce49f8a3c74471810b381699b9d51a.png" alt="在这里插入图片描述"><br>可以看到SIZE一共是24byte。<br>对象头：对象标志8字节。类型指针4字节。数组长度4字节。<br>实例数据：int 1 数据4字节。<br>对齐：前面一共20字节。填充4字节。使其满足8的倍数。</p><h1 id="4-回答开头的问题"><a href="#4-回答开头的问题" class="headerlink" title="4. 回答开头的问题"></a>4. 回答开头的问题</h1><ol><li>请解释一下对象的创建过程</li></ol><ul><li>new 申请一块空间，将属性赋值为初始值。（半初始化）</li><li>调用构造方法，对变量进行赋值。（初始化）</li><li>建立关联：将引用变量指向对象的地址。<ol start="2"><li>对象在堆还是在方法区中<br>对象在堆中。对象所属类的元信息才在方法区中（比如类的方法代码，变量名，方法名，访问权限）。</li><li>对象在内存中的存储布局<br>对象创建后存放在堆空间中。一个对象存储结构包括对象头，实例数据，填充空间。对象头中的对象标志用来保存对象的基本信息，比如hascode, 分代年龄，锁标志等信息。对象头中的类型指针指向元空间中的类模板，表示当前对象所属的类。实例数据中存放对象中的属性值。填充字段用于字节对齐使对象存储空间为8的倍数。</li><li>对象头具体包括什么</li></ol></li><li>对象标志：hashcode,锁标志，分代年龄等</li><li>类型指针：指向方法区中的类。</li><li>数组长度（数组对象才有）<ol start="5"><li><p>对象怎么定位<br>栈中的局部变量表中的引用变量存放的是对象的地址。通过引用变量能定位到对象。</p></li><li><p>对象怎么分配<br>如果对象不可逃逸，且属于热点数据，会直接在栈上进行分配。栈上分配的对象不用GC，直接弹出就行了。<br>如果对象占用空间很大，直接在老年代分配。<br>一般对象会先在年轻代的Eden区进行分配。</p></li><li><p>Object obj &#x3D; new Object(); 在内存中占用多少个字节<br>在内存中占用16字节，开启与不开启类型指针压缩都是16字节。</p></li></ol></li></ul><h1 id="5-参考链接"><a href="#5-参考链接" class="headerlink" title="5. 参考链接"></a>5. 参考链接</h1><ol><li><a href="https://www.cnblogs.com/jajian/p/13681781.htm">Java对象的内存布局</a></li><li><a href="https://blog.csdn.net/qq_44300280/article/details/127816983">大厂面试题Object object &#x3D; new Object()</a></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
+
+&lt;h1 id=&quot;1-引入问题&quot;&gt;&lt;a href=&quot;#1-引入问题&quot; class=&quot;headerlink&quot; title=&quot;1. 引入问题&quot;&gt;&lt;/a&gt;1. 引入问题&lt;/h1&gt;&lt;p&gt;有如下问</summary>
+      
+    
+    
+    
+    <category term="JUC" scheme="https://liuhsir.top/categories/JUC/"/>
+    
+    
+    <category term="JUC" scheme="https://liuhsir.top/tags/JUC/"/>
+    
+  </entry>
   
   <entry>
     <title>JUC-原子操作类（AtomicLong, AtomicLongArray,AtomicReferren,AtomicLongFiledUpdater）LongAdder</title>
@@ -519,34 +545,6 @@
     <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
 
 &lt;h1 id=&quot;1-原生NIO存在的问题&quot;&gt;&lt;a href=&quot;#1-原生NIO存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. 原生NIO存在的问题&quot;&gt;&lt;/a&gt;1</summary>
-      
-    
-    
-    
-    <category term="Netty" scheme="https://liuhsir.top/categories/Netty/"/>
-    
-    
-    <category term="Netty" scheme="https://liuhsir.top/tags/Netty/"/>
-    
-    <category term="NIO" scheme="https://liuhsir.top/tags/NIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第三章 第三节NIO零拷贝</title>
-    <link href="https://liuhsir.top/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/"/>
-    <id>https://liuhsir.top/2022/12/18/%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%AC%AC%E4%B8%89%E8%8A%82NIO%E9%9B%B6%E6%8B%B7%E8%B4%9D/</id>
-    <published>2022-12-18T08:43:25.000Z</published>
-    <updated>2023-12-18T08:25:59.041Z</updated>
-    
-    <content type="html"><![CDATA[<meta name="referrer" content="no-referrer"/> <h1 id="1-NIO与零拷贝"><a href="#1-NIO与零拷贝" class="headerlink" title="1. NIO与零拷贝"></a>1. NIO与零拷贝</h1><h2 id="1-1-零拷贝基本介绍"><a href="#1-1-零拷贝基本介绍" class="headerlink" title="1.1 零拷贝基本介绍"></a>1.1 零拷贝基本介绍</h2><ol><li>零拷贝是网络编程的关键，很多性能优化都离不开</li><li>Java程序中，常用的零拷贝有mmap(内存映射)和sendFile。</li></ol><h3 id="传统的IO数据读写"><a href="#传统的IO数据读写" class="headerlink" title="传统的IO数据读写"></a>传统的IO数据读写</h3><p> 需要三次用户态和内核态切换<br> 4次内存的拷贝<br><img src="https://img-blog.csdnimg.cn/direct/3aca32ecdbea4b52bcd88e2ef8908cec.png" alt="在这里插入图片描述"></p><h3 id="mmap优化"><a href="#mmap优化" class="headerlink" title="mmap优化"></a>mmap优化</h3><ol><li>mmap经过内存映射（userbuffer 和 kernelbuffer 共享），将文件映射到内核缓冲区，同时，用户空间可以共享内核空间的数据（直接从内核空间buffer拷贝到内核空间socketbuffer）。这样，进行网络传输时，可以减少内核空间到用户空间的拷贝次数。<br>  <img src="https://img-blog.csdnimg.cn/direct/dc402123c3a64d2d84cbbf52aceb9ee1.png" alt="在这里插入图片描述"></li></ol><h3 id="sendFile优化（DMA-copy）"><a href="#sendFile优化（DMA-copy）" class="headerlink" title="sendFile优化（DMA copy）"></a>sendFile优化（DMA copy）</h3><ol><li>linux2.1 ：数据不经过用户态，直接从内核缓冲区 &#x3D;&gt; socketBuffer &#x3D;&gt; protocal engin.，由于和用户态完全无关，就减少了一次上下文切换.<br><img src="https://img-blog.csdnimg.cn/direct/395bc55550aa4ef1a44de30c275b02c8.png" alt="在这里插入图片描述"></li><li>linux2.4: 直接从内核缓冲区 &#x3D;&gt; 协议栈（拷贝到socketBuffer信息很少，忽略不计）<br>  <img src="https://img-blog.csdnimg.cn/direct/b283190e735f4eefa6e45bf4304437c5.png" alt="在这里插入图片描述"></li></ol><h3 id="零拷贝再次理解"><a href="#零拷贝再次理解" class="headerlink" title="零拷贝再次理解"></a>零拷贝再次理解</h3><ol><li>零拷贝:指的是没有CPU拷贝。通过DMA拷贝。(所谓DMA拷贝就是通过其他硬件负责数据的转移，不需要CPU参与，解放了CPU。<a href="https://blog.csdn.net/Erica_1230/article/details/106130799">DMA copy 和 CPU copy</a>)</li><li>零拷贝优势：更少的数据复制，减少上下文切换（内核态和用户态的切换）。</li></ol><h3 id="mmap-和-sendFile-的区别"><a href="#mmap-和-sendFile-的区别" class="headerlink" title="mmap 和 sendFile 的区别"></a>mmap 和 sendFile 的区别</h3><ol><li>mmap适合小数据量读写，sendFile适合大文件传输</li><li>sendFile可以利用DMA，减少cpu拷贝。mmap不能，它是用户buffer和内核buffer共享的。</li></ol><h2 id="1-2-案例"><a href="#1-2-案例" class="headerlink" title="1. 2 案例"></a>1. 2 案例</h2><p>使用NIO零拷贝方式传递（channel.transeferTo）一个大文件。速度快得多。</p><h1 id="2-Java-AIO-基本介绍"><a href="#2-Java-AIO-基本介绍" class="headerlink" title="2. Java AIO 基本介绍"></a>2. Java AIO 基本介绍</h1><ol><li>JDK1.7引入了AIO,采用了Proactor模式，简化了程序编写，有效的请求才启动线程，他的特点是先由操作系统完成后才通知服务端程序启动线程去处理，一般适用于连接数较多且连接时长较长的应用。</li><li>目前AIO还没有广泛使用。netty是基于NIO的而不是AIO.</li></ol><h1 id="3-BIO-NIO-AIO-对比"><a href="#3-BIO-NIO-AIO-对比" class="headerlink" title="3. BIO NIO AIO 对比"></a>3. BIO NIO AIO 对比</h1><p><img src="https://img-blog.csdnimg.cn/direct/dfad9627ec7b470cbe56c62369dcf760.png" alt="在这里插入图片描述"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;/&gt; 
-
-&lt;h1 id=&quot;1-NIO与零拷贝&quot;&gt;&lt;a href=&quot;#1-NIO与零拷贝&quot; class=&quot;headerlink&quot; title=&quot;1. NIO与零拷贝&quot;&gt;&lt;/a&gt;1. NIO与零拷贝</summary>
       
     
     
