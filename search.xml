@@ -4248,4 +4248,92 @@
         <tag>JUC</tag>
       </tags>
   </entry>
+  <entry>
+    <title>JUC-synchronized无锁、偏向锁、轻量级锁、重量级锁</title>
+    <url>/2024/01/27/JUC-synchronized%E6%97%A0%E9%94%81%E3%80%81%E5%81%8F%E5%90%91%E9%94%81%E3%80%81%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81%E3%80%81%E9%87%8D%E9%87%8F%E7%BA%A7%E9%94%81/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="1-synchronized实操"><a href="#1-synchronized实操" class="headerlink" title="1 synchronized实操"></a>1 synchronized实操</h1><blockquote>
+<p>关键字synchronized可以用来保证多线程并发安全的<strong>原子性、可见、有序性。</strong>关键字synchronized不仅可以作用于方法还可以作用于同步代码块，能够保证作用范围中线程访问安全。</p>
+</blockquote>
+<p>注意：<strong>局部变量是线程安全的。线程不安全问题只存在于实例变量。</strong></p>
+<p>synchronized关键字作用如下图：<br><img src="https://img-blog.csdnimg.cn/direct/61af299e52ed4e3aa8a980f92db48bf9.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>同步方法：分为静态方法和非静态方法，对静态方法，锁作用对象是<strong>类对象</strong>。对非静态方法，锁作用对象是<strong>实例对象。</strong></li>
+<li>同步方法块：通过<code>synchronized(obj)</code>来对某个对象进行加锁。如果是this表示<strong>实例对象</strong>。如果是xx.class表示作用于<strong>类对象</strong>。</li>
+</ul>
+<h2 id="1-1-锁作用于类对象和实例对象的区别？"><a href="#1-1-锁作用于类对象和实例对象的区别？" class="headerlink" title="1.1 锁作用于类对象和实例对象的区别？"></a>1.1 锁作用于类对象和实例对象的区别？</h2><ul>
+<li>锁作用于实例对象：<font color='red'>当多个线程访问同一个实例对象的同步块的时候，存在竞争关系。</font>只能有一个线程能访问当前实例对象的锁。其他线程只能等待，直到占所有的线程释放实例对象的锁。</li>
+<li>锁作用于类对象：<font color='red'>当多个线程访问同一个类的不同实例对象的同步块的时候，存在竞争关系。</font>因为锁所用于类上，虽然是不同的实例对象但是所属同一个类，只有一把类锁。因此多个线程仍然存在竞争关系。</li>
+</ul>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SynchronizedTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test1</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 类锁</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">test2</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 实例对象锁</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test3</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (SynchronizedTest.class) &#123;</span><br><span class="line">     	<span class="comment">// 类锁</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test4</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="comment">// 实例对象锁</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test5</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="string">&quot;a&quot;</span>) &#123;</span><br><span class="line">        <span class="comment">// 实例对象锁</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非静态同步方法用的是同一把锁：<font color='red'>实例对象本身</font><br>静态同步方法用的是同一把锁：<font color='red'>类本身</font><br>注意：无加锁的方法块和加锁的方法块不存在竞争关系。静态同步块和非静态同步块也不存在竞争关系，因为持有的是不同的锁。</p>
+<h1 id="2-synchronized原理"><a href="#2-synchronized原理" class="headerlink" title="2 synchronized原理"></a>2 synchronized原理</h1><h2 id="2-1-synchronized对应字节码指令"><a href="#2-1-synchronized对应字节码指令" class="headerlink" title="2.1 synchronized对应字节码指令"></a>2.1 synchronized对应字节码指令</h2><h3 id="2-1-1-同步方法"><a href="#2-1-1-同步方法" class="headerlink" title="2.1.1 同步方法"></a>2.1.1 同步方法</h3><p>使用命令：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">javap -c -v synchronizedTest.class</span><br></pre></td></tr></table></figure>
+<p>注：-c是查看字节码指令 -v是打印附加信息<br><img src="https://img-blog.csdnimg.cn/direct/3d74d470a9b6470b988ad6535ff6a625.png" alt="在这里插入图片描述"><br>在同步方法中，加了synchronized关键字，方法的flag标志有ACC_SYNCHRONIZED标志</p>
+<h3 id="2-1-2-同步代码块"><a href="#2-1-2-同步代码块" class="headerlink" title="2.1.2 同步代码块"></a>2.1.2 同步代码块</h3><p>同样的使用上述命令查看字节码<br><img src="https://img-blog.csdnimg.cn/direct/9b5adc907a1746a3bb6dcad702ce5b31.png" alt="在这里插入图片描述"><br>可以看到当用<code>synchronized()</code>表示同步代码块后，字节码对应会有<code>monitorenter</code>和<code>monitorexit</code>指令，表示获取锁，释放锁。</p>
+<h1 id="3-synchronized锁升级"><a href="#3-synchronized锁升级" class="headerlink" title="3 synchronized锁升级"></a>3 synchronized锁升级</h1><p>jdk1.6之前synchronized的实现都为重量锁，重量锁需要用户态切入到内核态获取锁对象，影响性能。<br>jdk1.6及其之后进行了优化，引入了偏向锁和轻量级锁（性能比重量锁更好），以及锁存储结构和锁升级，也就是说synchronized同步块会根据具体情况从无锁-&gt;偏向锁-&gt;轻量级锁-&gt;重量级锁 升级锁。</p>
+<h2 id="3-1-无锁"><a href="#3-1-无锁" class="headerlink" title="3.1 无锁"></a>3.1 无锁</h2><p>线程之间不会有锁的竞争。多线程下会造成数据的不安全。</p>
+<h2 id="3-2-偏向锁"><a href="#3-2-偏向锁" class="headerlink" title="3.2 偏向锁"></a>3.2 偏向锁</h2><blockquote>
+<p>顾名思义，偏向于某个线程的锁。会偏向于第一个访问锁的线程</p>
+</blockquote>
+<p>原理:<br>当线程进入同步块的时候，获取到锁之后，退出同步块的时候不会主动释放锁。当线程第二次进入同步代码块的时候，会判断此时持有锁的线程是不是自己（持有锁对象的线程存放在对象头中）。如果是自己正常执行。从始至终能使用锁的只有一个线程，性能很高。（java 15被废弃）<br>简言之，线程进入的时候获取锁，不会释放。下次线程来的时候直接用。<br>偏向锁只有在其他线程尝试获取偏向锁的时候才会释放。竞争的线程用CAS来替换对象头中的持有锁线程ID。</p>
+<ul>
+<li>如果竞争成功，仍然为偏向锁。只不过偏向新的线程。</li>
+<li>如果竞争失败，升级为轻量级锁。</li>
+</ul>
+<h2 id="3-3-轻量级锁"><a href="#3-3-轻量级锁" class="headerlink" title="3.3 轻量级锁"></a>3.3 轻量级锁</h2><p>多个线程下，基本不会出现或者轻微的锁的竞争，那么synchronized就处于轻量级锁的状态下。这种状态允许线程出现短时间的CAS自旋空转。<br>没有抢到的锁会自旋，即不停地循环判断是否能够获取锁。获取锁的操作其实是通过CAS修改对象头中的锁标志位。<br>注：<font color='red'>轻量级锁和偏向锁有一个重要的区别是偏向锁获得锁之后不会主动释放。轻量级锁获得锁之后会主动释放。</font></p>
+<h2 id="3-4-重量级锁"><a href="#3-4-重量级锁" class="headerlink" title="3.4 重量级锁"></a>3.4 重量级锁</h2><p>线程竞争锁过程中长时间的自旋是非常影响性能的。因此会用计数器记录自旋次数（默认是10次）如果超出限定次数。会将轻量级锁升级为重量级锁。<br>进入重量级锁状态，当一个线程获取锁之后。其余线程会进入阻塞状态。简言之，就是所有的控制权交给了操作系统，操作系统来负责线程的切换，会频繁的从用户态到内核态的切换，严重影响性能。</p>
+<h1 id="4-synchronized锁升级总结"><a href="#4-synchronized锁升级总结" class="headerlink" title="4 synchronized锁升级总结"></a>4 synchronized锁升级总结</h1><table>
+<thead>
+<tr>
+<th>锁</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>偏向锁</td>
+<td>加锁和解锁都不需要额外的消耗</td>
+<td>如果多个线程竞争会带来额外的锁撤销消耗</td>
+<td>只有一个线程访问同步块</td>
+</tr>
+<tr>
+<td>轻量级锁</td>
+<td>竞争的线程不会阻塞，提高程序的相应速度</td>
+<td>线程竞争一直得不到锁，会自旋消耗cpu性能</td>
+<td>追求响应时间，同步块执行速度特别快</td>
+</tr>
+<tr>
+<td>重量级锁</td>
+<td>竞争的线程会自旋，不会消耗CPU</td>
+<td>线程阻塞，用户态和内核态切换时间长，响应时间慢</td>
+<td>追求吞吐量，同步执行时间长</td>
+</tr>
+</tbody></table>
+<p>简单描述锁升级过程：<br>单个线程竞争适合偏向锁。两个线程竞争锁的时候，竞争成功，会偏向另一个线程。竞争失败，升级为轻量级锁。轻量级锁适合多个线程少量竞争，CAS自旋次数有一定限制的锁争抢。当CAS自旋次数超过限度，会升级为重量级锁。</p>
+<h1 id="5-思考问题"><a href="#5-思考问题" class="headerlink" title="5 思考问题"></a>5 思考问题</h1><ol>
+<li><p>为什么会存在锁升级现象？<br>  JDK1.6之前sychronized只有重量级锁。重量级锁需要依靠操作系统来完成线程的切换。线程切换需要从用户态到内核态，他们分别有自己专用的内存空间，导致用户态到内核态切换很耗时，影响程序性能。<br>  <font color='red'>为了减少线程获取锁带来的性能消耗，引入了偏向锁和轻量级锁。</font></p>
+</li>
+<li><p>为什么每个对象都可以成为一个锁？<br>  因为每个对象的对象头里面都有一个锁标志，表示这个对象的锁的状态。深入底层理解的话，因为每个对象实例都有一个Monitor，Monitor和实例对象一起创建一起销毁。实例对象中头中有标志关联Monitor，而Monitor中owner属性存放持有锁的线程id。</p>
+</li>
+<li><p>锁消除是什么？<br>  锁消除是JIT即时编译器的优化手段。属于代码bug，代码虽然加锁了，但是每个线程都不会出现竞争的情况(每把锁都不相同)。比如下面代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SynchronizedTest2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Cat</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(()-&gt;&#123;</span><br><span class="line">                cat.test();</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Cat</span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="type">Object</span> <span class="variable">object</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="comment">// 每个线程进来都新new一个对象，所以每个线程的锁都不一样，相当于无锁</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">o</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line">            <span class="keyword">synchronized</span> (o)&#123;</span><br><span class="line">System.out.println(object.hashCode()+<span class="string">&quot;====&quot;</span>+o.hashCode());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>锁粗化是什么？<br>  也是JIT即时编译器优化手段。将相邻的锁住同一个锁对象的代码合并。比如</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LockBigDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">Object</span> <span class="variable">objectLock</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Object</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (objectLock)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;111111&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">synchronized</span> (objectLock)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;222222&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">synchronized</span> (objectLock)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;333333&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">synchronized</span> (objectLock)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;444444&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// JTI进行锁粗化后的代码相当于：</span></span><br><span class="line">            <span class="keyword">synchronized</span> (objectLock)&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;111111&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;222222&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;333333&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;444444&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;,<span class="string">&quot;t1&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="6-参考链接"><a href="#6-参考链接" class="headerlink" title="6 参考链接"></a>6 参考链接</h1><ol>
+<li><a href="https://cloud.tencent.com/developer/article/1813320">锁升级：无锁、偏向锁、轻量级锁、重量级锁</a></li>
+<li><a href="https://blog.csdn.net/qq_44300280/article/details/127235830">synchronized无锁、偏向锁、轻量级锁、重量级锁</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JUC</category>
+      </categories>
+      <tags>
+        <tag>JUC</tag>
+      </tags>
+  </entry>
 </search>
