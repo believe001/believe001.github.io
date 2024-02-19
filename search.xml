@@ -307,7 +307,7 @@
 <li>最常采用的是CAS算法（后面会详细讲，这里略）</li>
 </ul>
 <p><strong>使用场景：</strong><br>乐观锁适合读操作多的场景，不加锁读操作性能大幅提升<br><strong>本质：</strong><br>无锁去操作同步资源。</p>
-<h1 id="乐观锁和悲观锁举例"><a href="#乐观锁和悲观锁举例" class="headerlink" title="乐观锁和悲观锁举例"></a>乐观锁和悲观锁举例</h1><p>乐观锁：Synchronized和Lock的实现类<br>悲观锁：原子操作的类<br><img src="https://img-blog.csdnimg.cn/direct/82617594cb364fb69f046175f4d8e9b0.png" alt="在这里插入图片描述"></p>
+<h1 id="乐观锁和悲观锁举例"><a href="#乐观锁和悲观锁举例" class="headerlink" title="乐观锁和悲观锁举例"></a>乐观锁和悲观锁举例</h1><p>悲观锁：Synchronized和Lock的实现类<br>乐观锁：原子操作的类AtomicInteger, LongAdder<br><img src="https://img-blog.csdnimg.cn/direct/82617594cb364fb69f046175f4d8e9b0.png" alt="在这里插入图片描述"></p>
 <h1 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h1><h2 id="阿里加锁规范"><a href="#阿里加锁规范" class="headerlink" title="阿里加锁规范"></a>阿里加锁规范</h2><p>高并发时，同步调用时需要考虑加锁性能损耗。能用无锁数据结构就用无锁数据结构。能用块锁，就不要锁方法体。能用对象锁，就不要用类锁。<br>（尽可能让锁的代码块尽可能小，避免锁造成不必要的性能开销）</p>
 <h2 id="Synchronized三种作用方式"><a href="#Synchronized三种作用方式" class="headerlink" title="Synchronized三种作用方式"></a>Synchronized三种作用方式</h2><p>作用于实例方法：当前实例加锁，进入实例前要获取当前实例的锁对象。<br>作用于代码块：对括号里的对象进行加锁。<br>作用于静态方法（类方法）：对当前类加锁，进去同步代码前要获得当前对象的锁。</p>
 <h2 id="Synchronized作用于非静态方法和静态方法的区别（重要）"><a href="#Synchronized作用于非静态方法和静态方法的区别（重要）" class="headerlink" title="Synchronized作用于非静态方法和静态方法的区别（重要）"></a>Synchronized作用于非静态方法和静态方法的区别（重要）</h2><p><strong>类中Synchronized修饰非静态方法（对象锁）</strong></p>
@@ -4382,6 +4382,25 @@
       </categories>
       <tags>
         <tag>JUC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JAVA常见IO模型 BIO、NIO、AIO总结</title>
+    <url>/2022/01/20/JAVA%E5%B8%B8%E8%A7%81IO%E6%A8%A1%E5%9E%8B%20BIO%E3%80%81NIO%E3%80%81AIO%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/> 
+
+<h1 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h1><p>Blocking IO 同步阻塞型IO。当系统进行IO读写的时候，会阻塞，直到IO读写完毕。比如调用系统Read后，需要将内核空间的数据读取到用户空间。需要等待内核空间 数据准备，数据就绪，拷贝数据，线程一直处于阻塞状态，直到拷贝数据完成。如下图：<br><img src="https://img-blog.csdnimg.cn/direct/05d5cb0a1bc440f3a6d28f283b4fb3f7.png" alt="在这里插入图片描述"><br>BIO这种方式是一个连接对应着一个线程，会造成线程阻塞。当连接数目少的时候还能支撑住，当连接数一多会导致阻塞时间过程，影响系统的性能。因此阻塞型IO只是用于少量连接的情况。<br>为了使用大量连接的情况，又设计了非阻塞型IO-NIO模型。</p>
+<h1 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h1><p>NIO同步非阻塞型IO，系统在进行读写的过程中不会阻塞，系统性能更高。非阻塞型IO采用了多路复用的原理，将多个连接注册到一个selector上，通过一个线程就能管理多个连接。通过selector轮询的方式看那个连接上有请求，对该请求分配一个线程。这样就大大提高的效率。<br><img src="https://img-blog.csdnimg.cn/direct/3f3fbb7e6bb24e539e54eca1907c62e9.png" alt="在这里插入图片描述"></p>
+<p>非阻塞型IO特别适用于连接数目多，且连接时间较短的常用，比如聊天服务器。</p>
+<h1 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h1><p>AIO为异步IO。异步IO是基于事件和回调机制来实现的。当应用程序发起IO请求后，立马返回，可以进行其他操作。当系统IO完成后，会通知该线程，该线程继续执行之后的操作。<br><img src="https://img-blog.csdnimg.cn/direct/404a39a40c4248f6aa4d59480d370477.png" alt="在这里插入图片描述"><br>目前AIO应用不是很广泛。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://img-blog.csdnimg.cn/direct/b66b2464131e40f394c7af04412743da.png" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>Netty</category>
+      </categories>
+      <tags>
+        <tag>Netty</tag>
+        <tag>NIO</tag>
       </tags>
   </entry>
 </search>
