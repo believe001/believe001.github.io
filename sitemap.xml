@@ -668,14 +668,14 @@
 
   
   <url>
-    <loc>https://liuhsir.top/tags/C/</loc>
+    <loc>https://liuhsir.top/tags/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://liuhsir.top/tags/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <loc>https://liuhsir.top/tags/C/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -745,13 +745,6 @@
   </url>
   
   <url>
-    <loc>https://liuhsir.top/tags/SQL/</loc>
-    <lastmod>2024-03-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://liuhsir.top/tags/%E5%B8%B8%E8%AF%86/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -759,7 +752,7 @@
   </url>
   
   <url>
-    <loc>https://liuhsir.top/tags/Java%E5%9F%BA%E7%A1%80/</loc>
+    <loc>https://liuhsir.top/tags/SQL/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -772,17 +765,24 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://liuhsir.top/tags/Java%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2024-03-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
-    <loc>https://liuhsir.top/categories/C-C/</loc>
+    <loc>https://liuhsir.top/categories/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://liuhsir.top/categories/%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <loc>https://liuhsir.top/categories/C-C/</loc>
     <lastmod>2024-03-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
